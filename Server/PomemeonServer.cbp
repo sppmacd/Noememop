@@ -83,6 +83,12 @@
 			<Add directory="F:/C++/LIBY/SFML-2.4.2-BUILD/lib" />
 			<Add directory="F:/C++/LIBY/SFML-2.4.2-sources/SFML-2.4.2/extlibs/libs-mingw/x64" />
 		</Linker>
+		<Unit filename="Game/CashStat.hpp" />
+		<Unit filename="Game/Player.hpp" />
+		<Unit filename="Game/Pomemeon.hpp" />
+		<Unit filename="Game/PomemeonType.hpp" />
+		<Unit filename="History/HistoryObject.hpp" />
+		<Unit filename="PMSServer.hpp" />
 		<Unit filename="config.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
