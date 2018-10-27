@@ -14,10 +14,10 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content" >
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/ip1"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -27,26 +27,32 @@
             <requestFocus />
         </EditText>
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/ip2"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberSigned" />
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/ip3"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberSigned" />
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/ip4"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/connect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_connect" />
 
 </LinearLayout>

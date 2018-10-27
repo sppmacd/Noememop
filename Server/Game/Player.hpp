@@ -7,11 +7,12 @@ namespace pms
         int cashCount;
         bool isDailyRewardCollected;
         int id;
-        int totalPoints;
-        int currentPoints;
-        int maxPoints;
+        float totalPoints;
+        float currentPoints;
+        float maxPoints;
         int leaderboardPlace;
         bool needUpdate;
+        int logCount;
 
     public:
         Player(int id);
@@ -22,5 +23,7 @@ namespace pms
         bool tryRemovePoints(int count);
         void ensureUpdated();
         void setReward();
+        void login();
+        void getUserID();
     };
 }

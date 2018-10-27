@@ -11,7 +11,7 @@ namespace pms
         int placeCost;
 
     public:
-        PomemeonType(int id, int costForPicker, int profitForPicker, int costForPlacer, string name);
+        PomemeonType(int id, int costForPicker, int profitForPicker, int costForPlacer, float costForPicker, string name);
         CashStat pick(Player* owner, Player* picker);
         CashStat place(Player* owner);
     };

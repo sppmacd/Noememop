@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">Pomemeon Client</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="label_ipAddress">IP Address to connect</string>
+    <string name="btn_connect">Connect to server</string>
+    <string name="command">Enter command...</string>
 
 </resources>

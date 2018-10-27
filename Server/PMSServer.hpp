@@ -4,6 +4,7 @@ class Player;
 class Pomemeon;
 class PomemeonType;
 class HistoryObject;
+class Client;
 
 namespace pms
 {
@@ -16,9 +17,23 @@ namespace pms
 
         bool running;
 
+        SocketSelector socketSelector;
+        TcpListener serverSocket;
+        vector<Client*> clients;
+
     public:
+        PMSServer();
+        ~PMSServer();
+
         void start();
         void loop();
         void networkLoop();
+        void close();
+        static PMSServer* getInstance();
+        void registerTypes();
+        void parseCommand(Client* sender, string command);
+        bool processCommands(Client* sender, string command, string* argv, int argc);
+        void disconnect(TcpSocket* sck);
+        Player* findPlayerByID(int userId);
     };
 }
