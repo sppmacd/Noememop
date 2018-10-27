@@ -1,10 +1,13 @@
 package com.sppmacd.pomemeon;
 
 import java.io.IOException;
+
 import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.net.UnknownHostException;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,10 +19,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import android.widget.Button;
+import android.widget.EditText;
+
+import com.sppmacd.pomemeon.network.ConnectAsyncTask;
 
 public class CommandLineActivity extends Activity
 {
-	private InetSocketAddress serverAddress;
 	public static Socket client;
 	private Context context;
 	public boolean running;
@@ -32,36 +37,7 @@ public class CommandLineActivity extends Activity
 	
 	private void onConnectButton()
 	{
-		Thread connectThread = new Thread(new Runnable()
-		{
-			@Override
-			public void run() 
-			{
-				Looper.prepare();
-				
-				try
-				{
-					client = new Socket();
-					client.connect(serverAddress);
-					client.getOutputStream().write(new String("pmc:setuserid " + Long.toString(userID)).getBytes());
-				} 
-				catch (IOException e)
-				{
-					error("Cannot connect to server: " + e.getMessage());
-				}
-				
-				while(running)
-				{
-					CommandActivity.networkLoop();
-				}
-			}
-	
-		}, "Network Thread");
-		
-		connectThread.start();
-		
-		Intent intent = new Intent(this, CommandActivity.class);
-		this.startActivity(intent);
+		new ConnectAsyncTask().execute(this);
 	}
 	
 	
