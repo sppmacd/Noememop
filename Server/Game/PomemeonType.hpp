@@ -1,17 +1,22 @@
 #pragma once
 
+#include "../config.hpp"
+#include "CashStat.hpp"
+#include "Player.hpp"
+
 namespace pms
 {
     class PomemeonType
     {
-        int pickCost;
+        float pickCost;
         int profit;
         int id;
         string codeName;
         int placeCost;
+        float placeProfit;
 
     public:
-        PomemeonType(int id, int costForPicker, int profitForPicker, int costForPlacer, float costForPicker, string name);
+        PomemeonType(int id, float costForPicker, int profitForPicker, int costForPlacer, float profitForPlacer, string name);
         CashStat pick(Player* owner, Player* picker);
         CashStat place(Player* owner);
     };

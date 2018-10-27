@@ -28,6 +28,11 @@ namespace pms
     void PMSServer::loop()
     {
         this->networkLoop();
+
+        for(Player* player: players)
+        {
+            player->ensureUpdated();
+        }
     }
 
     void PMSServer::networkLoop()
@@ -123,24 +128,32 @@ namespace pms
                     if(uid == 0) //the player is a new player!
                     {
                         Player* player = new Player(this->players.size());
+                        player->login();
                         player->setReward();
                         sender->userID = player->getUserID();
+                        players->push_back(player);
 
                         return true;
                     }
                     else
                     {
                         sender->userID = uid;
-                        this->findPlayerByID(uid)->setReward();
+                        Player* player = this->findPlayerByID(uid);
+                        player->setReward();
+                        player->login();
                         return true;
                     }
                 }
                 break;
             }
-            case "pmc"
         }
 
         return false;
+    }
+
+    vector<Player*>* getPlayerList()
+    {
+        return &players;
     }
 
     Player* PMSServer::findPlayerByID(int userId)
@@ -183,8 +196,8 @@ namespace pms
     void PMSServer::registerTypes()
     {
         log(Debug, "Registering Pomemeon types...");
-        this->pomemeonTypeRegistry.push_back(new PomemeonType(0, 1, 10, 1000, "small"));
-        this->pomemeonTypeRegistry.push_back(new PomemeonType(1, 1, 19, 2000, "medium"));
-        this->pomemeonTypeRegistry.push_back(new PomemeonType(2, 2, 80, 10000, "big"));
+        this->pomemeonTypeRegistry.push_back(new PomemeonType(0, 1.f, 10, 1000, 2.f, "small"));
+        this->pomemeonTypeRegistry.push_back(new PomemeonType(1, 1.f, 19, 2000, 2.f, "medium"));
+        this->pomemeonTypeRegistry.push_back(new PomemeonType(2, 2.f, 80, 10000, 4.f, "big"));
     }
 }

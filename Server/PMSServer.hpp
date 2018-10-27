@@ -1,5 +1,7 @@
 #pragma once
 
+#include "config.hpp"
+
 class Player;
 class Pomemeon;
 class PomemeonType;
@@ -35,5 +37,6 @@ namespace pms
         bool processCommands(Client* sender, string command, string* argv, int argc);
         void disconnect(TcpSocket* sck);
         Player* findPlayerByID(int userId);
+        vector<Player*>* getPlayerList();
     };
 }

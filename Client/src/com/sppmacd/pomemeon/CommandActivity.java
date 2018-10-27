@@ -31,9 +31,9 @@ public class CommandActivity extends Activity
 					public void onClick(View v) 
 					{
 						needSend = true;
-						((EditText)findViewById(R.id.commandLine)).setText("");
+						strToSend = ((EditText)findViewById(R.id.commandLine)).getText().toString();
+						((EditText)findViewById(R.id.commandLine)).setText("");	
 					}
-			
 				});
 	}
 	
@@ -91,6 +91,7 @@ public class CommandActivity extends Activity
 				instance.finish();
 			}
 			needSend = false;
+			strToSend = "";
 		}
 	}
 }

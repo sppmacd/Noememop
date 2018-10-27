@@ -5,6 +5,8 @@ namespace pms
     enum CashStat
     {
         Success,
-        NotEnoughCoins
+        NotEnoughCoins,
+        TooManyCoins,
+        CannotMake
     };
 }

@@ -13,17 +13,18 @@ namespace pms
         int leaderboardPlace;
         bool needUpdate;
         int logCount;
+        int level;
 
     public:
         Player(int id);
         bool tryAddCash(int count);
         bool tryRemoveCash(int count);
         bool tryCollectReward();
-        void addPoints(int count);
-        bool tryRemovePoints(int count);
+        void addPoints(float count);
+        bool tryRemovePoints(float count);
         void ensureUpdated();
         void setReward();
         void login();
-        void getUserID();
+        int getUserID();
     };
 }
