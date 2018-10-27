@@ -10,9 +10,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+import android.widget.Button;
 
 public class CommandLineActivity extends Activity
 {
@@ -24,7 +27,7 @@ public class CommandLineActivity extends Activity
 	
 	public void error(String error)
 	{
-		Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+		CommandActivity.logStr += error + "\n";
 	}
 	
 	private void onConnectButton()
@@ -34,8 +37,11 @@ public class CommandLineActivity extends Activity
 			@Override
 			public void run() 
 			{
+				Looper.prepare();
+				
 				try
 				{
+					client = new Socket();
 					client.connect(serverAddress);
 					client.getOutputStream().write(new String("pmc:setuserid " + Long.toString(userID)).getBytes());
 				} 
@@ -54,7 +60,6 @@ public class CommandLineActivity extends Activity
 		
 		connectThread.start();
 		
-		CommandActivity.logStr = "";
 		Intent intent = new Intent(this, CommandActivity.class);
 		this.startActivity(intent);
 	}
@@ -70,7 +75,18 @@ public class CommandLineActivity extends Activity
 		
 		running = true;
 		
-		userID = savedInstanceState.getLong("LONG_USERID");
+		if(savedInstanceState != null)
+			userID = savedInstanceState.getLong("LONG_USERID");
+		
+		((Button)findViewById(R.id.connect)).setOnClickListener(new View.OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				CommandLineActivity.this.onConnectButton();
+			}
+			
+		});
 	}
 	
 	@Override
@@ -84,6 +100,7 @@ public class CommandLineActivity extends Activity
 	@Override
 	protected void onSaveInstanceState(Bundle bundle)
 	{
+		super.onSaveInstanceState(bundle);
 		bundle.putLong("LONG_USERID", userID);
 	}
 }
