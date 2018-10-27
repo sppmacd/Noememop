@@ -15,6 +15,7 @@ public class CommandActivity extends Activity
 	public static String strToSend;
 	public static boolean needSend;
 	public static CommandActivity instance;
+	public static boolean successfullyConnected;
 	
 	public void onCreate(Bundle bundle)
 	{
@@ -44,39 +45,19 @@ public class CommandActivity extends Activity
 	
 	public static void networkLoop()
 	{
-		// receive data
-		try 
+		if(successfullyConnected)
 		{
-			if(CommandLineActivity.client.getInputStream().available() > 0)
-			{
-				byte[] arr = new byte[CommandLineActivity.client.getInputStream().available()];
-				CommandLineActivity.client.getInputStream().read(arr);
-				logStr += new String(arr);
-				
-				update();
-			}
-		} 
-		catch (IOException e) 
-		{
+			// receive data
 			try 
 			{
-				CommandLineActivity.client.close();
-			} 
-			catch (IOException e1) 
-			{
-				e1.printStackTrace();
-				instance.finish();
-			}
-		}
-		
-		// send commands
-		if(needSend)
-		{
-			logStr += strToSend;
-			update();
-			try 
-			{
-				CommandLineActivity.client.getOutputStream().write(strToSend.getBytes());
+				if(CommandLineActivity.client.getInputStream().available() > 0)
+				{
+					byte[] arr = new byte[CommandLineActivity.client.getInputStream().available()];
+					CommandLineActivity.client.getInputStream().read(arr);
+					logStr += new String(arr);
+					
+					update();
+				}
 			} 
 			catch (IOException e) 
 			{
@@ -87,11 +68,38 @@ public class CommandActivity extends Activity
 				catch (IOException e1) 
 				{
 					e1.printStackTrace();
+					instance.finish();
 				}
-				instance.finish();
 			}
-			needSend = false;
-			strToSend = "";
+			
+			// send commands
+			if(needSend)
+			{
+				logStr += strToSend;
+				update();
+				try 
+				{
+					CommandLineActivity.client.getOutputStream().write(strToSend.getBytes());
+				} 
+				catch (IOException e) 
+				{
+					try 
+					{
+						CommandLineActivity.client.close();
+					} 
+					catch (IOException e1) 
+					{
+						e1.printStackTrace();
+					}
+					instance.finish();
+				}
+				needSend = false;
+				strToSend = "";
+			}
+		}
+		else
+		{
+			instance.finish();
 		}
 	}
 }

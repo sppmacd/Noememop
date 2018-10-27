@@ -5,5 +5,8 @@
     <string name="label_ipAddress">Host Name</string>
     <string name="btn_connect">Connect to server</string>
     <string name="command">Enter command...</string>
+    <string name="title_activity_connecting">ConnectingActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

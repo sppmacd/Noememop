@@ -33,6 +33,7 @@ public class CommandLineActivity extends Activity
 	public void error(String error)
 	{
 		CommandActivity.logStr += error + "\n";
+		System.err.println(error);
 	}
 	
 	private void onConnectButton()
