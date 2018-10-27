@@ -2,9 +2,8 @@
 #include "Game/PomemeonType.hpp"
 #include "Network/Client.hpp"
 #include "Game/Player.hpp"
-
-#include <SFML/Network.hpp>
-using namespace sf;
+#include "Game/Pomemeon.hpp"
+#include "History/HistoryObject.hpp"
 
 namespace pms
 {
@@ -23,6 +22,8 @@ namespace pms
             delete pomemeontype;
         for(HistoryObject* historyobject: history)
             delete historyobject;
+        for(Client* client: clients)
+            delete client;
     }
 
     void PMSServer::loop()
@@ -37,6 +38,7 @@ namespace pms
 
     void PMSServer::networkLoop()
     {
+        log(Info, "Started network loop...");
         if(this->socketSelector.wait(seconds(1.f)))
         {
             if(this->socketSelector.isReady(this->serverSocket)) //Someone tries to connect to server
@@ -49,7 +51,8 @@ namespace pms
                 else
                 {
                     // Someone connected
-                    clients.push_back(Client(0,socket2));
+                    Client* client = new Client(0,socket2);
+                    clients.push_back(client);
                     this->socketSelector.add(*socket2);
                 }
             }
@@ -60,17 +63,17 @@ namespace pms
                 {
                     if(this->socketSelector.isReady(*client->socket)) //Something was sent to server
                     {
-                        void* data;
-                        int received;
-                        if(client->socket->receive(data, 128, received) == Socket::Done)
+                        char data[128];
+                        size_t received;
+                        if(client->socket->receive((void*)&data, 128LL, received) == Socket::Done)
                         {
-                            string command(data);
+                            string command((char*)data);
 
-                            this->parseCommand(client->socket, command);
+                            this->parseCommand(client, command);
                         }
                         else
                         {
-                            disconnect(socket);
+                            disconnect(client->socket);
                         }
                     }
                 }
@@ -78,18 +81,21 @@ namespace pms
         }
     }
 
+    #include <SFML/Network.hpp>
+    using namespace sf;
+
     void PMSServer::disconnect(TcpSocket* sck)
     {
         for(auto it = this->clients.begin(); it != this->clients.end(); it++)
         {
-            if(it->socket == sck)
+            if((*it)->socket == sck)
             {
                 this->clients.erase(it);
                 break;
             }
         }
 
-        log(Info, "IP: " + to_string(sck->getRemoteAddress()) + ":" + to_string(sck->getRemotePort()) + " disconnected");
+        log(Info, "IP: " + sck->getRemoteAddress().toString() + ":" + to_string(sck->getRemotePort()) + " disconnected");
         this->socketSelector.remove(*sck);
         delete sck;
     }
@@ -100,7 +106,7 @@ namespace pms
         vector<string> args;
         int lastp = 0;
 
-        for(int i = 0; i < command.size(); i++)
+        for(unsigned int i = 0; i < command.size(); i++)
         {
             if(command[i] == ' ' || command[i] == '\0')
             {
@@ -113,53 +119,52 @@ namespace pms
             }
         }
 
-        this->processCommands(sender, cmd, args.data(); args.size());
+        this->processCommands(sender, cmd, args.data(), args.size());
     }
 
     bool PMSServer::processCommands(Client* sender, string command, string* argv, int argc)
     {
-        switch(command)
+        if(command == "pms:setuserid")
         {
-            case "pms:setuserid":
+            if(argc == 1)
             {
-                if(argc == 1)
+                size_t s;
+                int uid = stoi(argv[0], &s, 10);
+                if(uid == 0) //the player is a new player!
                 {
-                    int uid = stoi(argv);
-                    if(uid == 0) //the player is a new player!
-                    {
-                        Player* player = new Player(this->players.size());
-                        player->login();
-                        player->setReward();
-                        sender->userID = player->getUserID();
-                        players->push_back(player);
-
-                        return true;
-                    }
-                    else
-                    {
-                        sender->userID = uid;
-                        Player* player = this->findPlayerByID(uid);
-                        player->setReward();
-                        player->login();
-                        return true;
-                    }
+                    Player* player = new Player(this->players.size());
+                    player->login();
+                    player->setReward();
+                    sender->userID = player->getUserID();
+                    players.push_back(player);
+                    log(Info, "A new player " + to_string(player->getUserID()) + " was logged in to server");
+                    return true;
                 }
-                break;
+                else
+                {
+                    sender->userID = uid;
+                    Player* player = this->findPlayerByID(uid);
+                    player->setReward();
+                    player->login();
+                    log(Debug, "A player " + to_string(player->getUserID()) + " was logged in to server");
+
+                    return true;
+                }
             }
         }
 
         return false;
     }
 
-    vector<Player*>* getPlayerList()
+    vector<Player*>* PMSServer::getPlayerList()
     {
         return &players;
     }
 
     Player* PMSServer::findPlayerByID(int userId)
     {
-        for(int i = 0; i < players.size(); i++)
-            if(players[i]->getUserID() == userID)
+        for(unsigned int i = 0; i < players.size(); i++)
+            if(players[i]->getUserID() == userId)
                 return players[i];
         return NULL;
     }
@@ -171,6 +176,14 @@ namespace pms
 
     void PMSServer::start()
     {
+        log(Warning, "");
+        log(Warning, "-----------------------------------");
+        log(Warning, "--       Pomemeon Server         --");
+        log(Warning, "--      Version: Alpha 1.0       --");
+        log(Warning, "--    Pomemeon Team (C) 2018     --");
+        log(Warning, "-----------------------------------");
+        log(Warning, "");
+
         log(Info, "Starting dedicated Pomemeon server...");
         this->running = true;
         this->registerTypes();

@@ -12,7 +12,7 @@ namespace pms
         int pickTimer;
         int id;
         string name;
-        PomemonType* type;
+        PomemeonType* type;
         string description;
         GPSCoords coordinates;
         string textureFile;

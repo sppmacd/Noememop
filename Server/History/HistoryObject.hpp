@@ -9,6 +9,6 @@ namespace pms
         int id;
 
     public:
-        HistoryObject(int id, Player* picker, Pomemeon* obj);
+        HistoryObject(int id, Player* picker, Pomemeon* obj) {}
     };
 }

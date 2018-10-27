@@ -83,12 +83,20 @@
 			<Add directory="F:/C++/LIBY/SFML-2.4.2-BUILD/lib" />
 			<Add directory="F:/C++/LIBY/SFML-2.4.2-sources/SFML-2.4.2/extlibs/libs-mingw/x64" />
 		</Linker>
+		<Unit filename="GPSCoords.cpp" />
+		<Unit filename="GPSCoords.hpp" />
 		<Unit filename="Game/CashStat.hpp" />
+		<Unit filename="Game/Player.cpp" />
 		<Unit filename="Game/Player.hpp" />
+		<Unit filename="Game/Pomemeon.cpp" />
 		<Unit filename="Game/Pomemeon.hpp" />
+		<Unit filename="Game/PomemeonType.cpp" />
 		<Unit filename="Game/PomemeonType.hpp" />
 		<Unit filename="History/HistoryObject.hpp" />
+		<Unit filename="Network/Client.hpp" />
+		<Unit filename="PMSServer.cpp" />
 		<Unit filename="PMSServer.hpp" />
+		<Unit filename="config.cpp" />
 		<Unit filename="config.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>

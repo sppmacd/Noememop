@@ -2,14 +2,14 @@
 
 #include "config.hpp"
 
-class Player;
-class Pomemeon;
-class PomemeonType;
-class HistoryObject;
-class Client;
-
 namespace pms
 {
+    class Player;
+    class Pomemeon;
+    class PomemeonType;
+    class HistoryObject;
+    class Client;
+
     class PMSServer
     {
         vector<Player*> players;

@@ -11,5 +11,19 @@ using namespace std;
 #include <SFML/Network.hpp>
 using namespace sf;
 
+namespace pms
+{
+    enum LogLevel
+    {
+        Debug,
+        Info,
+        Warning,
+        Error
+    };
+
+    void displayColored(int colorCode, string str);
+    void log(LogLevel level, string str);
+}
+
 #endif // CONFIG_HPP_INCL
 

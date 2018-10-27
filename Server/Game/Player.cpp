@@ -69,7 +69,7 @@ namespace pms
         if(this->needUpdate)
         {
             // Update level
-            this->level = pow(log(this->totalPoints), 5.f);
+            this->level = std::pow(std::log(this->totalPoints), 5.f);
 
             // Update leaderboard place
             vector<Player*>* players = PMSServer::getInstance()->getPlayerList();

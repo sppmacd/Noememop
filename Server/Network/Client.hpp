@@ -4,8 +4,8 @@ namespace pms
 {
     struct Client
     {
-        TcpSocket* socket;
         int userID;
+        TcpSocket* socket;
 
         Client(int id, TcpSocket* sck) : userID(id), socket(sck) {}
     };
