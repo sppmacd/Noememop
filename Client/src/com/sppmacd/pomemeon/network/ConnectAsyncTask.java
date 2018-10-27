@@ -16,56 +16,40 @@ import android.os.AsyncTask;
 import android.os.Looper;
 import android.widget.EditText;
 
-public class ConnectAsyncTask extends AsyncTask<CommandLineActivity, Void, Void> 
+public class ConnectAsyncTask extends AsyncTask<ConnectingActivity, Void, Void> 
 {
     private Exception exception;
-    private CommandLineActivity caller;
+    private ConnectingActivity caller;
 
     protected void doInBackground() 
     {
     	final String ip = ((EditText)caller.findViewById(R.id.ip1)).getText().toString();
-		
-		Thread connectThread = new Thread(new Runnable()
+    	
+		try
 		{
-			@Override
-			public void run()
-			{
-				Looper.prepare();
-				
-				try
-				{
-					Intent intent = new Intent(caller, ConnectingActivity.class);
-					caller.startActivity(intent);
-					
-					caller.client = new Socket(ip, 12346);
-					caller.client.getOutputStream().write(new String("pmc:setuserid " + Long.toString(caller.userID)).getBytes());
-					CommandActivity.successfullyConnected = true;
-				} 
-				catch (IOException e)
-				{
-					caller.error("Cannot connect to server: " + e.getMessage());
-					CommandActivity.successfullyConnected = false;
-				}
-				
-				if(CommandActivity.successfullyConnected)
-					System.out.println("Successfully connected to " + ip);
-				
-				while(caller.running)
-				{
-					CommandActivity.networkLoop();
-				}
-			}
-	
-		}, "Network Thread");
+			CommandLineActivity.instance.client = new Socket(ip, 12346);
+			CommandLineActivity.instance.client.getOutputStream().write(new String("pmc:setuserid " + Long.toString(CommandLineActivity.instance.userID)).getBytes());
+			CommandActivity.successfullyConnected = true;
+			
+			Intent intent2 = new Intent(caller, CommandActivity.class);
+			caller.startActivity(intent2);
+			
+			caller.finish();
+		} 
+		catch (IOException e)
+		{
+			CommandLineActivity.instance.error("Cannot connect to server: " + e.getMessage());
+			CommandActivity.successfullyConnected = false;
+			
+			caller.finish();
+		}
 		
-		connectThread.start();
-		
-		Intent intent = new Intent(caller, CommandActivity.class);
-		caller.startActivity(intent);
+		if(CommandActivity.successfullyConnected)
+			System.out.println("Successfully connected to " + ip);
     }
 
 	@Override
-	protected Void doInBackground(CommandLineActivity... params) 
+	protected Void doInBackground(ConnectingActivity... params) 
 	{
 		caller = params[0];
 		doInBackground();

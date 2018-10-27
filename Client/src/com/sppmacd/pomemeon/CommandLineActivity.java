@@ -29,16 +29,19 @@ public class CommandLineActivity extends Activity
 	private Context context;
 	public boolean running;
 	public long userID;
+	public static CommandLineActivity instance;
 	
 	public void error(String error)
 	{
+		Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
 		CommandActivity.logStr += error + "\n";
 		System.err.println(error);
 	}
 	
 	private void onConnectButton()
 	{
-		new ConnectAsyncTask().execute(this);
+		Intent intent2 = new Intent(this, ConnectingActivity.class);
+		this.startActivity(intent2);
 	}
 	
 	
@@ -46,6 +49,8 @@ public class CommandLineActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		
+		instance = this;
 		
 		context = this.getApplicationContext();
 		setContentView(R.layout.activity_command_line);

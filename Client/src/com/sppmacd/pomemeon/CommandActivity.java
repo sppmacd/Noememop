@@ -68,6 +68,7 @@ public class CommandActivity extends Activity
 				catch (IOException e1) 
 				{
 					e1.printStackTrace();
+					CommandLineActivity.instance.error("Receiving error: " + e1.getMessage());
 					instance.finish();
 				}
 			}
@@ -90,6 +91,7 @@ public class CommandActivity extends Activity
 					catch (IOException e1) 
 					{
 						e1.printStackTrace();
+						CommandLineActivity.instance.error("Sending error: " + e1.getMessage());
 					}
 					instance.finish();
 				}
@@ -99,7 +101,8 @@ public class CommandActivity extends Activity
 		}
 		else
 		{
-			instance.finish();
+			if(instance != null)
+				instance.finish();
 		}
 	}
 }
