@@ -2,6 +2,8 @@ package com.sppmacd.pomemeon;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.graphics.Typeface;
@@ -20,6 +22,7 @@ public class CommandActivity extends Activity
 	public static String stringToSend;
 	public static String receivedString;
 	public static boolean sent;
+	public static boolean isReady;
 	
 	public static CommandActivity instance;
 	public Handler handler;
@@ -67,6 +70,7 @@ public class CommandActivity extends Activity
 		});
 		
 		instance = this;
+		isReady = true;
 	}
 	
 	public void onStop()
@@ -101,6 +105,36 @@ public class CommandActivity extends Activity
 		connected = false;
 	}
 	
+	public static void parseCommand(String command)
+    {
+        String cmd = new String();
+        List<String> args = new ArrayList();
+        int lastp = 0;
+
+        System.err.println("Command: '" + command + "'");
+        
+        for(int i = 0; i < command.length(); i++)
+        {
+            if(command.charAt(i) == ' ' || command.charAt(i) == '\0' || i == command.length() - 1)
+            {
+                if(lastp == 0)
+                    cmd = command.substring(lastp, i-1);
+                else
+                    args.add(command.substring(lastp, i-1));
+
+                lastp = i+1;
+            }
+        }
+        
+        // process commands
+        
+        if(cmd == "pms:userid" && args.size() == 1)
+        {
+        	CommandLineActivity.instance.userID = Long.parseLong(args.get(0));
+        	updateLogString("Set user id to " + args.get(0));
+        }
+    }
+	
 	public static void updateLogString(String strToAdd)
 	{
 		logString += strToAdd;
@@ -114,7 +148,7 @@ public class CommandActivity extends Activity
 		
 		while(true)
 		{
-			if(connected)
+			if(connected && instance.isReady)
 			{
 				try 
 				{
@@ -126,6 +160,8 @@ public class CommandActivity extends Activity
 						updateLogString(new String(b));
 						
 						instance.handler.post(instance.onReceive);
+						
+						parseCommand(new String(b));
 					}
 					
 					// send
@@ -133,7 +169,7 @@ public class CommandActivity extends Activity
 					{
 						if(!stringToSend.isEmpty())
 						{
-							String strtosend = new String(stringToSend);
+							String strtosend = new String(stringToSend) + "\0";
 							instance.handler.post(instance.onSend);
 							
 							System.out.println("STRTS=" + strtosend);

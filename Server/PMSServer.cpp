@@ -105,39 +105,55 @@ namespace pms
         vector<string> args;
         int lastp = 0;
 
-        for(unsigned int i = 0; i < command.size(); i++)
+        for(unsigned int i = 0; i < command.size()+1; i++)
         {
-            if(command[i] == ' ' || command[i] == '\0')
+            if(std::isblank(command[i]) || i == command.size())
             {
                 if(lastp == 0)
                     cmd = command.substr(lastp, i-lastp);
                 else
                     args.push_back(command.substr(lastp, i-lastp));
 
-                lastp = i;
+                lastp = i+1;
             }
         }
 
-        log(Error, "Command: " + cmd);
+        log(Info, "Server command: '" + cmd + "'");
+        for(string& str: args)
+            log(Debug, "Server argument: '" + str + "'");
 
-        this->processCommands(sender, cmd, args.data(), args.size());
+        if(!this->processCommands(sender, cmd, args.data(), args.size()))
+        {
+            log(Error, "Invalid command: " + command);
+        }
+    }
+
+    void PMSServer::send(Client* recv, string command)
+    {
+        recv->socket->send(command.c_str(), command.size());
+    }
+
+    void PMSServer::sendToAll(string command)
+    {
+        for(Client* recv: clients)
+            recv->socket->send(command.c_str(), command.size());
     }
 
     bool PMSServer::processCommands(Client* sender, string command, string* argv, int argc)
     {
-        if(command == "pms:setuserid")
+        if(command == "pmc:setuserid")
         {
             if(argc == 1)
             {
-                size_t s;
-                int uid = stoi(argv[0], &s, 10);
+                int uid = stoi(argv[0]);
                 if(uid == 0) //the player is a new player!
                 {
-                    Player* player = new Player(this->players.size());
+                    Player* player = new Player(this->players.size() + 1);
                     player->login();
                     player->setReward();
                     sender->userID = player->getUserID();
                     players.push_back(player);
+                    send(sender, "pms:userid " + to_string(player->getUserID()));
                     log(Info, "A new player " + to_string(player->getUserID()) + " was logged in to server");
                     return true;
                 }

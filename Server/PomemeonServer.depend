@@ -6,7 +6,7 @@
 
 1540635263 f:\android\pomemeonrepo\server\game\player.hpp
 
-1540637707 f:\android\pomemeonrepo\server\pmsserver.hpp
+1540730364 f:\android\pomemeonrepo\server\pmsserver.hpp
 	"config.hpp"
 
 1540637864 f:\android\pomemeonrepo\server\config.hpp
@@ -245,16 +245,15 @@
 	"config.hpp"
 	<windows.h>
 
-1540642992 source:f:\android\pomemeonrepo\server\pmsserver.cpp
+1540730459 source:f:\android\pomemeonrepo\server\pmsserver.cpp
 	"PMSServer.hpp"
 	"Game/PomemeonType.hpp"
 	"Network/Client.hpp"
 	"Game/Player.hpp"
 	"Game/Pomemeon.hpp"
 	"History/HistoryObject.hpp"
-	<SFML/Network.hpp>
 
-1540641677 f:\android\pomemeonrepo\server\network\client.hpp
+1540638077 f:\android\pomemeonrepo\server\network\client.hpp
 
-1540641701 f:\android\pomemeonrepo\server\history\historyobject.hpp
+1540638101 f:\android\pomemeonrepo\server\history\historyobject.hpp
 

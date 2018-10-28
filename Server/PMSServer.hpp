@@ -33,6 +33,8 @@ namespace pms
         void close();
         static PMSServer* getInstance();
         void registerTypes();
+        void send(Client* recv, string command);
+        void sendToAll(string command);
         void parseCommand(Client* sender, string command);
         bool processCommands(Client* sender, string command, string* argv, int argc);
         void disconnect(TcpSocket* sck);

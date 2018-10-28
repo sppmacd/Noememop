@@ -57,7 +57,10 @@ public class CommandLineActivity extends Activity
 		running = true;
 		
 		if(savedInstanceState != null)
+		{
 			userID = savedInstanceState.getLong("LONG_USERID");
+			((EditText)findViewById(R.id.ip1)).setText(savedInstanceState.getString("STRING_LASTCONNECTIP"));
+		}
 		
 		((Button)findViewById(R.id.connect)).setOnClickListener(new View.OnClickListener() 
 		{
@@ -83,5 +86,6 @@ public class CommandLineActivity extends Activity
 	{
 		super.onSaveInstanceState(bundle);
 		bundle.putLong("LONG_USERID", userID);
+		bundle.putString("STRING_LASTCONNECTIP", ((EditText)findViewById(R.id.ip1)).getText().toString());
 	}
 }
