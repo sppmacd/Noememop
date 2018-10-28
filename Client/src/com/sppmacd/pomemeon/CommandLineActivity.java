@@ -28,8 +28,9 @@ public class CommandLineActivity extends Activity
 	public static Socket client;
 	private Context context;
 	public boolean running;
-	public long userID;
+	public static long userID;
 	public static CommandLineActivity instance;
+	public int classUUID;
 	
 	public void error(String error)
 	{
@@ -49,14 +50,12 @@ public class CommandLineActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		
+		classUUID = this.hashCode();
+		
+		instance = this;
+		
 		context = this.getApplicationContext();
 		setContentView(R.layout.activity_command_line);
-		
-		if(savedInstanceState != null)
-		{
-			userID = savedInstanceState.getLong("LONG_USERID");
-			((EditText)findViewById(R.id.ip1)).setText(savedInstanceState.getString("STRING_LASTCONNECTIP"));
-		}
 		
 		((Button)findViewById(R.id.connect)).setOnClickListener(new View.OnClickListener() 
 		{
@@ -70,11 +69,20 @@ public class CommandLineActivity extends Activity
 	}
 	
 	@Override
+	protected void onRestoreInstanceState(Bundle bundle)
+	{
+		super.onRestoreInstanceState(bundle);
+		
+		System.out.println("Restoring instance state...");
+		userID = bundle.getLong("LONG_USERID");
+		((EditText)findViewById(R.id.ip1)).setText(bundle.getString("STRING_LASTCONNECTIP"));
+	}
+	
+	@Override
 	protected void onStart()
 	{
 		super.onStart();
 		
-		instance = this;
 		running = true;
 	}
 	

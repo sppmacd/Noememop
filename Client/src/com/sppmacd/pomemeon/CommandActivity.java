@@ -30,7 +30,7 @@ public class CommandActivity extends Activity
 	{
 		public void run()
 		{
-			updateLogString("CLIENT SENT: " + stringToSend + "\n");
+			updateLogString("CLIENT SENT: " + stringToSend);
 			stringToSend = null;
 			((EditText) instance.findViewById(R.id.commandLine)).setText("");
 			((TextView) instance.findViewById(R.id.log)).setText(logString);
@@ -41,7 +41,7 @@ public class CommandActivity extends Activity
 	{
 		public void run()
 		{
-			updateLogString("SERVER SENT: " + receivedString + "\n");
+			updateLogString("SERVER SENT: " + receivedString);
 			((TextView) instance.findViewById(R.id.log)).setText(logString);
 		}
 	};
@@ -118,31 +118,34 @@ public class CommandActivity extends Activity
         	System.err.println("Char.: '" + Integer.toString(i) + "'");
             if((command.charAt(i) == ' ' || i == command.length() - 1) && i != 0)
             {
-            	System.err.println("Char. (WhiteSpace): '" + Integer.toString(i) + "'");
+            	System.err.println("Char. (WhiteSpace): '" + Integer.toString(i) + "' LastPos: " + Integer.toString(lastp));
             	
                 if(lastp == 0)
-                    cmd = command.substring(lastp, i);
+                    cmd = command.substring(lastp, i+1).trim();
                 else
-                    args.add(command.substring(lastp, i));
+                    args.add(command.substring(lastp, i+1).trim());
 
-                lastp = i+1;
+                lastp = i;
             }
         }
         System.out.println("Command: '" + cmd + "'");
-        System.out.println("Args: '" + args + "'");
+        for(String arg: args)
+        	System.out.println("Arg: '" + arg + "'");
         
         // process commands
         
-        if(cmd == "pms:userid" && args.size() == 1)
+        if(cmd.equals("pms:userid") && args.size() == 1)
         {
         	CommandLineActivity.instance.userID = Long.parseLong(args.get(0));
-        	updateLogString("Set user id to " + args.get(0));
+        	updateLogString("Setting user id to " + args.get(0));
         }
+        else
+        	updateLogString("Undefined or invalid command: " + command);
     }
 	
 	public static void updateLogString(String strToAdd)
 	{
-		logString += strToAdd;
+		logString += strToAdd + "\n";
 	}
 	
 	public static void networkLoop()
