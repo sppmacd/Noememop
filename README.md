@@ -1,6 +1,10 @@
 # Noememop
 Repository for the Noememop.
 
+## Useful paths:
+CURRENT SERVER EXECUTABLE: https://github.com/sppmacd/Noememop/tree/master/Server/Bin/Debug/PomemeonServer.exe
+CURRENT CLIENT INSTALLER: https://github.com/sppmacd/Noememop/tree/master/Client/bin/PomemeonClient.apk
+
 ## Where to put textures?
 
 You can put your textures in Client/assets/texturesToAdd/
