@@ -118,6 +118,8 @@ namespace pms
             }
         }
 
+        log(Error, "Command: " + cmd);
+
         this->processCommands(sender, cmd, args.data(), args.size());
     }
 

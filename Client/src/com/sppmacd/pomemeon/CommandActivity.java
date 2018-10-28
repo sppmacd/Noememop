@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -18,6 +19,7 @@ public class CommandActivity extends Activity
 	public static String logString;
 	public static String stringToSend;
 	public static String receivedString;
+	public static boolean sent;
 	
 	public static CommandActivity instance;
 	public Handler handler;
@@ -26,7 +28,9 @@ public class CommandActivity extends Activity
 		public void run()
 		{
 			updateLogString("CLIENT SENT: " + stringToSend + "\n");
+			stringToSend = null;
 			((EditText) instance.findViewById(R.id.commandLine)).setText("");
+			((TextView) instance.findViewById(R.id.log)).setText(logString);
 		}
 	};
 	
@@ -43,7 +47,14 @@ public class CommandActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_commands);
+		
+		Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/consolas.ttf");
+		TextView tv = (TextView) findViewById(R.id.log);
+		tv.setTypeface(tf);
+		
 		handler = new Handler();
+		
+		logString = "";
 		
 		((Button) findViewById(R.id.send)).setOnClickListener(new View.OnClickListener() 
 		{
@@ -51,6 +62,7 @@ public class CommandActivity extends Activity
 			public void onClick(View v)
 			{
 				stringToSend = ((EditText) instance.findViewById(R.id.commandLine)).getText().toString();
+				sent = false;
 			}
 		});
 		
@@ -117,15 +129,17 @@ public class CommandActivity extends Activity
 					}
 					
 					// send
-					if(stringToSend != null)
+					if(stringToSend != null && !sent)
 					{
 						if(!stringToSend.isEmpty())
 						{
+							String strtosend = new String(stringToSend);
 							instance.handler.post(instance.onSend);
 							
-							System.out.println("STRTS=" + stringToSend);
-							socket.getOutputStream().write(stringToSend.getBytes());
-							stringToSend = null;
+							System.out.println("STRTS=" + strtosend);
+							socket.getOutputStream().write(strtosend.getBytes());
+							
+							sent = true;
 						}
 					}
 				} 
