@@ -34,7 +34,6 @@ public class CommandLineActivity extends Activity
 	public void error(String error)
 	{
 		Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
-		CommandActivity.logStr += error + "\n";
 		System.err.println(error);
 	}
 	

@@ -10,7 +10,6 @@
         android:layout_height="0px"
         android:layout_weight="0.88"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="TEST"
          />
 
     <LinearLayout

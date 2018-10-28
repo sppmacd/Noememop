@@ -38,7 +38,6 @@ namespace pms
 
     void PMSServer::networkLoop()
     {
-        log(Info, "Started network loop...");
         if(this->socketSelector.wait(seconds(0.5f)))
         {
             if(this->socketSelector.isReady(this->serverSocket)) //Someone tries to connect to server
@@ -64,7 +63,7 @@ namespace pms
                 {
                     if(this->socketSelector.isReady(*client->socket)) //Something was sent to server
                     {
-                        char data[128];
+                        char data[128] = {0};
                         size_t received;
                         if(client->socket->receive((void*)&data, 128LL, received) == Socket::Done)
                         {
@@ -111,9 +110,9 @@ namespace pms
             if(command[i] == ' ' || command[i] == '\0')
             {
                 if(lastp == 0)
-                    cmd = command.substr(lastp, i-lastp-1);
+                    cmd = command.substr(lastp, i-lastp);
                 else
-                    args.push_back(command.substr(lastp, i-lastp-1));
+                    args.push_back(command.substr(lastp, i-lastp));
 
                 lastp = i;
             }

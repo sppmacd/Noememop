@@ -24,22 +24,12 @@ public class ConnectingActivity extends Activity
 		
 		instance = this;
 		setContentView(R.layout.activity_connecting);
+	}
+	
+	protected void onStart()
+	{
+		super.onStart();
 		
-    	new ConnectAsyncTask().execute(this);
-		
-		Thread thread = new Thread(new Runnable() 
-		{
-			public void run()
-			{
-				Looper.prepare();
-				
-				while(CommandLineActivity.instance.running)
-				{
-					CommandActivity.networkLoop();
-				}
-			}
-		}, "Network Thread");
-		
-		thread.start();
+		new ConnectAsyncTask().execute(this);
 	}
 }

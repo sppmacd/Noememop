@@ -22,7 +22,7 @@ public class ConnectAsyncTask extends AsyncTask<ConnectingActivity, Void, Void>
     private ConnectingActivity caller;
 
     protected void doInBackground() 
-    {
+    {	
 		if(Looper.myLooper() == null)
 			Looper.prepare();
     	
@@ -32,23 +32,32 @@ public class ConnectAsyncTask extends AsyncTask<ConnectingActivity, Void, Void>
 		{
 			CommandLineActivity.instance.client = new Socket(ip, 12346);
 			CommandLineActivity.instance.client.getOutputStream().write(new String("pmc:setuserid " + Long.toString(CommandLineActivity.instance.userID)).getBytes());
-			CommandActivity.successfullyConnected = true;
+			
+			CommandActivity.connected = true;
+			
+			Thread thread = new Thread(new Runnable() 
+			{
+				public void run()
+				{
+					Looper.prepare();
+					
+					CommandActivity.networkLoop();
+				}
+			}, "Network Thread");
 			
 			Intent intent2 = new Intent(caller, CommandActivity.class);
 			caller.startActivity(intent2);
+			
+			thread.start();
 			
 			caller.finish();
 		} 
 		catch (IOException e)
 		{
 			CommandLineActivity.instance.error("Cannot connect to server: " + e.getMessage());
-			CommandActivity.successfullyConnected = false;
 			
 			caller.finish();
 		}
-		
-		if(CommandActivity.successfullyConnected)
-			System.out.println("Successfully connected to " + ip);
     }
 
 	@Override

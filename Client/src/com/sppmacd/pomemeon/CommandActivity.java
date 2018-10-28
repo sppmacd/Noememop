@@ -1,6 +1,7 @@
 package com.sppmacd.pomemeon;
 
 import java.io.IOException;
+import java.net.Socket;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,130 +13,137 @@ import android.widget.EditText;
 
 public class CommandActivity extends Activity 
 {
-	public static String logStr;
-	public static String strToSend;
-	public static boolean needSend;
-	public static CommandActivity instance;
-	public static boolean successfullyConnected;
-	public static boolean logMustBeUpdated;
+	public static boolean connected;
 	
-	public static void breakpoint(String bp)
+	public static String logString;
+	public static String stringToSend;
+	public static String receivedString;
+	
+	public static CommandActivity instance;
+	public Handler handler;
+	public Runnable onSend = new Runnable()
 	{
+		public void run()
+		{
+			updateLogString("CLIENT SENT: " + stringToSend + "\n");
+			((EditText) instance.findViewById(R.id.commandLine)).setText("");
+		}
+	};
+	
+	public Runnable onReceive = new Runnable()
+	{
+		public void run()
+		{
+			updateLogString("SERVER SENT: " + receivedString + "\n");
+			((TextView) instance.findViewById(R.id.log)).setText(logString);
+		}
+	};
+	
+	public void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		this.setContentView(R.layout.activity_commands);
+		handler = new Handler();
+		
+		((Button) findViewById(R.id.send)).setOnClickListener(new View.OnClickListener() 
+		{
+			@Override
+			public void onClick(View v)
+			{
+				stringToSend = ((EditText) instance.findViewById(R.id.commandLine)).getText().toString();
+			}
+		});
+		
+		instance = this;
+	}
+	
+	public void onStop()
+	{
+		super.onStop();
+		
 		try 
 		{
-			throw new Exception(bp);
+			CommandLineActivity.client.close();
 		} 
-		catch (Exception e)
+		catch (IOException e) 
 		{
 			e.printStackTrace();
 		}
+		
+		connected = false;
 	}
 	
-	public void onCreate(Bundle bundle)
+	public static void error(IOException exception)
 	{
-		super.onCreate(bundle);
+		exception.printStackTrace();
 		
-		instance = this;
-		
-		setContentView(R.layout.activity_commands);
-		
-		final Handler handler = new Handler();
-	    final Runnable r = new Runnable() 
-	    {
-	    	public void run() 
-	    	{
-				handler.postDelayed(this, 100);
-				
-				if(logMustBeUpdated)
-				{
-					((TextView)instance.findViewById(R.id.log)).setText(logStr);
-					logMustBeUpdated = false;
-				}
-	        }
-	    };
-	    handler.postDelayed(r, 0);
-		
-		((Button)findViewById(R.id.send)).setOnClickListener(
-		new View.OnClickListener()
+		try
 		{
-			@Override
-			public void onClick(View v) 
-			{
-				needSend = true;
-				strToSend = ((EditText)findViewById(R.id.commandLine)).getText().toString();
-				((EditText)findViewById(R.id.commandLine)).setText("");	
-				breakpoint("Clicked Send button");
-			}
-		});
+			CommandLineActivity.client.close();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		connected = false;
 	}
 	
-	public static void update()
+	public static void updateLogString(String strToAdd)
 	{
-		logMustBeUpdated = true;
+		logString += strToAdd;
 	}
 	
 	public static void networkLoop()
 	{
-		if(successfullyConnected)
+		Socket socket = CommandLineActivity.client;
+		
+		stringToSend = null;
+		
+		while(true)
 		{
-			// receive data
-			try 
+			if(connected)
 			{
-				if(CommandLineActivity.client.getInputStream().available() > 0)
+				try 
 				{
-					byte[] arr = new byte[CommandLineActivity.client.getInputStream().available()];
-					CommandLineActivity.client.getInputStream().read(arr);
-					logStr += new String(arr);
+					// receive
+					if(socket.getInputStream().available() > 0)
+					{
+						byte[] b = new byte[socket.getInputStream().available()];
+						socket.getInputStream().read(b);
+						updateLogString(new String(b));
+						
+						instance.handler.post(instance.onReceive);
+					}
 					
-					update();
-				}
-			} 
-			catch (IOException e) 
-			{
-				try 
-				{
-					CommandLineActivity.client.close();
-				} 
-				catch (IOException e1) 
-				{
-					e1.printStackTrace();
-					CommandLineActivity.instance.error("Receiving error: " + e1.getMessage());
-					instance.finish();
-				}
-			}
-			
-			// send commands
-			if(needSend)
-			{
-				breakpoint("Sending");
-				
-				logStr += strToSend;
-				update();
-				try 
-				{
-					CommandLineActivity.client.getOutputStream().write(strToSend.getBytes());
+					// send
+					if(stringToSend != null)
+					{
+						if(!stringToSend.isEmpty())
+						{
+							instance.handler.post(instance.onSend);
+							
+							System.out.println("STRTS=" + stringToSend);
+							socket.getOutputStream().write(stringToSend.getBytes());
+							stringToSend = null;
+						}
+					}
 				} 
 				catch (IOException e) 
 				{
-					try 
-					{
-						CommandLineActivity.client.close();
-					} 
-					catch (IOException e1) 
-					{
-						e1.printStackTrace();
-						CommandLineActivity.instance.error("Sending error: " + e1.getMessage());
-					}
-					instance.finish();
+					e.printStackTrace();
+					break;
 				}
-				needSend = false;
-				strToSend = "";
 			}
 		}
-		else
-		{
-			if(instance != null)
-				instance.finish();
+		
+		connected = false;
+		instance.finish();
+		try {
+			CommandLineActivity.client.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
