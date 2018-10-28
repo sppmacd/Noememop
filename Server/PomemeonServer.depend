@@ -1,15 +1,15 @@
 # depslib dependency file v1.0
-1540641606 source:f:\android\pomemeonrepo\server\game\player.cpp
+1540638006 source:f:\android\pomemeonrepo\server\game\player.cpp
 	"Player.hpp"
 	"../PMSServer.hpp"
 	"../config.hpp"
 
-1540638863 f:\android\pomemeonrepo\server\game\player.hpp
+1540635263 f:\android\pomemeonrepo\server\game\player.hpp
 
-1540641307 f:\android\pomemeonrepo\server\pmsserver.hpp
+1540637707 f:\android\pomemeonrepo\server\pmsserver.hpp
 	"config.hpp"
 
-1540641464 f:\android\pomemeonrepo\server\config.hpp
+1540637864 f:\android\pomemeonrepo\server\config.hpp
 	<iostream>
 	<cmath>
 	<cstdlib>
@@ -17,7 +17,7 @@
 	<vector>
 	<SFML/Network.hpp>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network.hpp
 	<SFML/System.hpp>
 	<SFML/Network/Ftp.hpp>
 	<SFML/Network/Http.hpp>
@@ -30,7 +30,7 @@
 	<SFML/Network/TcpSocket.hpp>
 	<SFML/Network/UdpSocket.hpp>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system.hpp
 	<SFML/Config.hpp>
 	<SFML/System/Clock.hpp>
 	<SFML/System/Err.hpp>
@@ -50,24 +50,24 @@
 	<SFML/System/Vector2.hpp>
 	<SFML/System/Vector3.hpp>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\config.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\config.hpp
 	"TargetConditionals.h"
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\clock.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\clock.hpp
 	<SFML/System/Export.hpp>
 	<SFML/System/Time.hpp>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\export.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\export.hpp
 	<SFML/Config.hpp>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\time.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\time.hpp
 	<SFML/System/Export.hpp>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\err.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\err.hpp
 	<SFML/System/Export.hpp>
 	<ostream>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\fileinputstream.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\fileinputstream.hpp
 	<SFML/Config.hpp>
 	<SFML/System/Export.hpp>
 	<SFML/System/InputStream.hpp>
@@ -75,32 +75,32 @@
 	<cstdio>
 	<string>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\inputstream.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\inputstream.hpp
 	<SFML/Config.hpp>
 	<SFML/System/Export.hpp>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\noncopyable.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\noncopyable.hpp
 	<SFML/System/Export.hpp>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\lock.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\lock.hpp
 	<SFML/System/Export.hpp>
 	<SFML/System/NonCopyable.hpp>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\memoryinputstream.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\memoryinputstream.hpp
 	<SFML/Config.hpp>
 	<SFML/System/InputStream.hpp>
 	<SFML/System/Export.hpp>
 	<cstdlib>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\mutex.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\mutex.hpp
 	<SFML/System/Export.hpp>
 	<SFML/System/NonCopyable.hpp>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\sleep.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\sleep.hpp
 	<SFML/System/Export.hpp>
 	<SFML/System/Time.hpp>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\string.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\string.hpp
 	<SFML/System/Export.hpp>
 	<SFML/System/Utf.hpp>
 	<iterator>
@@ -108,7 +108,7 @@
 	<string>
 	<SFML/System/String.inl>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\utf.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\utf.hpp
 	<SFML/Config.hpp>
 	<algorithm>
 	<locale>
@@ -116,40 +116,40 @@
 	<cstdlib>
 	<SFML/System/Utf.inl>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\utf.inl
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\utf.inl
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\string.inl
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\string.inl
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\thread.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\thread.hpp
 	<SFML/System/Export.hpp>
 	<SFML/System/NonCopyable.hpp>
 	<cstdlib>
 	<SFML/System/Thread.inl>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\thread.inl
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\thread.inl
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\threadlocal.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\threadlocal.hpp
 	<SFML/System/Export.hpp>
 	<SFML/System/NonCopyable.hpp>
 	<cstdlib>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\threadlocalptr.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\threadlocalptr.hpp
 	<SFML/System/ThreadLocal.hpp>
 	<SFML/System/ThreadLocalPtr.inl>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\threadlocalptr.inl
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\threadlocalptr.inl
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\vector2.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\vector2.hpp
 	<SFML/System/Vector2.inl>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\vector2.inl
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\vector2.inl
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\vector3.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\vector3.hpp
 	<SFML/System/Vector3.inl>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\vector3.inl
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\system\vector3.inl
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\ftp.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\ftp.hpp
 	<SFML/Network/Export.hpp>
 	<SFML/Network/TcpSocket.hpp>
 	<SFML/System/NonCopyable.hpp>
@@ -157,25 +157,25 @@
 	<string>
 	<vector>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\export.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\export.hpp
 	<SFML/Config.hpp>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\tcpsocket.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\tcpsocket.hpp
 	<SFML/Network/Export.hpp>
 	<SFML/Network/Socket.hpp>
 	<SFML/System/Time.hpp>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\socket.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\socket.hpp
 	<SFML/Network/Export.hpp>
 	<SFML/Network/SocketHandle.hpp>
 	<SFML/System/NonCopyable.hpp>
 	<vector>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\sockethandle.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\sockethandle.hpp
 	<SFML/Config.hpp>
 	<basetsd.h>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\http.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\http.hpp
 	<SFML/Network/Export.hpp>
 	<SFML/Network/IpAddress.hpp>
 	<SFML/Network/TcpSocket.hpp>
@@ -184,64 +184,64 @@
 	<map>
 	<string>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\ipaddress.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\ipaddress.hpp
 	<SFML/Network/Export.hpp>
 	<SFML/System/Time.hpp>
 	<istream>
 	<ostream>
 	<string>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\packet.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\packet.hpp
 	<SFML/Network/Export.hpp>
 	<string>
 	<vector>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\socketselector.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\socketselector.hpp
 	<SFML/Network/Export.hpp>
 	<SFML/System/Time.hpp>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\tcplistener.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\tcplistener.hpp
 	<SFML/Network/Export.hpp>
 	<SFML/Network/Socket.hpp>
 	<SFML/Network/IpAddress.hpp>
 
-1486556956 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\udpsocket.hpp
+1486553356 f:\c++\liby\sfml-2.4.2-sources\sfml-2.4.2\include\sfml\network\udpsocket.hpp
 	<SFML/Network/Export.hpp>
 	<SFML/Network/Socket.hpp>
 	<SFML/Network/IpAddress.hpp>
 	<vector>
 
-1540640333 source:f:\android\pomemeonrepo\server\game\pomemeon.cpp
+1540636733 source:f:\android\pomemeonrepo\server\game\pomemeon.cpp
 	"Pomemeon.hpp"
 	"PomemeonType.hpp"
 
-1540641216 f:\android\pomemeonrepo\server\game\pomemeon.hpp
+1540637616 f:\android\pomemeonrepo\server\game\pomemeon.hpp
 	"../config.hpp"
 	"CashStat.hpp"
 	"../GPSCoords.hpp"
 	"PomemeonType.hpp"
 
-1540640771 f:\android\pomemeonrepo\server\game\cashstat.hpp
+1540637171 f:\android\pomemeonrepo\server\game\cashstat.hpp
 
-1540639781 f:\android\pomemeonrepo\server\gpscoords.hpp
+1540636181 f:\android\pomemeonrepo\server\gpscoords.hpp
 
-1540641166 f:\android\pomemeonrepo\server\game\pomemeontype.hpp
+1540637566 f:\android\pomemeonrepo\server\game\pomemeontype.hpp
 	"../config.hpp"
 	"CashStat.hpp"
 	"Player.hpp"
 
-1540641058 source:f:\android\pomemeonrepo\server\game\pomemeontype.cpp
+1540637458 source:f:\android\pomemeonrepo\server\game\pomemeontype.cpp
 	"PomemeonType.hpp"
 	"Player.hpp"
 
-1540639873 source:f:\android\pomemeonrepo\server\gpscoords.cpp
+1540636273 source:f:\android\pomemeonrepo\server\gpscoords.cpp
 	"GPSCoords.hpp"
 
-1540573800 source:f:\android\pomemeonrepo\server\main.cpp
+1540570200 source:f:\android\pomemeonrepo\server\main.cpp
 	"config.hpp"
 	"PMSServer.hpp"
 
-1540642456 source:f:\android\pomemeonrepo\server\config.cpp
+1540640030 source:f:\android\pomemeonrepo\server\config.cpp
 	"config.hpp"
 	<windows.h>
 

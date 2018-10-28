@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;
@@ -16,6 +17,19 @@ public class CommandActivity extends Activity
 	public static boolean needSend;
 	public static CommandActivity instance;
 	public static boolean successfullyConnected;
+	public static boolean logMustBeUpdated;
+	
+	public static void breakpoint(String bp)
+	{
+		try 
+		{
+			throw new Exception(bp);
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 	
 	public void onCreate(Bundle bundle)
 	{
@@ -25,22 +39,39 @@ public class CommandActivity extends Activity
 		
 		setContentView(R.layout.activity_commands);
 		
-		((Button)findViewById(R.id.send)).setOnClickListener(
-				new View.OnClickListener()
+		final Handler handler = new Handler();
+	    final Runnable r = new Runnable() 
+	    {
+	    	public void run() 
+	    	{
+				handler.postDelayed(this, 100);
+				
+				if(logMustBeUpdated)
 				{
-					@Override
-					public void onClick(View v) 
-					{
-						needSend = true;
-						strToSend = ((EditText)findViewById(R.id.commandLine)).getText().toString();
-						((EditText)findViewById(R.id.commandLine)).setText("");	
-					}
-				});
+					((TextView)instance.findViewById(R.id.log)).setText(logStr);
+					logMustBeUpdated = false;
+				}
+	        }
+	    };
+	    handler.postDelayed(r, 0);
+		
+		((Button)findViewById(R.id.send)).setOnClickListener(
+		new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				needSend = true;
+				strToSend = ((EditText)findViewById(R.id.commandLine)).getText().toString();
+				((EditText)findViewById(R.id.commandLine)).setText("");	
+				breakpoint("Clicked Send button");
+			}
+		});
 	}
 	
 	public static void update()
 	{
-		((TextView)instance.findViewById(R.id.log)).setText(logStr);
+		logMustBeUpdated = true;
 	}
 	
 	public static void networkLoop()
@@ -76,6 +107,8 @@ public class CommandActivity extends Activity
 			// send commands
 			if(needSend)
 			{
+				breakpoint("Sending");
+				
 				logStr += strToSend;
 				update();
 				try 

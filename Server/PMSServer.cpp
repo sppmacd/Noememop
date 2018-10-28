@@ -39,12 +39,12 @@ namespace pms
     void PMSServer::networkLoop()
     {
         log(Info, "Started network loop...");
-        if(this->socketSelector.wait(seconds(1.f)))
+        if(this->socketSelector.wait(seconds(0.5f)))
         {
             if(this->socketSelector.isReady(this->serverSocket)) //Someone tries to connect to server
             {
                 TcpSocket* socket2 = new TcpSocket;
-                if(!this->serverSocket.accept(*socket2))
+                if(this->serverSocket.accept(*socket2) != Socket::Done)
                 {
                     delete socket2;
                 }
@@ -54,6 +54,7 @@ namespace pms
                     Client* client = new Client(0,socket2);
                     clients.push_back(client);
                     this->socketSelector.add(*socket2);
+                    log(Debug, "IP: " + socket2->getRemoteAddress().toString() + ":" + to_string(socket2->getRemotePort()) + " connected");
                 }
             }
 
@@ -69,6 +70,8 @@ namespace pms
                         {
                             string command((char*)data);
 
+                            log(Debug, "Client: (" + to_string(client->userID) + ") " + client->socket->getRemoteAddress().toString() + string(" sent command: '") + command + "'");
+
                             this->parseCommand(client, command);
                         }
                         else
@@ -80,9 +83,6 @@ namespace pms
             }
         }
     }
-
-    #include <SFML/Network.hpp>
-    using namespace sf;
 
     void PMSServer::disconnect(TcpSocket* sck)
     {

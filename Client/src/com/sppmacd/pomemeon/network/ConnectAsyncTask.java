@@ -23,7 +23,10 @@ public class ConnectAsyncTask extends AsyncTask<ConnectingActivity, Void, Void>
 
     protected void doInBackground() 
     {
-    	final String ip = ((EditText)caller.findViewById(R.id.ip1)).getText().toString();
+		if(Looper.myLooper() == null)
+			Looper.prepare();
+    	
+    	final String ip = ((EditText)CommandLineActivity.instance.findViewById(R.id.ip1)).getText().toString();
     	
 		try
 		{
