@@ -49,12 +49,8 @@ public class CommandLineActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		
-		instance = this;
-		
 		context = this.getApplicationContext();
 		setContentView(R.layout.activity_command_line);
-		
-		running = true;
 		
 		if(savedInstanceState != null)
 		{
@@ -71,6 +67,15 @@ public class CommandLineActivity extends Activity
 			}
 			
 		});
+	}
+	
+	@Override
+	protected void onStart()
+	{
+		super.onStart();
+		
+		instance = this;
+		running = true;
 	}
 	
 	@Override

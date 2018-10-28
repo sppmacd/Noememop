@@ -115,16 +115,21 @@ public class CommandActivity extends Activity
         
         for(int i = 0; i < command.length(); i++)
         {
-            if(command.charAt(i) == ' ' || command.charAt(i) == '\0' || i == command.length() - 1)
+        	System.err.println("Char.: '" + Integer.toString(i) + "'");
+            if((command.charAt(i) == ' ' || i == command.length() - 1) && i != 0)
             {
+            	System.err.println("Char. (WhiteSpace): '" + Integer.toString(i) + "'");
+            	
                 if(lastp == 0)
-                    cmd = command.substring(lastp, i-1);
+                    cmd = command.substring(lastp, i);
                 else
-                    args.add(command.substring(lastp, i-1));
+                    args.add(command.substring(lastp, i));
 
                 lastp = i+1;
             }
         }
+        System.out.println("Command: '" + cmd + "'");
+        System.out.println("Args: '" + args + "'");
         
         // process commands
         

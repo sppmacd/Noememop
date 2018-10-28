@@ -94,7 +94,7 @@ namespace pms
             }
         }
 
-        log(Info, "IP: " + sck->getRemoteAddress().toString() + ":" + to_string(sck->getRemotePort()) + " disconnected");
+        log(Info, "IP: " + sck->getRemoteAddress().toString() + ":" + to_string(sck->getRemotePort()) + " has disconnected");
         this->socketSelector.remove(*sck);
         delete sck;
     }
@@ -154,16 +154,25 @@ namespace pms
                     sender->userID = player->getUserID();
                     players.push_back(player);
                     send(sender, "pms:userid " + to_string(player->getUserID()));
-                    log(Info, "A new player " + to_string(player->getUserID()) + " was logged in to server");
+                    log(Info, "A new player " + to_string(player->getUserID()) + " has logged in to server");
                     return true;
                 }
                 else
                 {
                     sender->userID = uid;
                     Player* player = this->findPlayerByID(uid);
-                    player->setReward();
-                    player->login();
-                    log(Debug, "A player " + to_string(player->getUserID()) + " was logged in to server");
+
+                    if(player != NULL)
+                    {
+                        player->login();
+                        player->setReward();
+                        log(Debug, "A player " + to_string(player->getUserID()) + " has logged in to server");
+                    }
+                    else
+                    {
+                        log(Error, "The player with id " + to_string(uid) + " was not found!");
+                        disconnect(sender->socket); //cheats
+                    }
 
                     return true;
                 }
