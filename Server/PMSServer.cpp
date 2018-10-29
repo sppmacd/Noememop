@@ -75,6 +75,7 @@ namespace pms
                         }
                         else
                         {
+                            send(client, "pms:disconnect ERR_DISCONNECTED");
                             disconnect(client->socket);
                         }
                     }
@@ -171,6 +172,7 @@ namespace pms
                     else
                     {
                         log(Error, "The player with id " + to_string(uid) + " was not found!");
+                        send(sender, "pms:disconnect ERR_INVALID_USER_ID");
                         disconnect(sender->socket); //cheats
                     }
 
