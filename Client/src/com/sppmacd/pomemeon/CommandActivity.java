@@ -110,16 +110,11 @@ public class CommandActivity extends Activity
         String cmd = new String();
         List<String> args = new ArrayList();
         int lastp = 0;
-
-        System.err.println("Command: '" + command + "'");
-        
+  
         for(int i = 0; i < command.length(); i++)
         {
-        	System.err.println("Char.: '" + Integer.toString(i) + "'");
             if((command.charAt(i) == ' ' || i == command.length() - 1) && i != 0)
             {
-            	System.err.println("Char. (WhiteSpace): '" + Integer.toString(i) + "' LastPos: " + Integer.toString(lastp));
-            	
                 if(lastp == 0)
                     cmd = command.substring(lastp, i+1).trim();
                 else
@@ -128,9 +123,6 @@ public class CommandActivity extends Activity
                 lastp = i;
             }
         }
-        System.out.println("Command: '" + cmd + "'");
-        for(String arg: args)
-        	System.out.println("Arg: '" + arg + "'");
         
         // process commands
         
@@ -139,7 +131,12 @@ public class CommandActivity extends Activity
         	CommandLineActivity.instance.userID = Long.parseLong(args.get(0));
         	updateLogString("Setting user id to " + args.get(0));
         }
-        else
+        else if(cmd.equals("pms:disconnect") && args.size() == 1)
+	{
+		CommandLineActivity.client.close();
+		updateLogString("Disconnected: " + args[0]); //used if the players cheated (XD)
+	}
+	else
         	updateLogString("Undefined or invalid command: " + command);
     }
 	
