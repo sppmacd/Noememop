@@ -42,7 +42,7 @@ namespace pms
         to_string(coordinates.getNS()) + "\255" +
         to_string(coordinates.getEW()) + "\255" +
         textureFile + "\255" +
-        to_string(owner->getID());
+        to_string(owner->getUserID());
     }
     
     GPSCoords Pomemeon::getCoordinates()
