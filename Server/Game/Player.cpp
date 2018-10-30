@@ -23,11 +23,9 @@ namespace pms
     
     bool Player::updateCoords(GPSCoords coords)
     {
-        GPSCoords change = GPSCoords(abs(lastPos.getNS()-coords.getNS()),
-                                     abs(lastPos.getEW()-coords.getEW()));
-        float dist = sqrt(pow(change.getNS(),2)+pow(change.getEW(),2));
+        double dist = coords.distance(this->lastPos);
         
-        if(dist / lastUpdateTime.restart().asSeconds < 0.1f)
+        if(dist / lastUpdateTime.restart().asSeconds < 0.1)
             lastPos = coords;
         else
             return false;
