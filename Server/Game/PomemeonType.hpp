@@ -20,5 +20,6 @@ namespace pms
         PomemeonType(int id, float costForPicker, int profitForPicker, int costForPlacer, float profitForPlacer, string name);
         CashStat pick(Player* owner, Player* picker);
         CashStat place(Player* owner);
+        int getID();
     };
 }
