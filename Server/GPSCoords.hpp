@@ -1,5 +1,7 @@
 #pragma once
 
+#include "config.hpp"
+
 namespace pms
 {
     class GPSCoords
@@ -13,5 +15,10 @@ namespace pms
         double getEW();
         GPSCoords& setNS(double ns);
         GPSCoords& setEW(double ew);
+        
+        GPSCoords& add(GPSCoords coords);
+        GPSCoords& distance(GPSCoords coords);
+        GPSCoords& subtract(GPSCoords coords);
+        Vector2f getKMs();
     };
 }
