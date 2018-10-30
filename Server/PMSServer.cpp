@@ -208,14 +208,14 @@ namespace pms
                 
                 if(pomemeon == NULL)
                 {
-                    log(Error, "The player with id " + to_string(uid) + " was not found!");
+                    log(Error, "The Pomemeon with id " + to_string(uid) + " was not found!");
                     send(sender, "pms:disconnect\255ERR_INVALID_OBJECT_ID");
                     disconnect(sender->socket); //cheats 
                 }
                 
                 double dist = pomemeon->getCoordinates().distance(player->getLastCoords());
                 
-                if(dist < pomemeon->getType()->getRadius())
+                if(dist < pomemeon->getType()->getRadius() && picker != pomemeon->getOwner())
                 {
                     CashStat stat = pomemeon->pick(picker);
                     send(sender, "pms:cashstat\255"+to_string(stat));
@@ -224,7 +224,44 @@ namespace pms
                 }
             }
         }
-
+        else if(command == "pmc:place") //pmc:place <coordsNS> <coordsEW> <type>
+        {
+            if(argc == 3)
+            {
+                double posNS = stod(argv[0]);
+                double posEW = stod(argv[1]);
+                Player* owner = findPlayerByID(sender->userID);
+                GPSCoords coords(posNS,posEW);
+                //TODO findTypeByID
+                Pomemeon* pomemeon = new Pomemeon(pomemeons.size() + 1, findTypeByID(stoi(argv[3])), coords, owner);
+                double dist = pomemeon->getCoordinates().distance(player->getLastCoords());
+                
+                if(dist < pomemeon->getType()->getRadius())
+                {                              
+                    if(pomemeon->place(owner) == Success)
+                    {
+                        pomemeons.push_back(pomemeon)
+                        send(sender, "pms:requestpmdata\255"+to_string(pomemeon->id)+"\255");
+                    }
+                    send(sender, "pms:cashstat\255"+to_string(stat));
+                    
+                    //TODO add history object
+                }
+            }
+        }
+        else if(command == "pmc:setpmdata")  //pmc:setpmdata <id> <name> <desc> <textureData>
+        {
+            if(argc == 4)
+            {
+                Pomemeon* pomemeon = findPomemeonByID(stoi(argv[0]));
+                Player* setter = findPlayerByID(sender->userID);
+                if(pomemeon->getOwner() == setter)
+                {
+                    
+                }
+            }
+        }
+                                                  
         return false;
     }
                 
