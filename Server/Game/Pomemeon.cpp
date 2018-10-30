@@ -30,4 +30,9 @@ namespace pms
     {
         this->pickTimer += elapsed.asSeconds();
     }
+    
+    GPSCoords Pomemeon::getCoordinates()
+    {
+        return this->coordinates;
+    }
 }
