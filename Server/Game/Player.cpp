@@ -20,6 +20,21 @@ namespace pms
         }
         return false;
     }
+    
+    bool Player::updateCoords(GPSCoords coords)
+    {
+        GPSCoords change = GPSCoords(abs(lastPos.getNS()-coords.getNS()),
+                                     abs(lastPos.getEW()-coords.getEW()));
+        float dist = sqrt(pow(change.getNS(),2)+pow(change.getEW(),2));
+        
+        if(dist / lastUpdateTime.restart().asSeconds < 0.1f)
+            lastPos = coords;
+        else
+            return false;
+        return true;
+                        
+
+    }
 
     bool Player::tryRemoveCash(int count)
     {
