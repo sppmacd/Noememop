@@ -26,5 +26,6 @@ namespace pms
         void update(Time elapsed);
         GPSCoords getCoordinates();
         string getCommand();
+        int getID() {return id;}
     };
 }
