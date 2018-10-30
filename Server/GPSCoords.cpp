@@ -32,10 +32,10 @@ namespace pms
     
     double GPSCoords::distance(GPSCoords coords)
     {
-        GPSCoords sub = coords.subtract(this).getKMs();
-        GPSCoords subabs(abs(dist.getNS()), abs(dist.getEW()));
-        Vector2d subkms = distABS.getKMs();
-        return sqrt(subkms.x*subkms.x+subkms.y*subkms.y); //the distance
+        Vector2d sub = coords.getKMs()-this->getKMs();
+        GPSCoords subabs(abs(sub.x),abs(sub.y));
+        //Vector2d subkms = distABS.getKMs();
+        return sqrt(subabs.x*subabs.x+subabs.y*subabs.y); //the distance
     }
     
     GPSCoords& GPSCoords::subtract(GPSCoords coords)
