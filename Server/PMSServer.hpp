@@ -39,6 +39,7 @@ namespace pms
         bool processCommands(Client* sender, string command, string* argv, int argc);
         void disconnect(TcpSocket* sck);
         Player* findPlayerByID(int userId);
+        Pomemeon* findPomemeonByID(int id);
         vector<Player*>* getPlayerList();
     };
 }
