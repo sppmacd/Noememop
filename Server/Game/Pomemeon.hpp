@@ -27,5 +27,6 @@ namespace pms
         GPSCoords getCoordinates();
         string getCommand();
         int getID() {return id;}
+        Player* getOwner() {return owner;}
     };
 }
