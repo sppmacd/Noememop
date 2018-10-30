@@ -31,5 +31,6 @@ namespace pms
         void login();
         int getUserID();
         bool updateCoords(GPSCoords coords);
+        GPSCoords getLastCoords() {return lastPos;}
     };
 }
