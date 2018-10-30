@@ -106,39 +106,39 @@ public class CommandActivity extends Activity
 	}
 	
 	public static void parseCommand(String command)
-    {
-        String cmd = new String();
-        List<String> args = new ArrayList();
-        int lastp = 0;
-  
-        for(int i = 0; i < command.length(); i++)
-        {
-            if((command.charAt(i) == ' ' || i == command.length() - 1) && i != 0)
-            {
-                if(lastp == 0)
-                    cmd = command.substring(lastp, i+1).trim();
-                else
-                    args.add(command.substring(lastp, i+1).trim());
+	    {
+		String cmd = new String();
+		List<String> args = new ArrayList();
+		int lastp = 0;
 
-                lastp = i;
-            }
-        }
-        
-        // process commands
-        
-        if(cmd.equals("pms:userid") && args.size() == 1)
-        {
-        	CommandLineActivity.instance.userID = Long.parseLong(args.get(0));
-        	updateLogString("Setting user id to " + args.get(0));
-        }
-        else if(cmd.equals("pms:disconnect") && args.size() == 1)
-	{
-		CommandLineActivity.client.close();
-		updateLogString("Disconnected: " + args[0]); //used if the players cheated (XD)
-	}
-	else
-        	updateLogString("Undefined or invalid command: " + command);
-    }
+		for(int i = 0; i < command.length(); i++)
+		{
+		    if((command.charAt(i) == '\255' || i == command.length() - 1) && i != 0)
+		    {
+			if(lastp == 0)
+			    cmd = command.substring(lastp, i+1).trim();
+			else
+			    args.add(command.substring(lastp, i+1).trim());
+
+			lastp = i;
+		    }
+		}
+
+		// process commands
+
+		if(cmd.equals("pms:userid") && args.size() == 1)
+		{
+			CommandLineActivity.instance.userID = Long.parseLong(args.get(0));
+			updateLogString("Setting user id to " + args.get(0));
+		}
+		else if(cmd.equals("pms:disconnect") && args.size() == 1)
+		{
+			CommandLineActivity.client.close();
+			updateLogString("Disconnected: " + args[0]); //used if the players cheated (XD)
+		}
+		else
+			updateLogString("Undefined or invalid command: " + command);
+	    }
 	
 	public static void updateLogString(String strToAdd)
 	{
@@ -175,6 +175,7 @@ public class CommandActivity extends Activity
 						if(!stringToSend.isEmpty())
 						{
 							String strtosend = new String(stringToSend) + "\0";
+							strtosend.replaceAll("/\xFF/g", "\255");
 							instance.handler.post(instance.onSend);
 							
 							System.out.println("STRTS=" + strtosend);
