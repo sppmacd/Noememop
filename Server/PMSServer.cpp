@@ -63,9 +63,9 @@ namespace pms
                 {
                     if(this->socketSelector.isReady(*client->socket)) //Something was sent to server
                     {
-                        char data[128] = {0};
+                        char data[1024] = {0};
                         size_t received;
-                        if(client->socket->receive((void*)&data, 128LL, received) == Socket::Done)
+                        if(client->socket->receive((void*)&data, 1024LL, received) == Socket::Done)
                         {
                             string command((char*)data);
 
@@ -75,7 +75,7 @@ namespace pms
                         }
                         else
                         {
-                            send(client, "pms:disconnect ERR_DISCONNECTED");
+                            send(client, "pms:disconnect\255ERR_DISCONNECTED");
                             disconnect(client->socket);
                         }
                     }
@@ -108,7 +108,7 @@ namespace pms
 
         for(unsigned int i = 0; i < command.size()+1; i++)
         {
-            if(std::isblank(command[i]) || i == command.size())
+            if(command[i] == 255 || i == command.size())
             {
                 if(lastp == 0)
                     cmd = command.substr(lastp, i-lastp);
@@ -172,7 +172,7 @@ namespace pms
                     else
                     {
                         log(Error, "The player with id " + to_string(uid) + " was not found!");
-                        send(sender, "pms:disconnect ERR_INVALID_USER_ID");
+                        send(sender, "pms:disconnect\255ERR_INVALID_USER_ID");
                         disconnect(sender->socket); //cheats
                     }
 
