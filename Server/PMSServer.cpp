@@ -4,6 +4,7 @@
 #include "Game/Player.hpp"
 #include "Game/Pomemeon.hpp"
 #include "History/HistoryObject.hpp"
+#include "Game/CashStat.hpp"
 
 namespace pms
 {
@@ -108,7 +109,7 @@ namespace pms
 
         for(unsigned int i = 0; i < command.size()+1; i++)
         {
-            if(command[i] == 255 || i == command.size())
+            if(command[i] == 255 || command[i] == 0 || i == command.size())
             {
                 if(lastp == 0)
                     cmd = command.substr(lastp, i-lastp);
@@ -200,17 +201,41 @@ namespace pms
         }
         else if(command == "pmc:pick") //pmc:pick <id>
         {
-            Pomemeon* pomemeon = findPomemeonByID(
-            double posNS = stod(argv[0]);
-            double posEW = stod(argv[1]);
-            double rad = stod(argv[2]);
-            GPSCoords playerCoords(posNS,posEW);
+            if(argc == 1)
+            {
+                Pomemeon* pomemeon = findPomemeonByID(argv[0]);
+                Player* picker = findPlayerByID(sender->userID);
+                
+                if(pomemeon == NULL)
+                {
+                    log(Error, "The player with id " + to_string(uid) + " was not found!");
+                    send(sender, "pms:disconnect\255ERR_INVALID_OBJECT_ID");
+                    disconnect(sender->socket); //cheats 
+                }
+                
+                double dist = pomemeon->getCoordinates().distance(player->getLastCoords());
+                
+                if(dist < pomemeon->getType()->getRadius())
+                {
+                    CashStat stat = pomemeon->pick(picker);
+                    send(sender, "pms:cashstat\255"+to_string(stat));
+                    
+                    //TODO add history object
+                }
+            }
         }
 
         return false;
     }
                 
-    Pomemeon* findPomemeonByID(int id) {}
+    Pomemeon* findPomemeonByID(int id) 
+    {
+        for(Pomemeon* pomemeon: pomemeons)
+
+            if(pomemeon->getID() == id)
+                return pomemeon;
+        return NULL;
+    }
 
     vector<Player*>* PMSServer::getPlayerList()
     {
@@ -265,8 +290,8 @@ namespace pms
     void PMSServer::registerTypes()
     {
         log(Debug, "Registering Pomemeon types...");
-        this->pomemeonTypeRegistry.push_back(new PomemeonType(0, 1.f, 10, 1000, 2.f, "small"));
-        this->pomemeonTypeRegistry.push_back(new PomemeonType(1, 1.f, 19, 2000, 2.f, "medium"));
-        this->pomemeonTypeRegistry.push_back(new PomemeonType(2, 2.f, 80, 10000, 4.f, "big"));
+        this->pomemeonTypeRegistry.push_back(new PomemeonType(0, 1.f, 10, 1000, 2.f, 0.01f, "small"));
+        this->pomemeonTypeRegistry.push_back(new PomemeonType(1, 1.f, 19, 2000, 2.f, 0.02f, "medium"));
+        this->pomemeonTypeRegistry.push_back(new PomemeonType(2, 2.f, 80, 10000, 4.f, 0.02f, "big"));
     }
 }
