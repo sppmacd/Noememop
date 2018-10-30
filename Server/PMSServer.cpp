@@ -198,9 +198,19 @@ namespace pms
                 return true;
             }
         }
+        else if(command == "pmc:pick") //pmc:pick <id>
+        {
+            Pomemeon* pomemeon = findPomemeonByID(
+            double posNS = stod(argv[0]);
+            double posEW = stod(argv[1]);
+            double rad = stod(argv[2]);
+            GPSCoords playerCoords(posNS,posEW);
+        }
 
         return false;
     }
+                
+    Pomemeon* findPomemeonByID(int id) {}
 
     vector<Player*>* PMSServer::getPlayerList()
     {
