@@ -33,15 +33,15 @@ namespace pms
     
     string Pomemeon::getCommand()
     {
-        return "pms:pomemeon\ff" + 
-        to_string(id) + "\ff" +
-        to_string(pickTimer) + "\ff" +
-        name + "\ff" +
-        to_string(type->getID()) + "\ff" +
-        description + "\ff" +
-        to_string(coordinates.getNS()) + "\ff" +
-        to_string(coordinates.getEW()) + "\ff" +
-        textureFile + "\ff" +
+        return "pms:pomemeon\255" + 
+        to_string(id) + "\255" +
+        to_string(pickTimer) + "\255" +
+        name + "\255" +
+        to_string(type->getID()) + "\255" +
+        description + "\255" +
+        to_string(coordinates.getNS()) + "\255" +
+        to_string(coordinates.getEW()) + "\255" +
+        textureFile + "\255" +
         to_string(owner->getID());
     }
     
