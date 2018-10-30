@@ -1,5 +1,7 @@
 #pragma once
 
+#include <../GPSCoords.hpp>
+
 namespace pms
 {
     class Player
@@ -14,6 +16,7 @@ namespace pms
         bool needUpdate;
         int logCount;
         int level;
+        GPSCoords lastPos;
 
     public:
         Player(int id);
