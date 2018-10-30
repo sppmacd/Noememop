@@ -2,6 +2,8 @@
 
 #include "config.hpp"
 
+typedef Vector2<double> Vector2d;
+
 namespace pms
 {
     class GPSCoords
@@ -17,8 +19,8 @@ namespace pms
         GPSCoords& setEW(double ew);
         
         GPSCoords& add(GPSCoords coords);
-        GPSCoords& distance(GPSCoords coords);
+        double distance(GPSCoords coords);
         GPSCoords& subtract(GPSCoords coords);
-        Vector2f getKMs();
+        Vector2d getKMs();
     };
 }
