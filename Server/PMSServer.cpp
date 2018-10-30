@@ -180,6 +180,24 @@ namespace pms
                 }
             }
         }
+        else if(command == "pmc:requestpomemeons") //pms:requestpomemeons <posNS> <posEW> <radiusKMS>
+        {
+            if(argc == 3)
+            {
+                double posNS = stod(argv[0]);
+                double posEW = stod(argv[1]);
+                double rad = stod(argv[2]);
+                GPSCoords playerCoords(posNS,posEW);
+                
+                for(Pomemeon* pomemeon: pomemeons)
+                {
+                    if(pomemeon->getCoordinates().distance(playerCoords) < rad)
+                        send(sender, pomemeon->getCommand());
+                }
+                
+                return true;
+            }
+        }
 
         return false;
     }
