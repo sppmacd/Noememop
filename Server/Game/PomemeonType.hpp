@@ -14,6 +14,7 @@ namespace pms
         string codeName;
         int placeCost;
         float placeProfit;
+        float radius;
 
     public:
         PomemeonType(int id, float costForPicker, int profitForPicker, int costForPlacer, float profitForPlacer, string name);
