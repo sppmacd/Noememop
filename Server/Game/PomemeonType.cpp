@@ -36,6 +36,11 @@ namespace pms
             return NotEnoughCoins;
         }
     }
+    
+    int PomemeonType::getID()
+    {
+        return id;
+    }
 
     CashStat PomemeonType::place(Player* owner)
     {
