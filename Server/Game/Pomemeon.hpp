@@ -25,5 +25,6 @@ namespace pms
         CashStat place(Player* owner);
         void update(Time elapsed);
         GPSCoords getCoordinates();
+        string getCommand();
     };
 }
