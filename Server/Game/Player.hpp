@@ -17,6 +17,7 @@ namespace pms
         int logCount;
         int level;
         GPSCoords lastPos;
+        Clock lastPosUpdateTime;
 
     public:
         Player(int id);
@@ -29,5 +30,6 @@ namespace pms
         void setReward();
         void login();
         int getUserID();
+        bool updateCoords(GPSCoords coords);
     };
 }
