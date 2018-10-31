@@ -40,6 +40,7 @@ namespace pms
         void disconnect(TcpSocket* sck);
         Player* findPlayerByID(int userId);
         Pomemeon* findPomemeonByID(int id);
+        PomemeonType* findTypeByID(int id);
         vector<Player*>* getPlayerList();
     };
 }
