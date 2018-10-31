@@ -175,7 +175,8 @@ public class CommandActivity extends Activity
 						if(!stringToSend.isEmpty())
 						{
 							String strtosend = new String(stringToSend) + "\0";
-							strtosend.replaceAll("/\xFF/g", "\255");
+							strtosend.replaceAll("/\xFF/g", " ");
+							strtosend.replaceAll("/\\255/g", "\255");
 							instance.handler.post(instance.onSend);
 							
 							System.out.println("STRTS=" + strtosend);
