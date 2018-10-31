@@ -21,6 +21,10 @@ namespace pms
         return false;
     }
     
+    bool Player::isPomemeonUnlocked(PomemeonType* type)
+    {
+        return pow(type->getID(),2) >= level;
+    }
     bool Player::updateCoords(GPSCoords coords)
     {
         double dist = coords.distance(this->lastPos);
