@@ -18,7 +18,13 @@ namespace pms
 
     CashStat Pomemeon::pick(Player* picker)
     {
-        return this->type->pick(this->owner, picker);
+        if(picker->tickTimer.getElapseTime().asSeconds() > 3600*24)
+        {
+            picker->tickTimer.restart();
+            return this->type->pick(this->owner, picker);
+        }
+        else
+            return CannotMake;
     }
 
     CashStat Pomemeon::place(Player* owner)
