@@ -18,10 +18,13 @@ namespace pms
         int level;
         GPSCoords lastPos;
         Clock lastPosUpdateTime;
-        bool freePomemeonPlaced;
-        Clock tickTimer;
+        
 
     public:
+        bool freePomemeonPlaced;
+        Clock tickTimer;
+        
+        
         Player(int id);
         bool tryAddCash(int count);
         bool tryRemoveCash(int count);
