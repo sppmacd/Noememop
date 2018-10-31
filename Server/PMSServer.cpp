@@ -232,16 +232,16 @@ namespace pms
                 double posEW = stod(argv[1]);
                 Player* owner = findPlayerByID(sender->userID);
                 GPSCoords coords(posNS,posEW);
-                //TODO findTypeByID
+             
                 Pomemeon* pomemeon = new Pomemeon(pomemeons.size() + 1, findTypeByID(stoi(argv[3])), coords, owner);
                 double dist = pomemeon->getCoordinates().distance(player->getLastCoords());
                 
-                if(dist < pomemeon->getType()->getRadius())
+                if(dist < pomemeon->getType()->getRadius() && owner->isPomemeonUnlocked(pomemeon->getType())
                 {                              
                     if(pomemeon->place(owner) == Success)
                     {
                         pomemeons.push_back(pomemeon)
-                        send(sender, "pms:requestpmdata\255"+to_string(pomemeon->id)+"\255");
+                        send(sender, "pms:requestpmdata\255"+to_string(pomemeon->id));
                     }
                     send(sender, "pms:cashstat\255"+to_string(stat));
                     
@@ -257,21 +257,31 @@ namespace pms
                 Player* setter = findPlayerByID(sender->userID);
                 if(pomemeon->getOwner() == setter)
                 {
-                    
+                    pomemeon->setData(argv[1],argv[2],argv[3]); //TODO texture!!!
                 }
             }
         }
                                                   
         return false;
     }
-                
-    Pomemeon* findPomemeonByID(int id) 
+                   
+    Pomemeon* PMSServer::findPomemeonByID(int id) 
     {
         for(Pomemeon* pomemeon: pomemeons)
 
             if(pomemeon->getID() == id)
                 return pomemeon;
         return NULL;
+    }
+                   
+    PomemeonType* PMSserver::findTypeByID(int id) 
+    {
+        for(PomemeonType* pomemeon: pomemeonTypeRegistry)
+
+            if(pomemeon->getID() == id)
+                return pomemeon;
+        return pomemeonTypeRegistry[0];
+
     }
 
     vector<Player*>* PMSServer::getPlayerList()
