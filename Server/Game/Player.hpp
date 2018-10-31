@@ -32,5 +32,6 @@ namespace pms
         int getUserID();
         bool updateCoords(GPSCoords coords);
         GPSCoords getLastCoords() {return lastPos;}
+        bool isPomemeonUnlocked(PomemeonType* type);
     };
 }
