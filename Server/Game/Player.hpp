@@ -18,6 +18,8 @@ namespace pms
         int level;
         GPSCoords lastPos;
         Clock lastPosUpdateTime;
+        bool freePomemeonPlaced;
+        Clock tickTimer;
 
     public:
         Player(int id);
