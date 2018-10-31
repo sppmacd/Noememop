@@ -10,7 +10,7 @@ namespace pms
 {
     PMSServer::PMSServer()
     {
-
+        log(Error, "Wypierdaj!");
     }
 
     PMSServer::~PMSServer()
@@ -29,17 +29,23 @@ namespace pms
 
     void PMSServer::loop()
     {
+        static Clock tickClock;
         this->networkLoop();
 
         for(Player* player: players)
         {
             player->ensureUpdated();
         }
+        Time elapsed = tickClock.restart();
+        for(Pomemeon* pomemeon: pomemeons)
+        {
+            pomemeon->update();
+        }
     }
 
     void PMSServer::networkLoop()
     {
-        if(this->socketSelector.wait(seconds(0.5f)))
+        if(this->socketSelector.wait(seconds(2.f)))
         {
             if(this->socketSelector.isReady(this->serverSocket)) //Someone tries to connect to server
             {
