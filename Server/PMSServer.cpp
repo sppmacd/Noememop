@@ -244,10 +244,11 @@ namespace pms
 
                 if(dist < pomemeon->getType()->getRadius() && owner->isPomemeonUnlocked(pomemeon->getType()))
                 {
-                    if(pomemeon->place(owner) == Success)
+                    CashStat stat = pomemeon->place(owner);
+                    if(stat == Success)
                     {
                         pomemeons.push_back(pomemeon);
-                        send(sender, "pms:requestpmdata\255"+to_string(pomemeon->id));
+                        send(sender, "pms:requestpmdata\255"+to_string(pomemeon->getID()));
                     }
                     send(sender, "pms:cashstat\255"+to_string(stat));
 

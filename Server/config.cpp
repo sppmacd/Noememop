@@ -18,19 +18,19 @@ namespace pms
         switch(level)
         {
         case Info:
-            displayColored(0x0F, "INFO: [" + ct.substr(0, ct.size() - 2) + "] ");
+            displayColored(0x0F, "INFO: [" + ct.substr(0, ct.size() - 1) + "] ");
             displayColored(0x07, str);
             break;
         case Warning:
-            displayColored(0x0E, "WARN: [" + ct.substr(0, ct.size() - 2) + "] ");
+            displayColored(0x0E, "WARN: [" + ct.substr(0, ct.size() - 1) + "] ");
             displayColored(0x06, str);
             break;
         case Error:
-            displayColored(0x0C, "ERROR: [" + ct.substr(0, ct.size() - 2) + "] ");
+            displayColored(0x0C, "ERROR: [" + ct.substr(0, ct.size() - 1) + "] ");
             displayColored(0x04, str);
             break;
         case Debug:
-            displayColored(0x08, "DEBUG: [" + ct.substr(0, ct.size() - 2) + "] ");
+            displayColored(0x08, "DEBUG: [" + ct.substr(0, ct.size() - 1) + "] ");
             displayColored(0x08, str);
             break;
         }
