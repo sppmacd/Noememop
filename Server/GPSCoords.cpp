@@ -24,32 +24,32 @@ namespace pms
         ewDeg = ew;
         return *this;
     }
-    
-    GPSCoords& GPSCoords::add(GPSCoords coords)
+
+    GPSCoords GPSCoords::add(GPSCoords& coords)
     {
-        return GPSCoords(this.getNS()+coords.getNS(), this.getEW()+coords.getEW());
+        return GPSCoords(this->getNS()+coords.getNS(), this->getEW()+coords.getEW());
     }
-    
-    double GPSCoords::distance(GPSCoords coords)
+
+    double GPSCoords::distance(GPSCoords& coords)
     {
         Vector2d sub = coords.getKMs()-this->getKMs();
         GPSCoords subabs(abs(sub.x),abs(sub.y));
         //Vector2d subkms = distABS.getKMs();
-        return sqrt(subabs.x*subabs.x+subabs.y*subabs.y); //the distance
+        return sqrt(subabs.getNS()*subabs.getNS()+subabs.getEW()*subabs.getEW()); //the distance
     }
-    
-    GPSCoords& GPSCoords::subtract(GPSCoords coords)
+
+    GPSCoords GPSCoords::subtract(GPSCoords& coords)
     {
-        return GPSCoords(this.getNS()-coords.getNS(), this.getEW()-coords.getEW()); 
+        return GPSCoords(this->getNS()-coords.getNS(), this->getEW()-coords.getEW());
     }
-    
+
     Vector2d GPSCoords::getKMs()
     {
-        float kmsX = getEW() / 360.f * 40075.014f; 
-        float alpha = getNS();
-        float r1 = 6371.008f; //radius of the Earth
-        float r = sqrt(pow(r1, 2) - pow(r1 * cos(alpha), 2)); //radius of the Earth on this geographical width
-        float kmsY = ((r * 6.28f) / 360.f) * 40075.014f;
-        return Vector2f(kmsX, kmsY);
+        double kmsX = getEW() / 360 * 40075.014;
+        double alpha = getNS();
+        double r1 = 6371.008; //radius of the Earth
+        double r = sqrt(pow(r1, 2) - pow(r1 * cos(alpha), 2)); //radius of the Earth on this geographical width
+        double kmsY = ((r * 6.28) / 360) * 40075.014;
+        return Vector2d(kmsX, kmsY);
     }
 }

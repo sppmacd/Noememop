@@ -1,9 +1,11 @@
 #pragma once
 
-#include <../GPSCoords.hpp>
+#include "../GPSCoords.hpp"
 
 namespace pms
 {
+    class PomemeonType;
+
     class Player
     {
         int cashCount;
@@ -18,13 +20,12 @@ namespace pms
         int level;
         GPSCoords lastPos;
         Clock lastPosUpdateTime;
-        
+
 
     public:
         bool freePomemeonPlaced;
         Clock tickTimer;
-        
-        
+
         Player(int id);
         bool tryAddCash(int count);
         bool tryRemoveCash(int count);
@@ -36,7 +37,7 @@ namespace pms
         void login();
         int getUserID();
         bool updateCoords(GPSCoords coords);
-        GPSCoords getLastCoords() {return lastPos;}
+        GPSCoords& getLastCoords() {return lastPos;}
         bool isPomemeonUnlocked(PomemeonType* type);
     };
 }

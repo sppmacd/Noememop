@@ -17,10 +17,10 @@ namespace pms
         double getEW();
         GPSCoords& setNS(double ns);
         GPSCoords& setEW(double ew);
-        
-        GPSCoords& add(GPSCoords coords);
-        double distance(GPSCoords coords);
-        GPSCoords& subtract(GPSCoords coords);
+
+        GPSCoords add(GPSCoords& coords);
+        double distance(GPSCoords& coords);
+        GPSCoords subtract(GPSCoords& coords);
         Vector2d getKMs();
     };
 }

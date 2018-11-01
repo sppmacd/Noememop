@@ -1,12 +1,14 @@
 # depslib dependency file v1.0
-1540638006 source:f:\android\pomemeonrepo\server\game\player.cpp
+1541101963 source:f:\android\pomemeonrepo\server\game\player.cpp
 	"Player.hpp"
 	"../PMSServer.hpp"
 	"../config.hpp"
+	"PomemeonType.hpp"
 
-1540635263 f:\android\pomemeonrepo\server\game\player.hpp
+1541103642 f:\android\pomemeonrepo\server\game\player.hpp
+	"../GPSCoords.hpp"
 
-1540730364 f:\android\pomemeonrepo\server\pmsserver.hpp
+1541101155 f:\android\pomemeonrepo\server\pmsserver.hpp
 	"config.hpp"
 
 1540637864 f:\android\pomemeonrepo\server\config.hpp
@@ -211,11 +213,11 @@
 	<SFML/Network/IpAddress.hpp>
 	<vector>
 
-1540636733 source:f:\android\pomemeonrepo\server\game\pomemeon.cpp
+1541101639 source:f:\android\pomemeonrepo\server\game\pomemeon.cpp
 	"Pomemeon.hpp"
 	"PomemeonType.hpp"
 
-1540637616 f:\android\pomemeonrepo\server\game\pomemeon.hpp
+1541103494 f:\android\pomemeonrepo\server\game\pomemeon.hpp
 	"../config.hpp"
 	"CashStat.hpp"
 	"../GPSCoords.hpp"
@@ -223,18 +225,19 @@
 
 1540637171 f:\android\pomemeonrepo\server\game\cashstat.hpp
 
-1540636181 f:\android\pomemeonrepo\server\gpscoords.hpp
+1541102595 f:\android\pomemeonrepo\server\gpscoords.hpp
+	"config.hpp"
 
-1540637566 f:\android\pomemeonrepo\server\game\pomemeontype.hpp
+1541101154 f:\android\pomemeonrepo\server\game\pomemeontype.hpp
 	"../config.hpp"
 	"CashStat.hpp"
 	"Player.hpp"
 
-1540637458 source:f:\android\pomemeonrepo\server\game\pomemeontype.cpp
+1541103547 source:f:\android\pomemeonrepo\server\game\pomemeontype.cpp
 	"PomemeonType.hpp"
 	"Player.hpp"
 
-1540636273 source:f:\android\pomemeonrepo\server\gpscoords.cpp
+1541102600 source:f:\android\pomemeonrepo\server\gpscoords.cpp
 	"GPSCoords.hpp"
 
 1540570200 source:f:\android\pomemeonrepo\server\main.cpp

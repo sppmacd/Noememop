@@ -3,8 +3,10 @@
 
 namespace pms
 {
-    PomemeonType::PomemeonType(int id, float costForPicker, int profitForPicker, int costForPlacer, float profitForPlacer, string name)
+    PomemeonType::PomemeonType(int id, float costForPicker, int profitForPicker, int costForPlacer, float profitForPlacer, float radius, string name)
     {
+        this->codeName = name;
+        this->radius = radius;
         this->id = id;
         this->pickCost = costForPicker;
         this->profit = profitForPicker;
@@ -36,7 +38,7 @@ namespace pms
             return NotEnoughCoins;
         }
     }
-    
+
     int PomemeonType::getID()
     {
         return id;
@@ -44,12 +46,20 @@ namespace pms
 
     CashStat PomemeonType::place(Player* owner)
     {
-        bool tooenough = false;
-        tooenough = !owner->tryRemoveCash(this->placeCost);
+        if(!owner->freePomemeonPlaced)
+        {
+            bool tooenough = false;
+            tooenough = !owner->tryRemoveCash(this->placeCost);
 
-        if(!tooenough)
-            return Success;
+            if(!tooenough)
+                return Success;
+            else
+                return NotEnoughCoins;
+        }
         else
-            return NotEnoughCoins;
+        {
+            owner->freePomemeonPlaced = true;
+            return Success;
+        }
     }
 }

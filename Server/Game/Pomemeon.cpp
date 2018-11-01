@@ -3,7 +3,7 @@
 
 namespace pms
 {
-    Pomemeon::Pomemeon(int pId, PomemeonType* pType, GPSCoords coords, Player* own)
+    Pomemeon::Pomemeon(int pId, PomemeonType* pType, GPSCoords& coords, Player* own)
     : id(pId), type(pType), coordinates(coords), owner(own)
     {
 
@@ -18,7 +18,7 @@ namespace pms
 
     CashStat Pomemeon::pick(Player* picker)
     {
-        if(picker->tickTimer.getElapseTime().asSeconds() > 3600*24)
+        if(picker->tickTimer.getElapsedTime().asSeconds() > 3600*24)
         {
             picker->tickTimer.restart();
             return this->type->pick(this->owner, picker);
@@ -36,10 +36,10 @@ namespace pms
     {
         this->pickTimer += elapsed.asSeconds();
     }
-    
+
     string Pomemeon::getCommand()
     {
-        return "pms:pomemeon\255" + 
+        return "pms:pomemeon\255" +
         to_string(id) + "\255" +
         to_string(pickTimer) + "\255" +
         name + "\255" +
@@ -50,7 +50,7 @@ namespace pms
         textureFile + "\255" +
         to_string(owner->getUserID());
     }
-    
+
     GPSCoords Pomemeon::getCoordinates()
     {
         return this->coordinates;

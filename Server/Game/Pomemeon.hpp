@@ -19,7 +19,7 @@ namespace pms
         Player* owner;
 
     public:
-        Pomemeon(int pId, PomemeonType* pType, GPSCoords coords, Player* own);
+        Pomemeon(int pId, PomemeonType* pType, GPSCoords& coords, Player* own);
         void setData(string pName, string pDesc, string texture);
         CashStat pick(Player* picker);
         CashStat place(Player* owner);
@@ -28,5 +28,6 @@ namespace pms
         string getCommand();
         int getID() {return id;}
         Player* getOwner() {return owner;}
+        PomemeonType* getType() {return type;}
     };
 }

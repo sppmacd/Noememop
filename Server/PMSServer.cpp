@@ -39,7 +39,7 @@ namespace pms
         Time elapsed = tickClock.restart();
         for(Pomemeon* pomemeon: pomemeons)
         {
-            pomemeon->update();
+            pomemeon->update(elapsed);
         }
     }
 
@@ -115,7 +115,7 @@ namespace pms
 
         for(unsigned int i = 0; i < command.size()+1; i++)
         {
-            if(command[i] == 255 || command[i] == 0 || i == command.size())
+            if(command[i] == '\255' || command[i] == '\0' || i == command.size())
             {
                 if(lastp == 0)
                     cmd = command.substr(lastp, i-lastp);
@@ -195,13 +195,13 @@ namespace pms
                 double posEW = stod(argv[1]);
                 double rad = stod(argv[2]);
                 GPSCoords playerCoords(posNS,posEW);
-                
+
                 for(Pomemeon* pomemeon: pomemeons)
                 {
                     if(pomemeon->getCoordinates().distance(playerCoords) < rad)
                         send(sender, pomemeon->getCommand());
                 }
-                
+
                 return true;
             }
         }
@@ -209,23 +209,23 @@ namespace pms
         {
             if(argc == 1)
             {
-                Pomemeon* pomemeon = findPomemeonByID(argv[0]);
+                Pomemeon* pomemeon = findPomemeonByID(stoi(argv[0]));
                 Player* picker = findPlayerByID(sender->userID);
-                
+
                 if(pomemeon == NULL)
                 {
-                    log(Error, "The Pomemeon with id " + to_string(uid) + " was not found!");
+                    log(Error, "The Pomemeon with id " + to_string(stoi(argv[0])) + " was not found!");
                     send(sender, "pms:disconnect\255ERR_INVALID_OBJECT_ID");
-                    disconnect(sender->socket); //cheats 
+                    disconnect(sender->socket); //cheats
                 }
-                
-                double dist = pomemeon->getCoordinates().distance(player->getLastCoords());
-                
+
+                double dist = pomemeon->getCoordinates().distance(picker->getLastCoords());
+
                 if(dist < pomemeon->getType()->getRadius() && picker != pomemeon->getOwner())
                 {
                     CashStat stat = pomemeon->pick(picker);
                     send(sender, "pms:cashstat\255"+to_string(stat));
-                    
+
                     //TODO add history object
                 }
             }
@@ -238,19 +238,19 @@ namespace pms
                 double posEW = stod(argv[1]);
                 Player* owner = findPlayerByID(sender->userID);
                 GPSCoords coords(posNS,posEW);
-             
+
                 Pomemeon* pomemeon = new Pomemeon(pomemeons.size() + 1, findTypeByID(stoi(argv[3])), coords, owner);
-                double dist = pomemeon->getCoordinates().distance(player->getLastCoords());
-                
-                if(dist < pomemeon->getType()->getRadius() && owner->isPomemeonUnlocked(pomemeon->getType())
-                {                              
+                double dist = pomemeon->getCoordinates().distance(owner->getLastCoords());
+
+                if(dist < pomemeon->getType()->getRadius() && owner->isPomemeonUnlocked(pomemeon->getType()))
+                {
                     if(pomemeon->place(owner) == Success)
                     {
-                        pomemeons.push_back(pomemeon)
+                        pomemeons.push_back(pomemeon);
                         send(sender, "pms:requestpmdata\255"+to_string(pomemeon->id));
                     }
                     send(sender, "pms:cashstat\255"+to_string(stat));
-                    
+
                     //TODO add history object
                 }
             }
@@ -267,11 +267,11 @@ namespace pms
                 }
             }
         }
-                                                  
+
         return false;
     }
-                   
-    Pomemeon* PMSServer::findPomemeonByID(int id) 
+
+    Pomemeon* PMSServer::findPomemeonByID(int id)
     {
         for(Pomemeon* pomemeon: pomemeons)
 
@@ -279,8 +279,8 @@ namespace pms
                 return pomemeon;
         return NULL;
     }
-                   
-    PomemeonType* PMSserver::findTypeByID(int id) 
+
+    PomemeonType* PMSServer::findTypeByID(int id)
     {
         for(PomemeonType* pomemeon: pomemeonTypeRegistry)
 

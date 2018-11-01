@@ -1,13 +1,15 @@
 #include "Player.hpp"
 #include "../PMSServer.hpp"
 #include "../config.hpp"
+#include "PomemeonType.hpp"
 
 namespace pms
 {
-    Player::Player(int id)
+    Player::Player(int id) : lastPos(52, 16)
     {
         this->id = id;
         this->ensureUpdated();
+        this->cashCount = 100; //START CASH
     }
 
     bool Player::tryAddCash(int count)
@@ -20,7 +22,7 @@ namespace pms
         }
         return false;
     }
-    
+
     bool Player::isPomemeonUnlocked(PomemeonType* type)
     {
         return pow(type->getID(),2) >= level;
@@ -28,14 +30,12 @@ namespace pms
     bool Player::updateCoords(GPSCoords coords)
     {
         double dist = coords.distance(this->lastPos);
-        
-        if(dist / lastUpdateTime.restart().asSeconds < 0.1)
+
+        if(dist / lastPosUpdateTime.restart().asSeconds() < 0.1)
             lastPos = coords;
         else
             return false;
         return true;
-                        
-
     }
 
     bool Player::tryRemoveCash(int count)
