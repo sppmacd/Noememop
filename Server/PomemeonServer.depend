@@ -1,14 +1,14 @@
 # depslib dependency file v1.0
-1541103770 source:f:\android\pomemeonrepo\server\game\player.cpp
+1541106243 source:f:\android\pomemeonrepo\server\game\player.cpp
 	"Player.hpp"
 	"../PMSServer.hpp"
 	"../config.hpp"
 	"PomemeonType.hpp"
 
-1541103642 f:\android\pomemeonrepo\server\game\player.hpp
+1541106010 f:\android\pomemeonrepo\server\game\player.hpp
 	"../GPSCoords.hpp"
 
-1541101155 f:\android\pomemeonrepo\server\pmsserver.hpp
+1541106553 f:\android\pomemeonrepo\server\pmsserver.hpp
 	"config.hpp"
 
 1540637864 f:\android\pomemeonrepo\server\config.hpp
@@ -244,17 +244,18 @@
 	"config.hpp"
 	"PMSServer.hpp"
 
-1540722881 source:f:\android\pomemeonrepo\server\config.cpp
+1541103906 source:f:\android\pomemeonrepo\server\config.cpp
 	"config.hpp"
 	<windows.h>
 
-1540732880 source:f:\android\pomemeonrepo\server\pmsserver.cpp
+1541106144 source:f:\android\pomemeonrepo\server\pmsserver.cpp
 	"PMSServer.hpp"
 	"Game/PomemeonType.hpp"
 	"Network/Client.hpp"
 	"Game/Player.hpp"
 	"Game/Pomemeon.hpp"
 	"History/HistoryObject.hpp"
+	"Game/CashStat.hpp"
 
 1540638077 f:\android\pomemeonrepo\server\network\client.hpp
 

@@ -70,6 +70,20 @@ namespace pms
         this->needUpdate = true;
     }
 
+    string Player::getCommand()
+    {
+        return "pms:userdata\1"
+        +to_string(this->cashCount)+"\1"
+        +to_string(this->currentPoints)+"\1"
+        +to_string(this->maxPoints)+"\1"
+        +to_string(this->totalPoints)+"\1"
+        +to_string(this->leaderboardPlace)+"\1"
+        +to_string(this->level)+"\1"
+        +to_string(this->freePomemeonPlaced)+"\1"
+        +to_string(this->isDailyRewardCollected)+"\1"
+        +to_string(this->logCount);
+    }
+
     bool Player::tryRemovePoints(float count)
     {
         if(this->currentPoints - count >= 0)
@@ -111,7 +125,7 @@ namespace pms
 
     void Player::login()
     {
-        //this->setReward();
+        this->logCount++;
     }
 
     int Player::getUserID()

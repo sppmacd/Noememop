@@ -10,7 +10,6 @@ namespace pms
 {
     PMSServer::PMSServer()
     {
-        log(Error, "Wypierdaj!");
     }
 
     PMSServer::~PMSServer()
@@ -72,7 +71,8 @@ namespace pms
                     {
                         char data[1024] = {0};
                         size_t received;
-                        if(client->socket->receive((void*)&data, 1024LL, received) == Socket::Done)
+                        Socket::Status status = client->socket->receive((void*)&data, 1024LL, received);
+                        if(status == Socket::Done)
                         {
                             string command((char*)data);
 
@@ -82,8 +82,7 @@ namespace pms
                         }
                         else
                         {
-                            send(client, "pms:disconnect\1ERR_DISCONNECTED");
-                            disconnect(client->socket);
+                            disconnect(client->socket, "ERR_DISCONNECTED_" + to_string(status));
                         }
                     }
                 }
@@ -91,18 +90,19 @@ namespace pms
         }
     }
 
-    void PMSServer::disconnect(TcpSocket* sck)
+    void PMSServer::disconnect(TcpSocket* sck, string reason)
     {
         for(auto it = this->clients.begin(); it != this->clients.end(); it++)
         {
             if((*it)->socket == sck)
             {
+                send(*it, "pms:disconnect\1"+reason);
                 this->clients.erase(it);
                 break;
             }
         }
 
-        log(Info, "IP: " + sck->getRemoteAddress().toString() + ":" + to_string(sck->getRemotePort()) + " has disconnected");
+        log(Info, "IP: " + sck->getRemoteAddress().toString() + ":" + to_string(sck->getRemotePort()) + " has disconnected. Reason: " + reason);
         this->socketSelector.remove(*sck);
         delete sck;
     }
@@ -179,8 +179,7 @@ namespace pms
                     else
                     {
                         log(Error, "The player with id " + to_string(uid) + " was not found!");
-                        send(sender, "pms:disconnect\1ERR_INVALID_USER_ID");
-                        disconnect(sender->socket); //cheats
+                        disconnect(sender->socket, "ERR_INVALID_USER_ID"); //cheats
                     }
 
                     return true;
@@ -215,8 +214,7 @@ namespace pms
                 if(pomemeon == NULL)
                 {
                     log(Error, "The Pomemeon with id " + to_string(stoi(argv[0])) + " was not found!");
-                    send(sender, "pms:disconnect\1ERR_INVALID_OBJECT_ID");
-                    disconnect(sender->socket); //cheats
+                    disconnect(sender->socket, "ERR_INVALID_OBJECT_ID"); //cheats
                 }
 
                 double dist = pomemeon->getCoordinates().distance(picker->getLastCoords());
@@ -228,6 +226,7 @@ namespace pms
 
                     //TODO add history object
                 }
+                return true;
             }
         }
         else if(command == "pmc:place") //pmc:place <coordsNS> <coordsEW> <type>
@@ -239,7 +238,7 @@ namespace pms
                 Player* owner = findPlayerByID(sender->userID);
                 GPSCoords coords(posNS,posEW);
 
-                Pomemeon* pomemeon = new Pomemeon(pomemeons.size() + 1, findTypeByID(stoi(argv[3])), coords, owner);
+                Pomemeon* pomemeon = new Pomemeon(pomemeons.size() + 1, findTypeByID(stoi(argv[2])), coords, owner);
                 double dist = pomemeon->getCoordinates().distance(owner->getLastCoords());
 
                 if(dist < pomemeon->getType()->getRadius() && owner->isPomemeonUnlocked(pomemeon->getType()))
@@ -253,6 +252,7 @@ namespace pms
                     send(sender, "pms:cashstat\1"+to_string(stat));
 
                     //TODO add history object
+                    return true;
                 }
             }
         }
@@ -266,6 +266,25 @@ namespace pms
                 {
                     pomemeon->setData(argv[1],argv[2],argv[3]); //TODO texture!!!
                 }
+                return true;
+            }
+        }
+        else if(command == "pmc:setuserpos") //pmc:setuserpos <posNS> <posEW>
+        {
+            if(argc == 2)
+            {
+                Player* player = findPlayerByID(sender->userID);
+                player->updateCoords(GPSCoords(stod(argv[0]), stod(argv[1])));
+                return true;
+            }
+        }
+        else if(command == "pmc:requestuserdata") //pmc:requestuserdata <userID>
+        {
+            if(argc == 1)
+            {
+                Player* player = findPlayerByID(stoi(argv[0]));
+                send(sender, player->getCommand());
+                return true;
             }
         }
 
