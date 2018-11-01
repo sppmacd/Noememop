@@ -113,7 +113,7 @@ public class CommandActivity extends Activity
 
 		for(int i = 0; i < command.length(); i++)
 		{
-		    if((command.charAt(i) == '\255' || i == command.length() - 1) && i != 0)
+		    if((command.charAt(i) == '\1' || i == command.length() - 1) && i != 0)
 		    {
 			if(lastp == 0)
 			    cmd = command.substring(lastp, i+1).trim();
@@ -133,8 +133,13 @@ public class CommandActivity extends Activity
 		}
 		else if(cmd.equals("pms:disconnect") && args.size() == 1)
 		{
-			CommandLineActivity.client.close();
-			updateLogString("Disconnected: " + args[0]); //used if the players cheated (XD)
+			try {
+				CommandLineActivity.client.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			updateLogString("Disconnected: " + args.get(0)); //used if the players cheated
 		}
 		else
 			updateLogString("Undefined or invalid command: " + command);
@@ -175,8 +180,8 @@ public class CommandActivity extends Activity
 						if(!stringToSend.isEmpty())
 						{
 							String strtosend = new String(stringToSend) + "\0";
-							strtosend.replaceAll("/\xFF/g", " ");
-							strtosend.replaceAll("/\\255/g", "\255");
+							strtosend = strtosend.replace("\1", " ");
+							strtosend = strtosend.replace("\\1", "\1");
 							instance.handler.post(instance.onSend);
 							
 							System.out.println("STRTS=" + strtosend);

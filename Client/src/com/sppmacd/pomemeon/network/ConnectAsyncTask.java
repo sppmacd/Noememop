@@ -31,7 +31,7 @@ public class ConnectAsyncTask extends AsyncTask<ConnectingActivity, Void, Void>
 		try
 		{
 			CommandLineActivity.instance.client = new Socket(ip, 12346);
-			CommandLineActivity.instance.client.getOutputStream().write(new String("pmc:setuserid " + Long.toString(CommandLineActivity.instance.userID) + "\0").getBytes());
+			CommandLineActivity.instance.client.getOutputStream().write(new String("pmc:setuserid\1" + Long.toString(CommandLineActivity.instance.userID) + "\0").getBytes());
 			
 			CommandActivity.connected = true;
 			

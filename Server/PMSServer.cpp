@@ -82,7 +82,7 @@ namespace pms
                         }
                         else
                         {
-                            send(client, "pms:disconnect\255ERR_DISCONNECTED");
+                            send(client, "pms:disconnect\1ERR_DISCONNECTED");
                             disconnect(client->socket);
                         }
                     }
@@ -115,7 +115,7 @@ namespace pms
 
         for(unsigned int i = 0; i < command.size()+1; i++)
         {
-            if(command[i] == '\255' || command[i] == '\0' || i == command.size())
+            if(command[i] == 1 || command[i] == '\0' || i == command.size())
             {
                 if(lastp == 0)
                     cmd = command.substr(lastp, i-lastp);
@@ -179,7 +179,7 @@ namespace pms
                     else
                     {
                         log(Error, "The player with id " + to_string(uid) + " was not found!");
-                        send(sender, "pms:disconnect\255ERR_INVALID_USER_ID");
+                        send(sender, "pms:disconnect\1ERR_INVALID_USER_ID");
                         disconnect(sender->socket); //cheats
                     }
 
@@ -215,7 +215,7 @@ namespace pms
                 if(pomemeon == NULL)
                 {
                     log(Error, "The Pomemeon with id " + to_string(stoi(argv[0])) + " was not found!");
-                    send(sender, "pms:disconnect\255ERR_INVALID_OBJECT_ID");
+                    send(sender, "pms:disconnect\1ERR_INVALID_OBJECT_ID");
                     disconnect(sender->socket); //cheats
                 }
 
@@ -224,7 +224,7 @@ namespace pms
                 if(dist < pomemeon->getType()->getRadius() && picker != pomemeon->getOwner())
                 {
                     CashStat stat = pomemeon->pick(picker);
-                    send(sender, "pms:cashstat\255"+to_string(stat));
+                    send(sender, "pms:cashstat\1"+to_string(stat));
 
                     //TODO add history object
                 }
@@ -248,9 +248,9 @@ namespace pms
                     if(stat == Success)
                     {
                         pomemeons.push_back(pomemeon);
-                        send(sender, "pms:requestpmdata\255"+to_string(pomemeon->getID()));
+                        send(sender, "pms:requestpmdata\1"+to_string(pomemeon->getID()));
                     }
-                    send(sender, "pms:cashstat\255"+to_string(stat));
+                    send(sender, "pms:cashstat\1"+to_string(stat));
 
                     //TODO add history object
                 }
