@@ -3,8 +3,6 @@ package com.sppmacd.pomemeon;
 import java.io.IOException;
 import java.net.Socket;
 
-import com.sppmacd.pomemeon.network.ConnectAsyncTask;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +14,6 @@ import android.widget.EditText;
 public class ConnectingActivity extends Activity 
 {
 	public static ConnectingActivity instance;
-	public static ConnectAsyncTask connectTask;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -25,20 +22,8 @@ public class ConnectingActivity extends Activity
 		
 		instance = this;
 		setContentView(R.layout.activity_connecting);
-	}
-	
-	protected void onStart()
-	{
-		super.onStart();
 		
-		connectTask = new ConnectAsyncTask();
-		connectTask.execute(this);
-	}
-	
-	protected void onStop()
-	{
-		super.onStop();
-		
-		connectTask.cancel(true);
+		Intent intent2 = new Intent(this, CommandActivity.class);
+		this.startActivity(intent2);
 	}
 }

@@ -21,8 +21,6 @@ import android.widget.Toast;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.sppmacd.pomemeon.network.ConnectAsyncTask;
-
 public class CommandLineActivity extends Activity
 {
 	public static Socket client;
@@ -31,6 +29,7 @@ public class CommandLineActivity extends Activity
 	public static long userID;
 	public static CommandLineActivity instance;
 	public int classUUID;
+	public static String ip;
 	
 	public void error(String error)
 	{
@@ -40,6 +39,7 @@ public class CommandLineActivity extends Activity
 	
 	private void onConnectButton()
 	{
+		ip = ((EditText)findViewById(R.id.ip1)).getText().toString();
 		Intent intent2 = new Intent(this, ConnectingActivity.class);
 		this.startActivity(intent2);
 	}

@@ -24,6 +24,8 @@ namespace pms
         vector<Client*> clients;
 
     public:
+        int tick;
+
         PMSServer();
         ~PMSServer();
 

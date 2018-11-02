@@ -29,6 +29,7 @@ namespace pms
 
     void PMSServer::loop()
     {
+        tick++;
         static Clock tickClock;
         this->networkLoop();
 
@@ -70,17 +71,17 @@ namespace pms
                         size_t received;
 
                         Socket::Status status = client->socket->receive((void*)&data, 1024LL, received);
+
+                        string command((char*)data);
+                        log(Debug, "Client: (" + to_string(client->userID) + ") " + client->socket->getRemoteAddress().toString() + string(" sent command: '") + command + "'");
+
                         if(status == Socket::Done)
                         {
-                            string command((char*)data);
-
-                            log(Debug, "Client: (" + to_string(client->userID) + ") " + client->socket->getRemoteAddress().toString() + string(" sent command: '") + command + "'");
-
                             this->parseCommand(client, command);
                         }
                         else
                         {
-                            disconnect(client->socket, "ERR_DISCONNECTED_" + to_string(status) + ": " + string(strerror(errno)));
+                            this->disconnect(client->socket, "ERR_DISCONNECTED_" + to_string(status) + ": " + string(strerror(errno)));
                         }
                     }
                 }
@@ -90,8 +91,6 @@ namespace pms
 
     void PMSServer::disconnect(TcpSocket* sck, string reason)
     {
-        sck->disconnect();
-
         for(auto it = this->clients.begin(); it != this->clients.end(); it++)
         {
             if((*it)->socket == sck)
@@ -103,6 +102,8 @@ namespace pms
         }
 
         log(Info, "IP: " + sck->getRemoteAddress().toString() + ":" + to_string(sck->getRemotePort()) + " has disconnected. Reason: " + reason);
+
+        sck->disconnect();
         this->socketSelector.remove(*sck);
         delete sck;
     }

@@ -3,7 +3,6 @@
 
 int main()
 {
-    pms::PMSServer server;
-    server.start();
+    pms::PMSServer::getInstance()->start();
     return 0;
 }
