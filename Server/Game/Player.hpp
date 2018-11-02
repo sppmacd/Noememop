@@ -21,7 +21,6 @@ namespace pms
         GPSCoords lastPos;
         Clock lastPosUpdateTime;
 
-
     public:
         bool freePomemeonPlaced;
         Clock tickTimer;

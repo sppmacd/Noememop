@@ -135,11 +135,13 @@ public class CommandActivity extends Activity
 		{
 			try {
 				CommandLineActivity.client.close();
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			updateLogString("Disconnected: " + args.get(0)); //used if the players cheated
+			instance.finish();
 		}
 		else
 			updateLogString("Undefined or invalid command: " + command);

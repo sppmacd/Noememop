@@ -5,6 +5,7 @@
 #include "Game/Pomemeon.hpp"
 #include "History/HistoryObject.hpp"
 #include "Game/CashStat.hpp"
+#include <cstring>
 
 namespace pms
 {
@@ -31,10 +32,6 @@ namespace pms
         static Clock tickClock;
         this->networkLoop();
 
-        for(Player* player: players)
-        {
-            player->ensureUpdated();
-        }
         Time elapsed = tickClock.restart();
         for(Pomemeon* pomemeon: pomemeons)
         {
@@ -71,6 +68,7 @@ namespace pms
                     {
                         char data[1024] = {0};
                         size_t received;
+
                         Socket::Status status = client->socket->receive((void*)&data, 1024LL, received);
                         if(status == Socket::Done)
                         {
@@ -82,7 +80,7 @@ namespace pms
                         }
                         else
                         {
-                            disconnect(client->socket, "ERR_DISCONNECTED_" + to_string(status));
+                            disconnect(client->socket, "ERR_DISCONNECTED_" + to_string(status) + ": " + string(strerror(errno)));
                         }
                     }
                 }
@@ -92,6 +90,8 @@ namespace pms
 
     void PMSServer::disconnect(TcpSocket* sck, string reason)
     {
+        sck->disconnect();
+
         for(auto it = this->clients.begin(); it != this->clients.end(); it++)
         {
             if((*it)->socket == sck)
@@ -184,6 +184,8 @@ namespace pms
 
                     return true;
                 }
+
+                // TODO save player - other thread
             }
         }
         else if(command == "pmc:requestpomemeons") //pms:requestpomemeons <posNS> <posEW> <radiusKMS>
@@ -225,6 +227,7 @@ namespace pms
                     send(sender, "pms:cashstat\1"+to_string(stat));
 
                     //TODO add history object
+                    //TODO save player and pomemeon - other thread
                 }
                 return true;
             }
@@ -252,8 +255,9 @@ namespace pms
                     send(sender, "pms:cashstat\1"+to_string(stat));
 
                     //TODO add history object
-                    return true;
+                    //TODO save pomemeon and player - other thread
                 }
+                return true;
             }
         }
         else if(command == "pmc:setpmdata")  //pmc:setpmdata <id> <name> <desc> <textureData>
@@ -266,6 +270,9 @@ namespace pms
                 {
                     pomemeon->setData(argv[1],argv[2],argv[3]); //TODO texture!!!
                 }
+
+                //TODO save pomemeon - other thread
+
                 return true;
             }
         }
@@ -275,6 +282,9 @@ namespace pms
             {
                 Player* player = findPlayerByID(sender->userID);
                 player->updateCoords(GPSCoords(stod(argv[0]), stod(argv[1])));
+
+                //TODO save player - other thread
+
                 return true;
             }
         }
@@ -283,9 +293,15 @@ namespace pms
             if(argc == 1)
             {
                 Player* player = findPlayerByID(stoi(argv[0]));
+                player->ensureUpdated();
                 send(sender, player->getCommand());
                 return true;
             }
+        }
+        else if(command == "pmc:stopserver" && sender->userID <= 3) //only admin
+        {
+            this->running = false;
+            return true;
         }
 
         return false;

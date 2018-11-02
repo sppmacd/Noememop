@@ -27,7 +27,7 @@ public class ConnectAsyncTask extends AsyncTask<ConnectingActivity, Void, Void>
 			Looper.prepare();
     	
     	final String ip = ((EditText)CommandLineActivity.instance.findViewById(R.id.ip1)).getText().toString();
-    	
+    	 
 		try
 		{
 			CommandLineActivity.instance.client = new Socket(ip, 12346);

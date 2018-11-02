@@ -46,18 +46,26 @@ namespace pms
 
     CashStat PomemeonType::place(Player* owner)
     {
-        if(!owner->freePomemeonPlaced)
+        log(Info, "The owner command is " + owner->getCommand());
+        if(owner->freePomemeonPlaced || this->getID() != 0)
         {
             bool tooenough = false;
             tooenough = !owner->tryRemoveCash(this->placeCost);
 
             if(!tooenough)
+            {
+                log(Info, "User " + to_string(owner->getUserID()) + " tried to place PomemeonType " + to_string(this->getID()) + ": Success");
                 return Success;
+            }
             else
+            {
+                log(Warning, "User " + to_string(owner->getUserID()) + " tried to place PomemeonType " + to_string(this->getID()) + ": NotEnoughCoins");
                 return NotEnoughCoins;
+            }
         }
         else
         {
+            log(Info, "User " + to_string(owner->getUserID()) + " tried to place free Pomemeon: Success");
             owner->freePomemeonPlaced = true;
             return Success;
         }

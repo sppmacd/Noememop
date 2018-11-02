@@ -8,8 +8,21 @@ namespace pms
     Player::Player(int id) : lastPos(52, 16)
     {
         this->id = id;
-        this->ensureUpdated();
         this->cashCount = 100; //START CASH
+
+        this->isDailyRewardCollected = false;
+        this->totalPoints = 0.f;
+        this->currentPoints = 0.f;
+        this->maxPoints = 0.f;
+        this->needUpdate = true;
+
+        this->ensureUpdated();
+
+        this->leaderboardPlace = PMSServer::getInstance()->getPlayerList()->size();
+        this->level = 1;
+        this->freePomemeonPlaced = false;
+
+        this->logCount = 0;
     }
 
     bool Player::tryAddCash(int count)
@@ -25,7 +38,7 @@ namespace pms
 
     bool Player::isPomemeonUnlocked(PomemeonType* type)
     {
-        return pow(type->getID(),2) >= level;
+        return pow(type->getID(),2) <= level;
     }
     bool Player::updateCoords(GPSCoords coords)
     {
@@ -79,8 +92,8 @@ namespace pms
         +to_string(this->totalPoints)+"\1"
         +to_string(this->leaderboardPlace)+"\1"
         +to_string(this->level)+"\1"
-        +to_string(this->freePomemeonPlaced)+"\1"
-        +to_string(this->isDailyRewardCollected)+"\1"
+        +(this->freePomemeonPlaced?"true":"false")+"\1"
+        +(this->isDailyRewardCollected?"true":"false")+"\1"
         +to_string(this->logCount);
     }
 
@@ -100,7 +113,7 @@ namespace pms
         if(this->needUpdate)
         {
             // Update level
-            this->level = std::pow(std::log(this->totalPoints), 5.f);
+            this->level = std::pow(std::log(totalPoints+1.f),1.2f)+1;
 
             // Update leaderboard place
             vector<Player*>* players = PMSServer::getInstance()->getPlayerList();
@@ -109,8 +122,8 @@ namespace pms
 
             for(int i = players->size() - 1; i >= 0; i--)
             {
-                Player* player = (*players)[i];
-                if(player != this && player->maxPoints < this->maxPoints)
+                Player* player = players->at(i);
+                if(player->getUserID() != this->getUserID() && player->maxPoints < this->maxPoints)
                     this->leaderboardPlace--;
             }
 

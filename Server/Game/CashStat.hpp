@@ -7,6 +7,7 @@ namespace pms
         Success,
         NotEnoughCoins,
         TooManyCoins,
-        CannotMake
+        CannotMake,
+        InvalidState
     };
 }
