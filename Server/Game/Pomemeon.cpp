@@ -6,7 +6,7 @@ namespace pms
     Pomemeon::Pomemeon(int pId, PomemeonType* pType, GPSCoords& coords, Player* own)
     : id(pId), type(pType), coordinates(coords), owner(own)
     {
-
+        this->pickTimer = 0;
     }
 
     void Pomemeon::setData(string pName, string pDesc, string texture)
@@ -39,15 +39,15 @@ namespace pms
 
     string Pomemeon::getCommand()
     {
-        return "pms:pomemeon\255" +
-        to_string(id) + "\255" +
-        to_string(pickTimer) + "\255" +
-        name + "\255" +
-        to_string(type->getID()) + "\255" +
-        description + "\255" +
-        to_string(coordinates.getNS()) + "\255" +
-        to_string(coordinates.getEW()) + "\255" +
-        textureFile + "\255" +
+        return "pms:pomemeon\1" +
+        to_string(id) + "\1" +
+        to_string(pickTimer) + "\1" +
+        name + "\1" +
+        to_string(type->getID()) + "\1" +
+        description + "\1" +
+        to_string(coordinates.getNS()) + "\1" +
+        to_string(coordinates.getEW()) + "\1" +
+        textureFile + "\1" +
         to_string(owner->getUserID());
     }
 

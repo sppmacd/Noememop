@@ -138,13 +138,13 @@ namespace pms
 
     void PMSServer::send(Client* recv, string command)
     {
-        recv->socket->send(command.c_str(), command.size());
+        recv->socket->send(string(command + "\0").c_str(), command.size());
     }
 
     void PMSServer::sendToAll(string command)
     {
         for(Client* recv: clients)
-            recv->socket->send(command.c_str(), command.size());
+            recv->socket->send(string(command + "\0").c_str(), command.size());
     }
 
     bool PMSServer::processCommands(Client* sender, string command, string* argv, int argc)
