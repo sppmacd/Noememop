@@ -8,12 +8,13 @@ namespace pms
     Player::Player(int id) : lastPos(52, 16)
     {
         this->id = id;
-        this->cashCount = 100; //START CASH
+        this->cashCount = 100; //START CASH AND POINTS
+        this->totalPoints = 1.f;
+        this->currentPoints = 1.f;
+        this->maxPoints = 1.f;
 
         this->isDailyRewardCollected = false;
-        this->totalPoints = 0.f;
-        this->currentPoints = 0.f;
-        this->maxPoints = 0.f;
+
         this->needUpdate = true;
 
         this->ensureUpdated();
@@ -77,6 +78,7 @@ namespace pms
     {
         this->currentPoints += count;
         this->maxPoints += count;
+        this->totalPoints += count;
         if(this->currentPoints > this->maxPoints)
             this->maxPoints = this->currentPoints;
 

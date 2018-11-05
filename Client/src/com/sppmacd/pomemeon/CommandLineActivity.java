@@ -9,6 +9,8 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
 
+import com.sppmacd.pomemeon.CommandActivity.ConnectThread;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -40,7 +42,12 @@ public class CommandLineActivity extends Activity
 	private void onConnectButton()
 	{
 		ip = ((EditText)findViewById(R.id.ip1)).getText().toString();
-		Intent intent2 = new Intent(this, ConnectingActivity.class);
+		
+		// start connecting
+		Thread thread = new Thread(new ConnectThread());
+		thread.start();
+		
+		Intent intent2 = new Intent(this, CommandActivity.class);
 		this.startActivity(intent2);
 	}
 	

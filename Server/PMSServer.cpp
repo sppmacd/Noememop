@@ -103,7 +103,6 @@ namespace pms
 
         log(Info, "IP: " + sck->getRemoteAddress().toString() + ":" + to_string(sck->getRemotePort()) + " has disconnected. Reason: " + reason);
 
-        sck->disconnect();
         this->socketSelector.remove(*sck);
         delete sck;
     }
@@ -116,7 +115,7 @@ namespace pms
 
         for(unsigned int i = 0; i < command.size()+1; i++)
         {
-            if(command[i] == 1 || command[i] == '\0' || i == command.size())
+            if(command[i] == '|' || command[i] == '\0' || i == command.size())
             {
                 if(lastp == 0)
                     cmd = command.substr(lastp, i-lastp);
@@ -230,6 +229,10 @@ namespace pms
                     //TODO add history object
                     //TODO save player and pomemeon - other thread
                 }
+                else
+                {
+                    send(sender, "pms:err\1Cannot Pick Pomemeon");
+                }
                 return true;
             }
         }
@@ -257,6 +260,10 @@ namespace pms
 
                     //TODO add history object
                     //TODO save pomemeon and player - other thread
+                }
+                else
+                {
+                    send(sender, "pms:err\1Cannot Place Pomemeon");
                 }
                 return true;
             }
