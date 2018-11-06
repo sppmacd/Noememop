@@ -9,9 +9,9 @@ namespace pms
     {
         this->id = id;
         this->cashCount = 100; //START CASH AND POINTS
-        this->totalPoints = 1.f;
-        this->currentPoints = 1.f;
-        this->maxPoints = 1.f;
+        this->totalPoints = 100.f;
+        this->currentPoints = 100.f;
+        this->maxPoints = 100.f;
 
         this->isDailyRewardCollected = false;
 
