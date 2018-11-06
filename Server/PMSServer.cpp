@@ -109,20 +109,23 @@ namespace pms
 
     void PMSServer::parseCommand(Client* sender, string command)
     {
-
-        log(Info, "Server command: '" + cmd + "'");
-        for(string& str: args)
-            log(Debug, "Server argument: '" + str + "'");
+        Command cmd(command);
 
         if(!this->processCommands(sender, cmd, args.data(), args.size()))
         {
             log(Error, "Invalid command: " + command);
+            sendCommand()
         }
     }
 
     void PMSServer::send(Client* recv, string command)
     {
         recv->socket->send(string(command + "\n\0").c_str(), command.size());
+    }
+
+    void PMSServer::sendCommand(Command command, Client* client);
+    {
+        this->send(client, command.toString());
     }
 
     void PMSServer::sendToAll(string command)

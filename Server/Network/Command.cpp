@@ -44,8 +44,26 @@ namespace pms
         }
     }
 
+    bool isEqual(string cmd, int argc)
+    {
+        return cmd = command && this->args.size() == args;
+    }
+
+    Command(ServerCommandType cmdType, initializer_list<string> args)
+    {
+        switch(cmdType)
+        {
+            case Cmd
+        }
+    }
+
     string Command::toString()
     {
-        return string(command + "\n\0");
+        string str = command;
+
+        for(string& arg: args)
+            command += terminating+arg;
+
+        return str + "\n\0";
     }
 }

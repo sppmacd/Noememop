@@ -4,13 +4,39 @@
 
 namespace pms
 {
+    enum ClientCommandType
+    {
+        CmdSetUserID,
+        CmdRequestPomemeons,
+        CmdPick,
+        CmdPlace,
+        CmdSetPMData,
+        CmdStopServer,
+        CmdUpdatePos,
+        CmdRequestUserData,
+
+    };
+
+    enum ServerCommandType
+    {
+        SCmdUserID,
+        SCmdDisconnect,
+        SCmdCashStat,
+        SCmdRequestPMData,
+        SCmdUserData,
+        SCmdPomemeon,
+        SCmdErr
+    };
+
     class Command
     {
         string command;
         vector<string> args;
 
+
     public:
         Command(string commandString);
+        Command(ServerCommandType cmdType, initializer_list<string> args);
         Command();
 
         void addArgument(string arg);
@@ -18,5 +44,7 @@ namespace pms
         void removeArgument(int argId);
         void fromString(string commandString);
         string toString();
+
+        bool isEqual(string cmd, int argc);
     };
 }

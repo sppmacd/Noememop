@@ -2,6 +2,8 @@
 
 #include "config.hpp"
 
+#include "Network/Command.hpp"
+
 namespace pms
 {
     class Player;
@@ -38,8 +40,10 @@ namespace pms
         void send(Client* recv, string command);
         void sendToAll(string command);
         void parseCommand(Client* sender, string command);
-        bool processCommands(Client* sender, string command, string* argv, int argc);
+        bool processCommands(Client* sender, Command command);
         void disconnect(TcpSocket* sck, string reason);
+        void sendCommand(Command command, Client* client);
+
         Player* findPlayerByID(int userId);
         Pomemeon* findPomemeonByID(int id);
         PomemeonType* findTypeByID(int id);
