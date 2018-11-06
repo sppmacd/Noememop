@@ -12,6 +12,7 @@ namespace pms
         this->totalPoints = 100.f;
         this->currentPoints = 100.f;
         this->maxPoints = 100.f;
+        this->pickCount = 0;
 
         this->isDailyRewardCollected = false;
 
