@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <string>
 #include <vector>
+#include <fstream>
 using namespace std;
 
 #include <SFML/Network.hpp>

@@ -4,6 +4,19 @@
 
 namespace pms
 {
+    struct Sifstream : public ifstream
+    {
+        string getline()
+        {
+
+        }
+    };
+
+    struct Sofstream
+    {
+
+    };
+
     enum DataType
     {
         DTPlayer,
@@ -20,8 +33,8 @@ namespace pms
     {
         DataType dataType;
         void openFile(string fileName, bool save);
-        ifstream fileHandlerIn;
-        ofstream fileHandlerOut;
+        Sifstream fileHandlerIn;
+        Sofstream fileHandlerOut;
     public:
         DataFile(DataType type);
         DataNode getNode(int id);

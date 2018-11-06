@@ -1,4 +1,5 @@
 #include "DataFile.hpp"
+#include "../Network/Command.hpp"
 
 namespace pms
 {
@@ -8,7 +9,7 @@ namespace pms
         else fileHandlerIn.open(fileName, ios::trunc);
     }
 
-    DataFile::DataFileLoader(DataType type)
+    DataFile::DataFile(DataType type)
     {
         dataType = type;
     }
@@ -17,7 +18,7 @@ namespace pms
     {
         openFile("Data/" + to_string(dataType) + "_size.data", false);
 
-        return stoi(fileHandlerIn.getline());
+        string str = fileHandlerIn.getline();
     }
 
     void DataFile::saveSize(int newSize)
@@ -58,6 +59,7 @@ namespace pms
 
             return node;
         }
+        return DataNode{};
     }
 
     void DataFile::setNode(DataNode node, int id)
@@ -69,7 +71,7 @@ namespace pms
         for(string& arg: node.args)
         {
             if(cnt != 0)
-                fileHandlerOut << terminating+arg;
+                fileHandlerOut << Command::terminating+arg;
             else
                 fileHandlerOut << arg;
             cnt++;

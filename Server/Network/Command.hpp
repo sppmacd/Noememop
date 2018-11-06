@@ -1,6 +1,6 @@
 #pragma once
 
-#include "config.hpp"
+#include "../config.hpp"
 
 namespace pms
 {
@@ -30,12 +30,11 @@ namespace pms
 
     class Command
     {
-        string command;
-        vector<string> args;
-
-
     public:
         static char terminating;
+
+        string command;
+        vector<string> args;
 
         Command(string commandString);
         Command(ServerCommandType cmdType, initializer_list<string> arglist);

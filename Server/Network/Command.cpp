@@ -18,6 +18,7 @@ namespace pms
     {
         if(argId < this->args.size())
             return this->args[argId];
+        return "";
     }
 
     void Command::removeArgument(int argId)
@@ -44,12 +45,12 @@ namespace pms
         }
     }
 
-    bool isEqual(string cmd, int argc)
+    bool Command::isEqual(string cmd, int argc)
     {
-        return cmd = command && this->args.size() == args;
+        return cmd == command && this->args.size() == argc;
     }
 
-    Command(ServerCommandType cmdType, std::initializer_list<string> arglist)
+    Command::Command(ServerCommandType cmdType, std::initializer_list<string> arglist)
     {
         switch(cmdType)
         {

@@ -21,8 +21,9 @@ namespace pms
         if(picker->tickTimer.getElapsedTime().asSeconds() > 3600*24 || picker->pickCount == 0)
         {
             picker->tickTimer.restart();
-            CashStat cs = this->type->pick(this->owner, picker));
-             if(cs==Success) picker->pickCount++;
+            CashStat cs = this->type->pick(this->owner, picker);
+            if(cs == Success)
+                picker->pickCount++;
             return cs;
         }
         else
@@ -36,7 +37,7 @@ namespace pms
 
     DataNode Pomemeon::getNode()
     {
-        return DataNode{}
+        return DataNode{
         {to_string(id),
         to_string(pickTimer),
         name,

@@ -2,6 +2,7 @@
 
 #include "../GPSCoords.hpp"
 #include "../Network/Command.hpp"
+#include "../Util/DataFile.hpp"
 
 namespace pms
 {

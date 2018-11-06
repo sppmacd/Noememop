@@ -114,10 +114,10 @@ namespace pms
     {
         Command cmd(command);
 
-        if(!this->processCommands(sender, cmd, args.data(), args.size()))
+        if(!this->processCommands(sender, cmd))
         {
             log(Error, "Invalid command: " + command);
-            sendCommand(Command(pms::SCmdErr, {"Invalid command!"}));
+            sendCommand(Command(pms::SCmdErr, {"Invalid command!"}), sender);
         }
     }
 
@@ -126,7 +126,7 @@ namespace pms
         recv->socket->send(string(command + "\n\0").c_str(), command.size());
     }
 
-    void PMSServer::sendCommand(Command command, Client* client);
+    void PMSServer::sendCommand(Command command, Client* client)
     {
         if(client != NULL)
             this->send(client, command.toString());
@@ -142,21 +142,32 @@ namespace pms
 
     void PMSServer::savePlayer(int id)
     {
+        auto save = [this,id](){
         DataFile file(DTPlayer);
-        file.setNode(DataNode{findPlayerByID(id)->getNode()}, id);
+        file.setNode(findPlayerByID(id)->getNode(), id);
         file.saveSize(players.size());
+        };
+        Thread thread(save);
+        thread.launch();
     }
 
     void PMSServer::savePomemeon(int id)
     {
+        auto save = [this,id](){
         DataFile file(DTPomemeon);
-        file.setNode(DataNode{findPomemeonByID(id)->getNode()}, id);
+        file.setNode(findPomemeonByID(id)->getNode(), id);
         file.saveSize(pomemeons.size());
+        };
+        Thread thread(save);
+        thread.launch();
     }
 
-    bool PMSServer::processCommands(Client* sender, string command, string* argv, int argc)
+    bool PMSServer::processCommands(Client* sender, Command cmd)
     {
         string errMsg;
+        string command = cmd.command;
+        string* argv = cmd.args.data();
+        int argc = cmd.args.size();
 
         if(command == "pmc:setuserid")
         {
@@ -275,7 +286,7 @@ namespace pms
                 }
                 else
                 {
-                    sendCommand(Command(SCmdErr, {"Cannot Place Pomemeon"}));
+                    sendCommand(Command(SCmdErr, {"Cannot Place Pomemeon"}), sender);
                 }
                 return true;
             }
@@ -291,7 +302,6 @@ namespace pms
                 {
                     pomemeon->setData(argv[1],argv[2],argv[3]); //TODO texture!!!
                 }
-
                 //TODO save pomemeon - other thread
 
                 return true;
@@ -317,7 +327,7 @@ namespace pms
             {
                 Player* player = findPlayerByID(stoi(argv[0]));
                 player->ensureUpdated();
-                send(sender, player->getCommand());
+                send(sender, player->getCommand().toString());
                 return true;
             }
             errMsg="Invalid syntax!";
@@ -330,7 +340,7 @@ namespace pms
         else
             errMsg="Invalid syntax!";
 
-        sendCommand(Command(SCmdErr, {errMsg}));
+        sendCommand(Command(SCmdErr, {errMsg}), sender);
 
         return false;
     }

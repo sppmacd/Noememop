@@ -26,7 +26,7 @@ namespace pms
             if(!toomany)
             {
                 owner->addPoints(this->placeProfit);
-                owner->addXP(this->placeProfit());
+                owner->addXP(this->placeProfit);
                 return Success;
             }
             else
@@ -47,7 +47,7 @@ namespace pms
 
     CashStat PomemeonType::place(Player* owner)
     {
-        log(Info, "The owner command is " + owner->getCommand());
+        //log(Info, "The owner command is " + owner->getCommand());
         if(owner->freePomemeonPlaced || this->getID() != 0)
         {
             bool tooenough = false;

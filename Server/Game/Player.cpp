@@ -30,14 +30,14 @@ namespace pms
     DataNode Player::getNode()
     {
         return DataNode{{
-        to_string(this->cashCount)
-        to_string(this->currentPoints)
-        to_string(this->xp)
-        to_string(this->totalPoints)
-        to_string(this->leaderboardPlace)
-        to_string(this->level)
-        (this->freePomemeonPlaced?"true":"false")
-        (this->isDailyRewardCollected?"true":"false")
+        to_string(this->cashCount),
+        to_string(this->currentPoints),
+        to_string(this->xp),
+        to_string(this->totalPoints),
+        to_string(this->leaderboardPlace),
+        to_string(this->level),
+        (this->freePomemeonPlaced?"true":"false"),
+        (this->isDailyRewardCollected?"true":"false"),
         to_string(this->logCount)}};
     }
 
@@ -105,14 +105,14 @@ namespace pms
     Command Player::getCommand()
     {
         return Command(SCmdUserData,
-        {to_string(this->cashCount)
-        to_string(this->currentPoints)
-        to_string(this->xp)
-        to_string(this->totalPoints)
-        to_string(this->leaderboardPlace)
-        to_string(this->level)
-        (this->freePomemeonPlaced?"true":"false")
-        (this->isDailyRewardCollected?"true":"false")
+        {to_string(this->cashCount),
+        to_string(this->currentPoints),
+        to_string(this->xp),
+        to_string(this->totalPoints),
+        to_string(this->leaderboardPlace),
+        to_string(this->level),
+        (this->freePomemeonPlaced?"true":"false"),
+        (this->isDailyRewardCollected?"true":"false"),
         to_string(this->logCount)});
     }
 
