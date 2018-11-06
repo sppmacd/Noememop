@@ -9,9 +9,10 @@ namespace pms
     {
         this->id = id;
         this->cashCount = 100; //START CASH AND POINTS
-        this->totalPoints = 1.f;
-        this->currentPoints = 1.f;
-        this->maxPoints = 1.f;
+        this->totalPoints = 100.f;
+        this->currentPoints = 100.f;
+        this->xp = 0;
+        this->pickCount = 0;
 
         this->isDailyRewardCollected = false;
 
@@ -40,6 +41,11 @@ namespace pms
     bool Player::isPomemeonUnlocked(PomemeonType* type)
     {
         return pow(type->getID(),2) <= level;
+    }
+    void Player::addXP(int count)
+    {
+        this->xp += count;
+        this->needUpdate = true;
     }
     bool Player::updateCoords(GPSCoords coords)
     {
@@ -77,11 +83,8 @@ namespace pms
     void Player::addPoints(float count)
     {
         this->currentPoints += count;
-        this->maxPoints += count;
+        
         this->totalPoints += count;
-        if(this->currentPoints > this->maxPoints)
-            this->maxPoints = this->currentPoints;
-
         this->needUpdate = true;
     }
 
@@ -90,7 +93,7 @@ namespace pms
         return "pms:userdata\1"
         +to_string(this->cashCount)+"\1"
         +to_string(this->currentPoints)+"\1"
-        +to_string(this->maxPoints)+"\1"
+        +to_string(this->xp)+"\1"
         +to_string(this->totalPoints)+"\1"
         +to_string(this->leaderboardPlace)+"\1"
         +to_string(this->level)+"\1"
@@ -125,7 +128,7 @@ namespace pms
             for(int i = players->size() - 1; i >= 0; i--)
             {
                 Player* player = players->at(i);
-                if(player->getUserID() != this->getUserID() && player->maxPoints < this->maxPoints)
+                if(player->getUserID() != this->getUserID() && player->xp < this->xp)
                     this->leaderboardPlace--;
             }
 
