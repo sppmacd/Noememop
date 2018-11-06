@@ -18,10 +18,12 @@ namespace pms
 
     CashStat Pomemeon::pick(Player* picker)
     {
-        if(picker->tickTimer.getElapsedTime().asSeconds() > 10)
+        if(picker->tickTimer.getElapsedTime().asSeconds() > 3600*24 || picker->pickCount == 0)
         {
             picker->tickTimer.restart();
-            return this->type->pick(this->owner, picker);
+            CashStat cs = this->type->pick(this->owner, picker));
+             if(cs==Success) picker->pickCount++;
+            return cs;
         }
         else
             return CannotMake;
