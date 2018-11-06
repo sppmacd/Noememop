@@ -35,6 +35,8 @@ namespace pms
 
 
     public:
+        static char terminating;
+
         Command(string commandString);
         Command(ServerCommandType cmdType, initializer_list<string> arglist);
         Command();

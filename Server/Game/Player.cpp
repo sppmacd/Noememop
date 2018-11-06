@@ -27,6 +27,20 @@ namespace pms
         this->logCount = 0;
     }
 
+    DataNode Player::getNode()
+    {
+        return DataNode{{
+        to_string(this->cashCount)
+        to_string(this->currentPoints)
+        to_string(this->xp)
+        to_string(this->totalPoints)
+        to_string(this->leaderboardPlace)
+        to_string(this->level)
+        (this->freePomemeonPlaced?"true":"false")
+        (this->isDailyRewardCollected?"true":"false")
+        to_string(this->logCount)}};
+    }
+
     bool Player::tryAddCash(int count)
     {
         if(this->cashCount + count <= 1000000)

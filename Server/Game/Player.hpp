@@ -42,5 +42,6 @@ namespace pms
         GPSCoords& getLastCoords() {return lastPos;}
         bool isPomemeonUnlocked(PomemeonType* type);
         Command getCommand();
+        DataNode getNode();
     };
 }

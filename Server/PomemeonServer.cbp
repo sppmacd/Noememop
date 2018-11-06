@@ -98,6 +98,8 @@
 		<Unit filename="Network/Command.hpp" />
 		<Unit filename="PMSServer.cpp" />
 		<Unit filename="PMSServer.hpp" />
+		<Unit filename="Util/DataFile.cpp" />
+		<Unit filename="Util/DataFile.hpp" />
 		<Unit filename="config.cpp" />
 		<Unit filename="config.hpp" />
 		<Unit filename="main.cpp" />

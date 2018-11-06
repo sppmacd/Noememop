@@ -5,6 +5,7 @@
 #include "Game/Pomemeon.hpp"
 #include "History/HistoryObject.hpp"
 #include "Game/CashStat.hpp"
+#include "Util/DataFile.hpp"
 #include <cstring>
 
 namespace pms
@@ -137,6 +138,20 @@ namespace pms
     {
         for(Client* recv: clients)
             recv->socket->send(string(command + "\n\0").c_str(), command.size());
+    }
+
+    void PMSServer::savePlayer(int id)
+    {
+        DataFile file(DTPlayer);
+        file.setNode(DataNode{findPlayerByID(id)->getNode()}, id);
+        file.saveSize(players.size());
+    }
+
+    void PMSServer::savePomemeon(int id)
+    {
+        DataFile file(DTPomemeon);
+        file.setNode(DataNode{findPomemeonByID(id)->getNode()}, id);
+        file.saveSize(pomemeons.size());
     }
 
     bool PMSServer::processCommands(Client* sender, string command, string* argv, int argc)

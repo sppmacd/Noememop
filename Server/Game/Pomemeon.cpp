@@ -34,6 +34,20 @@ namespace pms
         return this->type->place(owner);
     }
 
+    DataNode Pomemeon::getNode()
+    {
+        return DataNode{}
+        {to_string(id),
+        to_string(pickTimer),
+        name,
+        to_string(type->getID()),
+        description,
+        to_string(coordinates.getNS()),
+        to_string(coordinates.getEW()),
+        textureFile,
+        to_string(owner->getUserID())}};
+    }
+
     void Pomemeon::update(Time elapsed)
     {
         this->pickTimer += elapsed.asSeconds();

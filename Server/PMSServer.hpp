@@ -44,6 +44,9 @@ namespace pms
         void disconnect(TcpSocket* sck, string reason);
         void sendCommand(Command command, Client* client);
 
+        void savePlayer(int id);
+        void savePomemeon(int id);
+
         Player* findPlayerByID(int userId);
         Pomemeon* findPomemeonByID(int id);
         PomemeonType* findTypeByID(int id);

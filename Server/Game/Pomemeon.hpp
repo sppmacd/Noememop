@@ -5,6 +5,7 @@
 #include "../GPSCoords.hpp"
 #include "PomemeonType.hpp"
 #include "../Network/Command.hpp"
+#include "Util/DataFile.hpp"
 
 namespace pms
 {
@@ -30,5 +31,6 @@ namespace pms
         int getID() {return id;}
         Player* getOwner() {return owner;}
         PomemeonType* getType() {return type;}
+        DataNode getNode();
     };
 }

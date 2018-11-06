@@ -2,7 +2,7 @@
 
 namespace pms
 {
-    char terminating = '|';
+    char Command::terminating = '|';
 
     Command::Command(string commandString)
     {
