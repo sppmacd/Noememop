@@ -26,6 +26,7 @@ namespace pms
             if(!toomany)
             {
                 owner->addPoints(this->placeProfit);
+                owner->addXP(this->placeProfit());
                 return Success;
             }
             else
