@@ -23,6 +23,7 @@ namespace pms
 
     public:
         bool freePomemeonPlaced;
+        int pickCount;
         Clock tickTimer;
 
         Player(int id);
