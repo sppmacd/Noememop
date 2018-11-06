@@ -83,23 +83,23 @@ namespace pms
     void Player::addPoints(float count)
     {
         this->currentPoints += count;
-        
+
         this->totalPoints += count;
         this->needUpdate = true;
     }
 
-    string Player::getCommand()
+    Command Player::getCommand()
     {
-        return "pms:userdata\1"
-        +to_string(this->cashCount)+"\1"
-        +to_string(this->currentPoints)+"\1"
-        +to_string(this->xp)+"\1"
-        +to_string(this->totalPoints)+"\1"
-        +to_string(this->leaderboardPlace)+"\1"
-        +to_string(this->level)+"\1"
-        +(this->freePomemeonPlaced?"true":"false")+"\1"
-        +(this->isDailyRewardCollected?"true":"false")+"\1"
-        +to_string(this->logCount);
+        return Command(SCmdUserData,
+        {to_string(this->cashCount)
+        to_string(this->currentPoints)
+        to_string(this->xp)
+        to_string(this->totalPoints)
+        to_string(this->leaderboardPlace)
+        to_string(this->level)
+        (this->freePomemeonPlaced?"true":"false")
+        (this->isDailyRewardCollected?"true":"false")
+        to_string(this->logCount)});
     }
 
     bool Player::tryRemovePoints(float count)

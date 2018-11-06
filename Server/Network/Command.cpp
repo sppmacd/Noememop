@@ -49,12 +49,27 @@ namespace pms
         return cmd = command && this->args.size() == args;
     }
 
-    Command(ServerCommandType cmdType, initializer_list<string> args)
+    Command(ServerCommandType cmdType, std::initializer_list<string> arglist)
     {
         switch(cmdType)
         {
-            case Cmd
+        case SCmdCashStat:
+            command = "pms:cashstat"; break;
+        case SCmdDisconnect:
+            command = "pms:disconnect"; break;
+        case SCmdErr:
+            command = "pms:err"; break;
+        case SCmdPomemeon:
+            command = "pms:pomemeon"; break;
+        case SCmdRequestPMData:
+            command = "pms:requestpmdata"; break;
+        case SCmdUserData:
+            command = "pms:userdata"; break;
+        case SCmdUserID:
+            command = "pms:userid"; break;
         }
+
+        this->args = arglist;
     }
 
     string Command::toString()

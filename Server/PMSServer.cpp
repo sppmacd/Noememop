@@ -11,6 +11,8 @@ namespace pms
 {
     PMSServer::PMSServer()
     {
+        //load server
+
     }
 
     PMSServer::~PMSServer()
@@ -114,7 +116,7 @@ namespace pms
         if(!this->processCommands(sender, cmd, args.data(), args.size()))
         {
             log(Error, "Invalid command: " + command);
-            sendCommand()
+            sendCommand(Command(pms::SCmdErr, {"Invalid command!"}));
         }
     }
 
@@ -125,7 +127,10 @@ namespace pms
 
     void PMSServer::sendCommand(Command command, Client* client);
     {
-        this->send(client, command.toString());
+        if(client != NULL)
+            this->send(client, command.toString());
+        else
+            this->sendToAll(command.toString());
     }
 
     void PMSServer::sendToAll(string command)
@@ -150,7 +155,7 @@ namespace pms
                     player->setReward();
                     sender->userID = player->getUserID();
                     players.push_back(player);
-                    send(sender, "pms:userid " + to_string(player->getUserID()));
+                    sendCommand(Command(SCmdUserID, {to_string(player->getUserID())}), sender);
                     log(Info, "A new player " + to_string(player->getUserID()) + " has logged in to server");
                     return true;
                 }
@@ -168,7 +173,6 @@ namespace pms
                     else
                     {
                         log(Error, "The player with id " + to_string(uid) + " was not found!");
-
                         disconnect(sender->socket, "ERR_INVALID_USER_ID"); //cheats
                     }
 
@@ -179,7 +183,7 @@ namespace pms
             }
             errMsg="Invalid syntax!";
         }
-        else if(command == "pmc:requestpomemeons") //pms:requestpomemeons <posNS> <posEW> <radiusKMS>
+        else if(command == "pmc:requestpomemeons") //pmc:requestpomemeons <posNS> <posEW> <radiusKMS>
         {
             if(argc == 3)
             {
@@ -191,7 +195,7 @@ namespace pms
                 for(Pomemeon* pomemeon: pomemeons)
                 {
                     if(pomemeon->getCoordinates().distance(playerCoords) < rad)
-                        send(sender, pomemeon->getCommand());
+                        sendCommand(pomemeon->getCommand(), sender);
                 }
 
                 return true;
@@ -216,7 +220,7 @@ namespace pms
                 if(dist < pomemeon->getType()->getRadius() && picker != pomemeon->getOwner())
                 {
                     CashStat stat = pomemeon->pick(picker);
-                    send(sender, "pms:cashstat\1"+to_string(stat));
+                    sendCommand(Command(SCmdCashStat, {to_string(stat)}), sender);
 
                     //TODO add history object
                     //TODO save player and pomemeon - other thread
@@ -247,16 +251,16 @@ namespace pms
                     if(stat == Success)
                     {
                         pomemeons.push_back(pomemeon);
-                        send(sender, "pms:requestpmdata\1"+to_string(pomemeon->getID()));
+                        sendCommand(Command(SCmdRequestPMData, {to_string(pomemeon->getID())}), sender);
                     }
-                    send(sender, "pms:cashstat\1"+to_string(stat));
+                    sendCommand(Command(SCmdCashStat, {to_string(stat)}), sender);
 
                     //TODO add history object
                     //TODO save pomemeon and player - other thread
                 }
                 else
                 {
-                    send(sender, "pms:err\1Cannot Place Pomemeon");
+                    sendCommand(Command(SCmdErr, {"Cannot Place Pomemeon"}));
                 }
                 return true;
             }
@@ -311,7 +315,7 @@ namespace pms
         else
             errMsg="Invalid syntax!";
 
-        send(sender, "pms:err\1"+errMsg");
+        sendCommand(Command(SCmdErr, {errMsg}));
 
         return false;
     }

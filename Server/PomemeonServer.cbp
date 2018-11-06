@@ -94,6 +94,8 @@
 		<Unit filename="Game/PomemeonType.hpp" />
 		<Unit filename="History/HistoryObject.hpp" />
 		<Unit filename="Network/Client.hpp" />
+		<Unit filename="Network/Command.cpp" />
+		<Unit filename="Network/Command.hpp" />
 		<Unit filename="PMSServer.cpp" />
 		<Unit filename="PMSServer.hpp" />
 		<Unit filename="config.cpp" />

@@ -4,6 +4,7 @@
 #include "CashStat.hpp"
 #include "../GPSCoords.hpp"
 #include "PomemeonType.hpp"
+#include "../Network/Command.hpp"
 
 namespace pms
 {
@@ -25,7 +26,7 @@ namespace pms
         CashStat place(Player* owner);
         void update(Time elapsed);
         GPSCoords getCoordinates();
-        string getCommand();
+        Command getCommand();
         int getID() {return id;}
         Player* getOwner() {return owner;}
         PomemeonType* getType() {return type;}

@@ -36,7 +36,7 @@ namespace pms
 
     public:
         Command(string commandString);
-        Command(ServerCommandType cmdType, initializer_list<string> args);
+        Command(ServerCommandType cmdType, initializer_list<string> arglist);
         Command();
 
         void addArgument(string arg);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../GPSCoords.hpp"
+#include "../Network/Command.hpp"
 
 namespace pms
 {
@@ -40,6 +41,6 @@ namespace pms
         bool updateCoords(GPSCoords coords);
         GPSCoords& getLastCoords() {return lastPos;}
         bool isPomemeonUnlocked(PomemeonType* type);
-        string getCommand();
+        Command getCommand();
     };
 }

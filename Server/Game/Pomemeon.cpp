@@ -39,18 +39,18 @@ namespace pms
         this->pickTimer += elapsed.asSeconds();
     }
 
-    string Pomemeon::getCommand()
+    Command Pomemeon::getCommand()
     {
-        return "pms:pomemeon\1" +
-        to_string(id) + "\1" +
-        to_string(pickTimer) + "\1" +
-        name + "\1" +
-        to_string(type->getID()) + "\1" +
-        description + "\1" +
-        to_string(coordinates.getNS()) + "\1" +
-        to_string(coordinates.getEW()) + "\1" +
-        textureFile + "\1" +
-        to_string(owner->getUserID());
+        return Command(SCmdPomemeon,
+        {to_string(id),
+        to_string(pickTimer),
+        name,
+        to_string(type->getID()),
+        description,
+        to_string(coordinates.getNS()),
+        to_string(coordinates.getEW()),
+        textureFile,
+        to_string(owner->getUserID())});
     }
 
     GPSCoords Pomemeon::getCoordinates()
