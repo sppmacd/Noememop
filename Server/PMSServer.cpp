@@ -109,22 +109,6 @@ namespace pms
 
     void PMSServer::parseCommand(Client* sender, string command)
     {
-        string cmd;
-        vector<string> args;
-        int lastp = 0;
-
-        for(unsigned int i = 0; i < command.size()+1; i++)
-        {
-            if(command[i] == '|' || command[i] == '\0' || i == command.size())
-            {
-                if(lastp == 0)
-                    cmd = command.substr(lastp, i-lastp);
-                else
-                    args.push_back(command.substr(lastp, i-lastp));
-
-                lastp = i+1;
-            }
-        }
 
         log(Info, "Server command: '" + cmd + "'");
         for(string& str: args)
@@ -150,7 +134,7 @@ namespace pms
     bool PMSServer::processCommands(Client* sender, string command, string* argv, int argc)
     {
         string errMsg;
-        
+
         if(command == "pmc:setuserid")
         {
             if(argc == 1)
@@ -181,7 +165,7 @@ namespace pms
                     else
                     {
                         log(Error, "The player with id " + to_string(uid) + " was not found!");
-                        
+
                         disconnect(sender->socket, "ERR_INVALID_USER_ID"); //cheats
                     }
 
@@ -323,7 +307,7 @@ namespace pms
         }
         else
             errMsg="Invalid syntax!";
-        
+
         send(sender, "pms:err\1"+errMsg");
 
         return false;
