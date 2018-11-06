@@ -13,7 +13,7 @@ namespace pms
         int id;
         float totalPoints;
         float currentPoints;
-        float maxPoints;
+        int xp;
         int leaderboardPlace;
         bool needUpdate;
         int logCount;
@@ -32,6 +32,7 @@ namespace pms
         bool tryCollectReward();
         void addPoints(float count);
         bool tryRemovePoints(float count);
+        void addXP(int count);
         void ensureUpdated();
         void setReward();
         void login();
