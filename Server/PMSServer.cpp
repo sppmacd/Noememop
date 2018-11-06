@@ -149,6 +149,8 @@ namespace pms
 
     bool PMSServer::processCommands(Client* sender, string command, string* argv, int argc)
     {
+        string errMsg;
+        
         if(command == "pmc:setuserid")
         {
             if(argc == 1)
@@ -179,6 +181,7 @@ namespace pms
                     else
                     {
                         log(Error, "The player with id " + to_string(uid) + " was not found!");
+                        
                         disconnect(sender->socket, "ERR_INVALID_USER_ID"); //cheats
                     }
 
@@ -187,6 +190,7 @@ namespace pms
 
                 // TODO save player - other thread
             }
+            errMsg="Invalid syntax!";
         }
         else if(command == "pmc:requestpomemeons") //pms:requestpomemeons <posNS> <posEW> <radiusKMS>
         {
@@ -205,6 +209,7 @@ namespace pms
 
                 return true;
             }
+            errMsg="Invalid syntax!";
         }
         else if(command == "pmc:pick") //pmc:pick <id>
         {
@@ -235,6 +240,7 @@ namespace pms
                 }
                 return true;
             }
+            errMsg="Invalid syntax!";
         }
         else if(command == "pmc:place") //pmc:place <coordsNS> <coordsEW> <type>
         {
@@ -267,6 +273,7 @@ namespace pms
                 }
                 return true;
             }
+            errMsg="Invalid syntax!";
         }
         else if(command == "pmc:setpmdata")  //pmc:setpmdata <id> <name> <desc> <textureData>
         {
@@ -283,6 +290,7 @@ namespace pms
 
                 return true;
             }
+            errMsg="Invalid syntax!";
         }
         else if(command == "pmc:setuserpos") //pmc:setuserpos <posNS> <posEW>
         {
@@ -295,6 +303,7 @@ namespace pms
 
                 return true;
             }
+            errMsg="Invalid syntax!";
         }
         else if(command == "pmc:requestuserdata") //pmc:requestuserdata <userID>
         {
@@ -305,12 +314,17 @@ namespace pms
                 send(sender, player->getCommand());
                 return true;
             }
+            errMsg="Invalid syntax!";
         }
         else if(command == "pmc:stopserver" && sender->userID <= 3) //only admin
         {
             this->running = false;
             return true;
         }
+        else
+            errMsg="Invalid syntax!";
+        
+        send(sender, "pms:err\1"+errMsg");
 
         return false;
     }
