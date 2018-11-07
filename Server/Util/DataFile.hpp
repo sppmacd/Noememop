@@ -29,7 +29,7 @@ namespace pms
     class DataFile
     {
         DataType dataType;
-        void openFile(string fileName, bool save);
+        bool openFile(string fileName, bool save);
         Sifstream fileHandlerIn;
         ofstream fileHandlerOut;
     public:
