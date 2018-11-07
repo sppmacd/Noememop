@@ -358,7 +358,16 @@ namespace pms
 
             if(pomemeon->getID() == id)
                 return pomemeon;
-        return NULL;
+        DataFile file(DT_POMEMEON);
+        DaraNode node = file.getNode(id);
+        if(node.args.empty())
+            return NULL;
+        else
+            {
+            Pomemeon* pomemeon = new Pomemeon(node);
+            pomemeons.push_back(pomemeon);
+            return pomemeon;
+            }
     }
 
     PomemeonType* PMSServer::findTypeByID(int id)
@@ -381,7 +390,16 @@ namespace pms
         for(unsigned int i = 0; i < players.size(); i++)
             if(players[i]->getUserID() == userId)
                 return players[i];
-        return NULL;
+        DataFile file(DT_PLAYER);
+        DaraNode node = file.getNode(id);
+        if(node.args.empty())
+            return NULL;
+        else
+            {
+            Player* player = new Player(node);
+            players.push_back(player);
+            return player;
+            }
     }
 
     void PMSServer::close()
