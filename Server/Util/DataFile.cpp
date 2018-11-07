@@ -3,10 +3,13 @@
 
 namespace pms
 {
-    void DataFile::openFile(string fileName, bool save)
+    bool DataFile::openFile(string fileName, bool save)
     {
         if(save) fileHandlerOut.open(fileName, ios::trunc);
         else fileHandlerIn.open(fileName, ios::trunc);
+        
+        if(save) return fileHandlerOut.good();
+        else return fileHandlerIn.good();
     }
 
     DataFile::DataFile(DataType type)
@@ -16,29 +19,32 @@ namespace pms
 
     int DataFile::getSize()
     {
-        openFile("Data/" + to_string(dataType) + "_size.data", false);
-
+        if(openFile("Data/" + to_string(dataType) + "_size.data", false))
+        {
         string str = fileHandlerIn.getline();
 
         return stoi(str);
+        }
+        else
+            return 0;
     }
 
     void DataFile::saveSize(int newSize)
     {
-        openFile("Data/" + to_string(dataType) + "_size.data", true);
-
+        
+        if(openFile("Data/" + to_string(dataType) + "_size.data", true))
+        {
         fileHandlerOut << newSize;
+        }
+
     }
 
     DataNode DataFile::getNode(int id)
     {
-        openFile("Data/" + to_string(dataType) + "_size.data", false);
-
-        int cnt = stoi(fileHandlerIn.getline());
-
+        int cnt = getSize();
         if(id < cnt)
         {
-            openFile("Data/" + to_string(dataType) + "_" + to_string(id) + ".data", false);
+            if(!openFile("Data/" + to_string(dataType) + "_" + to_string(id) + ".data", false)) return DataNode{};
 
             string str = fileHandlerIn.getline();
 
@@ -66,10 +72,11 @@ namespace pms
 
     void DataFile::setNode(DataNode node, int id)
     {
-        openFile("Data/" + to_string(dataType) + "_" + to_string(id) + ".data", true);
+        int cnt = getSize();
 
-        int cnt = 0;
-
+        if(id < cnt)
+        {
+            if(!openFile("Data/" + to_string(dataType) + "_" + to_string(id) + ".data", true)) return;
         for(string& arg: node.args)
         {
             if(cnt != 0)
@@ -80,5 +87,6 @@ namespace pms
         }
 
         fileHandlerOut.close();
+        }
     }
 }
