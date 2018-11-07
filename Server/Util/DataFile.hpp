@@ -8,13 +8,10 @@ namespace pms
     {
         string getline()
         {
-
+            string gl;
+            std::getline(*this, gl);
+            return gl;
         }
-    };
-
-    struct Sofstream
-    {
-
     };
 
     enum DataType
@@ -34,7 +31,7 @@ namespace pms
         DataType dataType;
         void openFile(string fileName, bool save);
         Sifstream fileHandlerIn;
-        Sofstream fileHandlerOut;
+        ofstream fileHandlerOut;
     public:
         DataFile(DataType type);
         DataNode getNode(int id);

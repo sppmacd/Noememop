@@ -142,6 +142,7 @@ namespace pms
 
     void PMSServer::savePlayer(int id)
     {
+        log(Info, "Saving player: " + to_string(id));
         auto save = [this,id](){
         DataFile file(DTPlayer);
         file.setNode(findPlayerByID(id)->getNode(), id);
@@ -153,6 +154,7 @@ namespace pms
 
     void PMSServer::savePomemeon(int id)
     {
+        log(Info, "Saving pomemeon: " + to_string(id));
         auto save = [this,id](){
         DataFile file(DTPomemeon);
         file.setNode(findPomemeonByID(id)->getNode(), id);
@@ -183,7 +185,6 @@ namespace pms
                     players.push_back(player);
                     sendCommand(Command(SCmdUserID, {to_string(player->getUserID())}), sender);
                     log(Info, "A new player " + to_string(player->getUserID()) + " has logged in to server");
-                    return true;
                 }
                 else
                 {
@@ -201,10 +202,10 @@ namespace pms
                         log(Error, "The player with id " + to_string(uid) + " was not found!");
                         disconnect(sender->socket, "ERR_INVALID_USER_ID"); //cheats
                     }
-
-                    return true;
                 }
 
+                savePlayer(uid);
+                return true;
                 // TODO save player - other thread
             }
             errMsg="Invalid syntax!";
@@ -249,6 +250,8 @@ namespace pms
                     sendCommand(Command(SCmdCashStat, {to_string(stat)}), sender);
 
                     //TODO add history object
+                    savePlayer(sender->userID);
+                    savePomemeon(pomemeon->getID());
                     //TODO save player and pomemeon - other thread
                 }
                 else
@@ -283,6 +286,8 @@ namespace pms
 
                     //TODO add history object
                     //TODO save pomemeon and player - other thread
+                    savePlayer(sender->userID);
+                    savePomemeon(pomemeon->getID());
                 }
                 else
                 {
@@ -303,6 +308,7 @@ namespace pms
                     pomemeon->setData(argv[1],argv[2],argv[3]); //TODO texture!!!
                 }
                 //TODO save pomemeon - other thread
+                savePomemeon(pomemeon->getID());
 
                 return true;
             }
@@ -316,6 +322,7 @@ namespace pms
                 player->updateCoords(GPSCoords(stod(argv[0]), stod(argv[1])));
 
                 //TODO save player - other thread
+                savePlayer(sender->userID);
 
                 return true;
             }

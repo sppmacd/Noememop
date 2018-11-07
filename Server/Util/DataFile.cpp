@@ -19,6 +19,8 @@ namespace pms
         openFile("Data/" + to_string(dataType) + "_size.data", false);
 
         string str = fileHandlerIn.getline();
+
+        return stoi(str);
     }
 
     void DataFile::saveSize(int newSize)
