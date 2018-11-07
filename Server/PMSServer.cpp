@@ -204,7 +204,7 @@ namespace pms
                     }
                 }
 
-                savePlayer(uid);
+                savePlayer(sender->userID);
                 return true;
                 // TODO save player - other thread
             }
