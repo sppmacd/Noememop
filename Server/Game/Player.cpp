@@ -26,7 +26,19 @@ namespace pms
 
         this->logCount = 0;
     }
-
+    
+    Player::Player(DataNode node)
+    {
+        cashCount=stoi(node.getArgument(0));
+        currentPoints=stof(node.getArgument(1));
+        xp=stoi(node.getArgument(2));
+        totalPoints=stof(node.getArgument(3));
+        leaderboardPlace=stoi(node.getArgument(4));
+        level=stoi(node.getArgument(5));
+        freePomemeonPlaced=stoi(node.getArgument(6));
+        isDailyRewardCollected=stoi(node.getArgument(7));
+        logCount=stoi(node.getArgument(8));
+    }
     DataNode Player::getNode()
     {
         return DataNode{{
@@ -36,8 +48,8 @@ namespace pms
         to_string(this->totalPoints),
         to_string(this->leaderboardPlace),
         to_string(this->level),
-        (this->freePomemeonPlaced?"true":"false"),
-        (this->isDailyRewardCollected?"true":"false"),
+        to_string(this->freePomemeonPlaced),
+        to_string(this->isDailyRewardCollected),
         to_string(this->logCount)}};
     }
 
