@@ -13,8 +13,7 @@ namespace pms
         CmdSetPMData,
         CmdStopServer,
         CmdUpdatePos,
-        CmdRequestUserData,
-
+        CmdRequestUserData
     };
 
     enum ServerCommandType

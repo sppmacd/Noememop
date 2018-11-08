@@ -2,6 +2,7 @@
 #include "../PMSServer.hpp"
 #include "../config.hpp"
 #include "PomemeonType.hpp"
+#include "../Util/DataFile.hpp"
 
 namespace pms
 {
@@ -26,19 +27,26 @@ namespace pms
 
         this->logCount = 0;
     }
-    
-    Player::Player(DataNode node)
+
+    Player::Player(int id, DataNode node)
+    : lastPos(52,16)
     {
-        cashCount=stoi(node.getArgument(0));
-        currentPoints=stof(node.getArgument(1));
-        xp=stoi(node.getArgument(2));
-        totalPoints=stof(node.getArgument(3));
-        leaderboardPlace=stoi(node.getArgument(4));
-        level=stoi(node.getArgument(5));
-        freePomemeonPlaced=stoi(node.getArgument(6));
-        isDailyRewardCollected=stoi(node.getArgument(7));
-        logCount=stoi(node.getArgument(8));
+        this->cashCount=stoi(node.args[0]);
+        this->currentPoints=stof(node.args[1]);
+        this->xp=stoi(node.args[2]);
+        this->totalPoints=stof(node.args[3]);
+        this->leaderboardPlace=stoi(node.args[4]);
+        this->level=stoi(node.args[5]);
+        this->freePomemeonPlaced=stoi(node.args[6]);
+        this->isDailyRewardCollected=stoi(node.args[7]);
+        this->logCount=stoi(node.args[8]);
+        this->id=id;
+        this->pickCount = 0;
+
+        this->needUpdate = false;
+        this->ensureUpdated();
     }
+
     DataNode Player::getNode()
     {
         return DataNode{{
@@ -50,7 +58,8 @@ namespace pms
         to_string(this->level),
         to_string(this->freePomemeonPlaced),
         to_string(this->isDailyRewardCollected),
-        to_string(this->logCount)}};
+        to_string(this->logCount),
+        to_string(this->id)}};
     }
 
     bool Player::tryAddCash(int count)
@@ -125,7 +134,8 @@ namespace pms
         to_string(this->level),
         (this->freePomemeonPlaced?"true":"false"),
         (this->isDailyRewardCollected?"true":"false"),
-        to_string(this->logCount)});
+        to_string(this->logCount),
+        to_string(this->tickTimer.getElapsedTime().asSeconds()});
     }
 
     bool Player::tryRemovePoints(float count)

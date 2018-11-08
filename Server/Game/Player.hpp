@@ -29,7 +29,7 @@ namespace pms
         Clock tickTimer;
 
         Player(int id);
-        Player(DataNode node);
+        Player(int id, DataNode node);
         bool tryAddCash(int count);
         bool tryRemoveCash(int count);
         bool tryCollectReward();

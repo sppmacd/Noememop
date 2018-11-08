@@ -4,15 +4,7 @@
 
 namespace pms
 {
-    struct Sifstream : public ifstream
-    {
-        string getline()
-        {
-            string gl;
-            std::getline(*this, gl);
-            return gl;
-        }
-    };
+    string getline(ifstream& str);
 
     enum DataType
     {
@@ -30,7 +22,7 @@ namespace pms
     {
         DataType dataType;
         bool openFile(string fileName, bool save);
-        Sifstream fileHandlerIn;
+        ifstream fileHandlerIn;
         ofstream fileHandlerOut;
     public:
         DataFile(DataType type);

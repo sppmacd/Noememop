@@ -1,5 +1,8 @@
 #include "Pomemeon.hpp"
 #include "PomemeonType.hpp"
+#include "../PMSServer.hpp"
+#include "../Network/Command.hpp"
+#include "../GPSCoords.hpp"
 
 namespace pms
 {
@@ -7,6 +10,20 @@ namespace pms
     : id(pId), type(pType), coordinates(coords), owner(own)
     {
         this->pickTimer = 0;
+    }
+
+    Pomemeon::Pomemeon(int id, DataNode node)
+    : coordinates(0.0,0.0)
+    {
+        this->id = id;
+        this->pickTimer=stoi(node.args[0]);
+        this->name=node.args[1];
+        this->type=PMSServer::getInstance()->findTypeByID(stoi(node.args[2]));
+        this->description=node.args[3];
+        this->coordinates.setNS(stod(node.args[4]));
+        this->coordinates.setEW(stod(node.args[5]));
+        this->textureFile=node.args[6];
+        this->owner = PMSServer::getInstance()->findPlayerByID(stoi(node.args[7]));
     }
 
     void Pomemeon::setData(string pName, string pDesc, string texture)
@@ -37,8 +54,7 @@ namespace pms
 
     DataNode Pomemeon::getNode()
     {
-        return DataNode{
-        {to_string(id),
+        return DataNode{{
         to_string(pickTimer),
         name,
         to_string(type->getID()),

@@ -3,13 +3,28 @@
 
 namespace pms
 {
+    string getline(ifstream& str)
+    {
+        string gl;
+        std::getline(str, gl);
+        return gl;
+    }
+
     bool DataFile::openFile(string fileName, bool save)
     {
-        if(save) fileHandlerOut.open(fileName, ios::trunc);
-        else fileHandlerIn.open(fileName, ios::trunc);
-        
-        if(save) return fileHandlerOut.good();
-        else return fileHandlerIn.good();
+        //log(Info, "Opening file: '" + fileName + "'");
+        if(save)
+        {
+            fileHandlerOut.open(fileName, ios::trunc);
+            bool x = fileHandlerOut.good();
+            return x;
+        }
+        else
+        {
+            fileHandlerIn.open(fileName);
+            bool x = fileHandlerIn.good();
+            return x;
+        }
     }
 
     DataFile::DataFile(DataType type)
@@ -21,9 +36,9 @@ namespace pms
     {
         if(openFile("Data/" + to_string(dataType) + "_size.data", false))
         {
-        string str = fileHandlerIn.getline();
+            string str = getline(fileHandlerIn);
 
-        return stoi(str);
+            return stoi(str);
         }
         else
             return 0;
@@ -31,12 +46,10 @@ namespace pms
 
     void DataFile::saveSize(int newSize)
     {
-        
         if(openFile("Data/" + to_string(dataType) + "_size.data", true))
         {
-        fileHandlerOut << newSize;
+            fileHandlerOut << newSize << endl;
         }
-
     }
 
     DataNode DataFile::getNode(int id)
@@ -44,9 +57,10 @@ namespace pms
         int cnt = getSize();
         if(id < cnt)
         {
-            if(!openFile("Data/" + to_string(dataType) + "_" + to_string(id) + ".data", false)) return DataNode{};
+            if(!openFile("Data/" + to_string(dataType) + "_" + to_string(id) + ".data", false))
+                return DataNode{};
 
-            string str = fileHandlerIn.getline();
+            string str = getline(fileHandlerIn);
 
             DataNode node;
 
@@ -61,6 +75,7 @@ namespace pms
 
                     lastp = i+1;
                 }
+                log(Error, node.args[i]);
             }
 
             fileHandlerIn.close();
@@ -72,21 +87,25 @@ namespace pms
 
     void DataFile::setNode(DataNode node, int id)
     {
-        int cnt = getSize();
+        int cnt = getSize() + 1;
 
         if(id < cnt)
         {
-            if(!openFile("Data/" + to_string(dataType) + "_" + to_string(id) + ".data", true)) return;
-        for(string& arg: node.args)
-        {
-            if(cnt != 0)
-                fileHandlerOut << Command::terminating+arg;
-            else
-                fileHandlerOut << arg;
-            cnt++;
-        }
+            if(!openFile("Data/" + to_string(dataType) + "_" + to_string(id) + ".data", true))
+                return;
 
-        fileHandlerOut.close();
+            int cnt2 = 0;
+
+            for(string& arg: node.args)
+            {
+                if(cnt2 != 0)
+                    fileHandlerOut << Command::terminating+arg;
+                else
+                    fileHandlerOut << arg;
+                cnt2++;
+            }
+            fileHandlerOut << endl;
+            fileHandlerOut.close();
         }
     }
 }

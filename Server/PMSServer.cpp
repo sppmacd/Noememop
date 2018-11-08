@@ -142,23 +142,34 @@ namespace pms
 
     void PMSServer::savePlayer(int id)
     {
-        log(Info, "Saving player: " + to_string(id));
-        auto save = [this,id](){
-        DataFile file(DTPlayer);
-        file.setNode(findPlayerByID(id)->getNode(), id);
-        file.saveSize(players.size());
+        log(Debug, "Saving player: " + to_string(id));
+        auto save = [this,id]()
+        {
+            DataFile file(DTPlayer);
+            Player* player = findPlayerByID(id);
+            if(player != NULL)
+            {
+                file.setNode(player->getNode(), id-1);
+                file.saveSize(players.size());
+            }
         };
+
         Thread thread(save);
         thread.launch();
     }
 
     void PMSServer::savePomemeon(int id)
     {
-        log(Info, "Saving pomemeon: " + to_string(id));
-        auto save = [this,id](){
-        DataFile file(DTPomemeon);
-        file.setNode(findPomemeonByID(id)->getNode(), id);
-        file.saveSize(pomemeons.size());
+        log(Debug, "Saving pomemeon: " + to_string(id));
+        auto save = [this,id]()
+        {
+            DataFile file(DTPomemeon);
+            Pomemeon* pomemeon = findPomemeonByID(id);
+            if(pomemeon != NULL)
+            {
+                file.setNode(pomemeon->getNode(), id-1);
+                file.saveSize(pomemeons.size());
+            }
         };
         Thread thread(save);
         thread.launch();
@@ -178,7 +189,7 @@ namespace pms
                 int uid = stoi(argv[0]);
                 if(uid == 0) //the player is a new player!
                 {
-                    Player* player = new Player(this->players.size() + 1);
+                    Player* player = new Player(DataFile(DTPlayer).getSize() + 1);
                     player->login();
                     player->setReward();
                     sender->userID = player->getUserID();
@@ -271,27 +282,31 @@ namespace pms
                 Player* owner = findPlayerByID(sender->userID);
                 GPSCoords coords(posNS,posEW);
 
-                Pomemeon* pomemeon = new Pomemeon(pomemeons.size() + 1, findTypeByID(stoi(argv[2])), coords, owner);
+                Pomemeon* pomemeon = new Pomemeon(DataFile(DTPomemeon).getSize() + 1, findTypeByID(stoi(argv[2])), coords, owner);
                 double dist = pomemeon->getCoordinates().distance(owner->getLastCoords());
 
-                if(dist < pomemeon->getType()->getRadius() && owner->isPomemeonUnlocked(pomemeon->getType()))
+                bool dst = dist < pomemeon->getType()->getRadius();
+                bool unlock = owner->isPomemeonUnlocked(pomemeon->getType());
+
+                if(dst && unlock)
                 {
                     CashStat stat = pomemeon->place(owner);
                     if(stat == Success)
                     {
                         pomemeons.push_back(pomemeon);
                         sendCommand(Command(SCmdRequestPMData, {to_string(pomemeon->getID())}), sender);
+                        savePomemeon(pomemeon->getID());
                     }
                     sendCommand(Command(SCmdCashStat, {to_string(stat)}), sender);
 
                     //TODO add history object
                     //TODO save pomemeon and player - other thread
                     savePlayer(sender->userID);
-                    savePomemeon(pomemeon->getID());
                 }
                 else
                 {
-                    sendCommand(Command(SCmdErr, {"Cannot Place Pomemeon"}), sender);
+                    if(!dst) sendCommand(Command(SCmdErr, {"Cannot Place Pomemeon: invalid distance: " + to_string(dist) + " > " + to_string(pomemeon->getType()->getRadius())}), sender);
+                    if(!unlock) sendCommand(Command(SCmdErr, {"Cannot Place Pomemeon: this type is not unlocked: " + to_string(pomemeon->getType()->getID())}), sender);
                 }
                 return true;
             }
@@ -355,19 +370,21 @@ namespace pms
     Pomemeon* PMSServer::findPomemeonByID(int id)
     {
         for(Pomemeon* pomemeon: pomemeons)
-
             if(pomemeon->getID() == id)
                 return pomemeon;
-        DataFile file(DT_POMEMEON);
-        DaraNode node = file.getNode(id);
+
+        DataFile file(DTPomemeon);
+        DataNode node = file.getNode(id-1);
         if(node.args.empty())
             return NULL;
         else
-            {
-            Pomemeon* pomemeon = new Pomemeon(node);
+        {
+            log(Debug, "Loaded pomemeon: " + to_string(id));
+            Pomemeon* pomemeon = new Pomemeon(id, node);
             pomemeons.push_back(pomemeon);
             return pomemeon;
-            }
+        }
+        return NULL;
     }
 
     PomemeonType* PMSServer::findTypeByID(int id)
@@ -390,16 +407,19 @@ namespace pms
         for(unsigned int i = 0; i < players.size(); i++)
             if(players[i]->getUserID() == userId)
                 return players[i];
-        DataFile file(DT_PLAYER);
-        DaraNode node = file.getNode(id);
+
+        DataFile file(DTPlayer);
+        DataNode node = file.getNode(userId-1);
         if(node.args.empty())
             return NULL;
         else
-            {
-            Player* player = new Player(node);
+        {
+            log(Debug, "Loaded player: " + to_string(userId));
+            Player* player = new Player(userId,node);
             players.push_back(player);
             return player;
-            }
+        }
+        return NULL;
     }
 
     void PMSServer::close()
@@ -416,6 +436,12 @@ namespace pms
         log(Warning, "--    Pomemeon Team (C) 2018     --");
         log(Warning, "-----------------------------------");
         log(Warning, "");
+
+        log(Info, "Printing IP Config:");
+
+        system("ipconfig");
+
+        cout << endl;
 
         log(Info, "Starting dedicated Pomemeon server...");
         this->running = true;

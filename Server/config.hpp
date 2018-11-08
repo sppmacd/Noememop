@@ -16,10 +16,13 @@ namespace pms
 {
     enum LogLevel
     {
+        Verbose,
         Debug,
         Info,
         Warning,
-        Error
+        Error,
+        Fatal,
+        ImportantInfo
     };
 
     void displayColored(int colorCode, string str);

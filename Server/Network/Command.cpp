@@ -78,7 +78,7 @@ namespace pms
         string str = command;
 
         for(string& arg: args)
-            command += terminating+arg;
+            str += terminating+arg;
 
         return str + "\n\0";
     }

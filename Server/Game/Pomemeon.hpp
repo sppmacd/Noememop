@@ -22,6 +22,7 @@ namespace pms
 
     public:
         Pomemeon(int pId, PomemeonType* pType, GPSCoords& coords, Player* own);
+        Pomemeon(int pId, DataNode node);
         void setData(string pName, string pDesc, string texture);
         CashStat pick(Player* picker);
         CashStat place(Player* owner);
