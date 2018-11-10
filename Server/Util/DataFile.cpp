@@ -38,6 +38,8 @@ namespace pms
         {
             string str = getline(fileHandlerIn);
 
+            fileHandlerIn.close();
+
             return stoi(str);
         }
         else
@@ -54,58 +56,48 @@ namespace pms
 
     DataNode DataFile::getNode(int id)
     {
-        int cnt = getSize();
-        if(id < cnt)
+        if(!openFile("Data/" + to_string(dataType) + "_" + to_string(id) + ".data", false))
+            return DataNode{};
+
+        string str = getline(fileHandlerIn);
+
+        DataNode node;
+
+        // parse data
+        int lastp = 0;
+
+        for(unsigned int i = 0; i < str.size()+1; i++)
         {
-            if(!openFile("Data/" + to_string(dataType) + "_" + to_string(id) + ".data", false))
-                return DataNode{};
-
-            string str = getline(fileHandlerIn);
-
-            DataNode node;
-
-            // parse data
-            int lastp = 0;
-
-            for(unsigned int i = 0; i < str.size()+1; i++)
+            if(str[i] == Command::terminating || str[i] == '\0' || i == str.size())
             {
-                if(str[i] == Command::terminating || str[i] == '\0' || i == str.size())
-                {
-                    node.args.push_back(str.substr(lastp, i-lastp));
+                node.args.push_back(str.substr(lastp, i-lastp));
 
-                    lastp = i+1;
-                }
-                log(Error, node.args[i]);
+                lastp = i+1;
             }
-
-            fileHandlerIn.close();
-
-            return node;
+            //log(Error, node.args[i]);
         }
-        return DataNode{};
+
+        fileHandlerIn.close();
+
+        return node;
     }
 
     void DataFile::setNode(DataNode node, int id)
     {
-        int cnt = getSize() + 1;
+        if(!openFile("Data/" + to_string(dataType) + "_" + to_string(id) + ".data", true))
+            return;
 
-        if(id < cnt)
+        int cnt2 = 0;
+
+        for(string& arg: node.args)
         {
-            if(!openFile("Data/" + to_string(dataType) + "_" + to_string(id) + ".data", true))
-                return;
-
-            int cnt2 = 0;
-
-            for(string& arg: node.args)
-            {
-                if(cnt2 != 0)
-                    fileHandlerOut << Command::terminating+arg;
-                else
-                    fileHandlerOut << arg;
-                cnt2++;
-            }
-            fileHandlerOut << endl;
-            fileHandlerOut.close();
+            if(cnt2 != 0)
+                fileHandlerOut << Command::terminating+arg;
+            else
+                fileHandlerOut << arg;
+            cnt2++;
         }
+        fileHandlerOut << endl;
+        fileHandlerOut.close();
     }
 }

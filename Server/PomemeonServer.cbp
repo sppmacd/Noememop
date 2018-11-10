@@ -75,6 +75,13 @@
 					<Add library="ws2_32" />
 				</Linker>
 			</Target>
+			<Target title="StatManager">
+				<Option output="bin/PomemeonStatManager" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin" />
+				<Option object_output="obj/StatManager" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
@@ -85,26 +92,89 @@
 			<Add directory="F:/C++/LIBY/SFML-2.4.2-BUILD/lib" />
 			<Add directory="F:/C++/LIBY/SFML-2.4.2-sources/SFML-2.4.2/extlibs/libs-mingw/x64" />
 		</Linker>
-		<Unit filename="GPSCoords.cpp" />
-		<Unit filename="GPSCoords.hpp" />
-		<Unit filename="Game/CashStat.hpp" />
-		<Unit filename="Game/Player.cpp" />
-		<Unit filename="Game/Player.hpp" />
-		<Unit filename="Game/Pomemeon.cpp" />
-		<Unit filename="Game/Pomemeon.hpp" />
-		<Unit filename="Game/PomemeonType.cpp" />
-		<Unit filename="Game/PomemeonType.hpp" />
-		<Unit filename="History/HistoryObject.hpp" />
-		<Unit filename="Network/Client.hpp" />
-		<Unit filename="Network/Command.cpp" />
-		<Unit filename="Network/Command.hpp" />
-		<Unit filename="PMSServer.cpp" />
-		<Unit filename="PMSServer.hpp" />
-		<Unit filename="Util/DataFile.cpp" />
-		<Unit filename="Util/DataFile.hpp" />
-		<Unit filename="config.cpp" />
-		<Unit filename="config.hpp" />
-		<Unit filename="main.cpp" />
+		<Unit filename="GPSCoords.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="GPSCoords.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Game/CashStat.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Game/Player.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Game/Player.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Game/Pomemeon.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Game/Pomemeon.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Game/PomemeonType.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Game/PomemeonType.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="History/HistoryObject.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Network/Client.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Network/Command.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Network/Command.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="PMSServer.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="PMSServer.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="StatManager/Smain.cpp">
+			<Option target="StatManager" />
+		</Unit>
+		<Unit filename="Util/DataFile.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Util/DataFile.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="config.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="config.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="main.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />

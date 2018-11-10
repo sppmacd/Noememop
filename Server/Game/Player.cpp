@@ -135,7 +135,7 @@ namespace pms
         (this->freePomemeonPlaced?"true":"false"),
         (this->isDailyRewardCollected?"true":"false"),
         to_string(this->logCount),
-        to_string(this->tickTimer.getElapsedTime().asSeconds()});
+        to_string(this->tickTimer.getElapsedTime().asSeconds())});
     }
 
     bool Player::tryRemovePoints(float count)
@@ -154,7 +154,7 @@ namespace pms
         if(this->needUpdate)
         {
             // Update level
-            this->level = std::pow(std::log(totalPoints+1.f),1.2f)+1;
+            this->level = std::pow(std::log(this->xp+1.f),1.2f)+1;
 
             // Update leaderboard place
             vector<Player*>* players = PMSServer::getInstance()->getPlayerList();

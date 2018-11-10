@@ -6,6 +6,7 @@
 #include "History/HistoryObject.hpp"
 #include "Game/CashStat.hpp"
 #include "Util/DataFile.hpp"
+#include "main.h"
 #include <cstring>
 
 namespace pms
@@ -429,13 +430,13 @@ namespace pms
 
     void PMSServer::start()
     {
-        log(Warning, "");
-        log(Warning, "-----------------------------------");
-        log(Warning, "--       Pomemeon Server         --");
-        log(Warning, "--      Version: Alpha 1.0       --");
-        log(Warning, "--    Pomemeon Team (C) 2018     --");
-        log(Warning, "-----------------------------------");
-        log(Warning, "");
+        log(ImportantInfo, "");
+        log(ImportantInfo, "-----------------------------------");
+        log(ImportantInfo, "--       Pomemeon Server         --");
+        log(ImportantInfo, "--      Version: Alpha 1.0       --");
+        log(ImportantInfo, "--    Pomemeon Team (C) 2018     --");
+        log(ImportantInfo, "-----------------------------------");
+        log(ImportantInfo, "");
 
         log(Info, "Printing IP Config:");
 
