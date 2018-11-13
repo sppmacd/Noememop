@@ -14,18 +14,14 @@ namespace pms
         this->currentPoints = 100.f;
         this->xp = 0;
         this->pickCount = 0;
-
         this->isDailyRewardCollected = false;
-
         this->needUpdate = true;
-
         this->ensureUpdated();
-
         this->leaderboardPlace = PMSServer::getInstance()->getPlayerList()->size();
         this->level = 1;
         this->freePomemeonPlaced = false;
-
         this->logCount = 0;
+        this->tickTimer = 0;
     }
 
     Player::Player(int id, DataNode node)
@@ -40,8 +36,9 @@ namespace pms
         this->freePomemeonPlaced=stoi(node.args[6]);
         this->isDailyRewardCollected=stoi(node.args[7]);
         this->logCount=stoi(node.args[8]);
+        this->tickTimer=stoi(node.args[9]);
         this->id=id;
-        this->pickCount = 0;
+        this->pickCount=stoi(node.args[10]);
 
         this->needUpdate = false;
         this->ensureUpdated();
@@ -59,7 +56,8 @@ namespace pms
         to_string(this->freePomemeonPlaced),
         to_string(this->isDailyRewardCollected),
         to_string(this->logCount),
-        to_string(this->id)}};
+        to_string(this->tickTimer),
+        to_string(this->pickCount)}};
     }
 
     bool Player::tryAddCash(int count)
@@ -135,7 +133,8 @@ namespace pms
         (this->freePomemeonPlaced?"true":"false"),
         (this->isDailyRewardCollected?"true":"false"),
         to_string(this->logCount),
-        to_string(this->tickTimer.getElapsedTime().asSeconds())});
+        to_string((time(NULL)-this->tickTimer)/3600.f),
+        to_string(this->pickCount)});
     }
 
     bool Player::tryRemovePoints(float count)

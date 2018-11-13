@@ -455,6 +455,7 @@ namespace pms
         while(this->running)
         {
             this->loop();
+            pms::sendStats(to_string(this->pomemeons.size()) + " " + to_string(this->clients.size()) + " " + to_string(this->players.size()));
         }
 
         log(Info, "Closing server...");

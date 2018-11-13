@@ -26,7 +26,7 @@ namespace pms
     public:
         bool freePomemeonPlaced;
         int pickCount;
-        Clock tickTimer;
+        time_t tickTimer;
 
         Player(int id);
         Player(int id, DataNode node);

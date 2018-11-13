@@ -2,13 +2,5 @@
 <resources>
 
     <string name="app_name">Pomemeon Client</string>
-    <string name="label_ipAddress">Host Name</string>
-    <string name="btn_connect">Connect to server</string>
-    <string name="command">Enter command...</string>
-    <string name="title_activity_connecting">Connecting...</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="connecting">Connecting...</string>
-    <string name="label_userId">User Id</string>
 
 </resources>
