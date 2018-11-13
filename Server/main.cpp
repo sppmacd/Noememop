@@ -12,13 +12,26 @@ namespace pms
         stream << statString;
         stream.close();
     }
+
+    void startProcess(string name, string args)
+    {
+        STARTUPINFOA sti;
+        ZeroMemory(&sti, sizeof(sti));
+        PROCESS_INFORMATION pi;
+        ZeroMemory(&pi, sizeof(pi));
+
+        char* c = new char[args.size()];
+        memcpy(c, args.c_str(), args.size());
+
+        CreateProcessA(name.c_str(), c, NULL, NULL, FALSE, 0, NULL, NULL, &sti, &pi);
+    }
 }
 
 int main()
 {
     try
     {
-        CreateProcess("PomemeonStatManager.exe", NULL, NULL, NULL, FALSE, 0, NULL, NULL, NULL, NULL);
+        pms::startProcess("PomemeonStatManager.exe", "");
         pms::PMSServer::getInstance()->start();
     }
     catch(exception exc)
