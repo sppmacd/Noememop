@@ -1,4 +1,5 @@
 #include "config.hpp"
+#include <windows.h>
 
 using namespace sf;
 using namespace std;
@@ -34,15 +35,13 @@ void networkLoop()
         char packet2[1024];
         size_t x;
 
-        if(sck.receive(&packet2, 1024, x) == Socket::Done)
+        ZeroMemory(packet2, 1024);
+
+        if(sck.receive(packet2, 1024, x) == Socket::Done)
         {
             cout << x << endl;
             string text;
             logstr += ((char*)packet2);
-        }
-        else
-        {
-            cout << "Error" << endl;
         }
     }
 }

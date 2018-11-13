@@ -231,8 +231,10 @@ namespace pms
                 double rad = stod(argv[2]);
                 GPSCoords playerCoords(posNS,posEW);
 
-                for(Pomemeon* pomemeon: pomemeons)
+                int c = DataFile(DTPomemeon).getSize();
+                for(int i = 1; i <= c; i++)
                 {
+                    Pomemeon* pomemeon = findPomemeonByID(i);
                     if(pomemeon->getCoordinates().distance(playerCoords) < rad)
                         sendCommand(pomemeon->getCommand(), sender);
                 }

@@ -3,30 +3,32 @@
 
 namespace pms
 {
-    PomemeonType::PomemeonType(int id, float costForPicker, int profitForPicker, int costForPlacer, float profitForPlacer, float radius, string name)
+    PomemeonType::PomemeonType(int id, int minCash, int maxCash, float radius, string name)
     {
         this->codeName = name;
         this->radius = radius;
         this->id = id;
-        this->pickCost = costForPicker;
-        this->profit = profitForPicker;
-        this->placeCost = costForPlacer;
-        this->placeProfit = profitForPlacer;
+        this->minProfit = minCash;
+        this->maxProfit = maxCash;
     }
 
-    CashStat PomemeonType::pick(Player* owner, Player* picker)
+    CashStat PomemeonType::pick(Player* owner, Player* picker, int prof)
     {
+        int profit = prof;
+        float profPicker = pow(profit,1.1)/10;
+        float costPicker = profPicker / 10;
+
         bool tooenough = false;
-        tooenough = !picker->tryRemovePoints(this->pickCost);
+        tooenough = !picker->tryRemovePoints(costPicker);
         bool toomany = false;
         if(!tooenough)
         {
-            toomany = !picker->tryAddCash(this->profit);
+            toomany = !picker->tryAddCash(profit);
 
             if(!toomany)
             {
-                owner->addPoints(this->placeProfit);
-                owner->addXP(this->placeProfit);
+                owner->addPoints(profPicker);
+                owner->addXP(profPicker);
                 return Success;
             }
             else
@@ -45,8 +47,10 @@ namespace pms
         return id;
     }
 
-    CashStat PomemeonType::place(Player* owner)
+    CashStat PomemeonType::place(Player* owner, int prof)
     {
+        int profit = prof;
+
         //log(Info, "The owner command is " + owner->getCommand());
         if(owner->freePomemeonPlaced || this->getID() != 0)
         {
